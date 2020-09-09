@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="entity.Address" table="addresses" schema="mms_schema" catalog="postgres">
+        <id name="id">
+            <column name="id" sql-type="integer"/>
+        </id>
+        <property name="country">
+            <column name="country" sql-type="text" not-null="true"/>
+        </property>
+        <property name="city">
+            <column name="city" sql-type="text" not-null="true"/>
+        </property>
+        <property name="postcode">
+            <column name="postcode" sql-type="integer" not-null="true"/>
+        </property>
+        <property name="street">
+            <column name="street" sql-type="text" not-null="true"/>
+        </property>
+        <property name="building">
+            <column name="building" sql-type="integer" not-null="true"/>
+        </property>
+        <property name="apart">
+            <column name="apart" sql-type="integer" not-null="true"/>
+        </property>
+    </class>
+</hibernate-mapping>

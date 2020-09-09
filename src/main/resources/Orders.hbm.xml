@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="entity.Order" table="orders" schema="mms_schema" catalog="postgres">
+        <id name="id">
+            <column name="id" sql-type="integer"/>
+        </id>
+        <property name="payMethod">
+            <column name="pay_method" sql-type="text" not-null="true"/>
+        </property>
+        <property name="shipMethod">
+            <column name="ship_method" sql-type="text" not-null="true"/>
+        </property>
+        <property name="payStatus">
+            <column name="pay_status" sql-type="boolean" not-null="true"/>
+        </property>
+        <property name="status">
+            <column name="status" sql-type="text" not-null="true"/>
+        </property>
+        <many-to-one name="clientByClientId" class="entity.Client">
+            <column name="client_id"/>
+        </many-to-one>
+        <many-to-one name="addressByClientAddressId" class="entity.Address">
+            <column name="client_address_id"/>
+        </many-to-one>
+    </class>
+</hibernate-mapping>
