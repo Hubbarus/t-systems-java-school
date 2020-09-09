@@ -5,27 +5,27 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 public abstract class AbstractDao {
-    HibernateConfig instance = HibernateConfig.getInstance();
+    private HibernateConfig instance = HibernateConfig.getInstance();
 
-    Session currentSession;
-    Transaction currentTransaction;
+    private Session currentSession;
+    private Transaction currentTransaction;
 
-    Session openCurrentSession() {
+    public Session openCurrentSession() {
         currentSession = instance.getSessionFactory().openSession();
         return currentSession;
     }
 
-    Session openCurrentSessionwithTransaction() {
+    public Session openCurrentSessionwithTransaction() {
         currentSession = instance.getSessionFactory().openSession();
         currentTransaction = currentSession.beginTransaction();
         return currentSession;
     }
 
-    void closeCurrentSession() {
+    public void closeCurrentSession() {
         currentSession.close();
     }
 
-    void closeCurrentSessionwithTransaction() {
+    public void closeCurrentSessionwithTransaction() {
         currentTransaction.commit();
         currentSession.close();
     }
