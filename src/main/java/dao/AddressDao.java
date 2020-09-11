@@ -1,6 +1,6 @@
 package dao;
 
-import entity.Address;
+import entity.Addresses;
 
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaQuery;
@@ -11,31 +11,31 @@ public class AddressDao extends AbstractDao {
 
     public AddressDao() { }
 
-    public void save(Address entity) {
+    public void save(Addresses entity) {
         getCurrentSession().save(entity);
     }
 
-    public void update(Address entity) {
+    public void update(Addresses entity) {
         getCurrentSession().update(entity);
     }
 
-    public Address findById(int id) {
-        Address address = getCurrentSession().get(Address.class, id);
+    public Addresses findById(int id) {
+        Addresses address = getCurrentSession().get(Addresses.class, id);
         return address;
     }
 
-    public List<Address> findAll() {
-        CriteriaQuery<Address> cq = getCurrentSession()
+    public List<Addresses> findAll() {
+        CriteriaQuery<Addresses> cq = getCurrentSession()
                 .getCriteriaBuilder()
-                .createQuery(Address.class);
-        Root<Address> rootEntry = cq.from(Address.class);
-        CriteriaQuery<Address> all = cq.select(rootEntry);
+                .createQuery(Addresses.class);
+        Root<Addresses> rootEntry = cq.from(Addresses.class);
+        CriteriaQuery<Addresses> all = cq.select(rootEntry);
 
-        TypedQuery<Address> allQuery = getCurrentSession().createQuery(all);
+        TypedQuery<Addresses> allQuery = getCurrentSession().createQuery(all);
         return allQuery.getResultList();
     }
 
-    public void delete(Address entity) {
+    public void delete(Addresses entity) {
         getCurrentSession().delete(entity);
     }
 }

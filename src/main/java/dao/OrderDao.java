@@ -1,40 +1,54 @@
 package dao;
 
-import entity.Order;
+import entity.Orders;
+import entity.Products;
 
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import java.util.HashMap;
 import java.util.List;
 
 public class OrderDao extends AbstractDao {
     public OrderDao() { }
 
-    public void save(Order entity) {
+    public void save(Orders entity) {
         getCurrentSession().save(entity);
     }
 
-    public void update(Order entity) {
+    public void update(Orders entity) {
         getCurrentSession().update(entity);
     }
 
-    public Order findById(int id) {
-        Order order = getCurrentSession().get(Order.class, id);
+    public Orders findById(int id) {
+        Orders order = getCurrentSession().get(Orders.class, id);
         return order;
     }
 
-    public List<Order> findAll() {
-        CriteriaQuery<Order> cq = getCurrentSession()
+    public List<Orders> findAll() {
+        CriteriaQuery<Orders> cq = getCurrentSession()
                 .getCriteriaBuilder()
-                .createQuery(Order.class);
-        Root<Order> rootEntry = cq.from(Order.class);
-        CriteriaQuery<Order> all = cq.select(rootEntry);
+                .createQuery(Orders.class);
+        Root<Orders> rootEntry = cq.from(Orders.class);
+        CriteriaQuery<Orders> all = cq.select(rootEntry);
 
-        TypedQuery<Order> allQuery = getCurrentSession().createQuery(all);
+        TypedQuery<Orders> allQuery = getCurrentSession().createQuery(all);
         return allQuery.getResultList();
     }
 
-    public void delete(Order entity) {
+    public void delete(Orders entity) {
         getCurrentSession().delete(entity);
+    }
+
+    public void addItem(int id, Products product) {
+        Orders order = findById(id);
+        HashMap<Products, Integer> list = order.getProducts();
+        if (list.containsKey(product)) {
+            list.put(product, list.get(product) + 1);
+        } else {
+            list.put(product, 1);
+        }
+        order.setProducts(list);
+        update(order);
     }
 }

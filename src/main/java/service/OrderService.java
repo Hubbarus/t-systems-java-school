@@ -1,7 +1,8 @@
 package service;
 
 import dao.OrderDao;
-import entity.Order;
+import entity.Orders;
+import entity.Products;
 
 public class OrderService {
     private final OrderDao orderDao;
@@ -10,22 +11,28 @@ public class OrderService {
         this.orderDao = new OrderDao();
     }
 
-    public void save(Order order) {
+    public void save(Orders order) {
         orderDao.openCurrentSessionwithTransaction();
         orderDao.save(order);
         orderDao.closeCurrentSessionwithTransaction();
     }
 
-    public void update(Order order) {
+    public void update(Orders order) {
         orderDao.openCurrentSessionwithTransaction();
         orderDao.update(order);
         orderDao.closeCurrentSessionwithTransaction();
     }
 
-    public Order findById(int id) {
+    public Orders findById(int id) {
         orderDao.openCurrentSession();
-        Order order = orderDao.findById(id);
+        Orders order = orderDao.findById(id);
         orderDao.closeCurrentSession();
         return order;
+    }
+
+    public void addItem(int id, Products product) {
+        orderDao.openCurrentSessionwithTransaction();
+        orderDao.addItem(id, product);
+        orderDao.closeCurrentSessionwithTransaction();
     }
 }

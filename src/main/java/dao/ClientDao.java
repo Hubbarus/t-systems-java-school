@@ -1,6 +1,6 @@
 package dao;
 
-import entity.Client;
+import entity.Clients;
 
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaQuery;
@@ -11,31 +11,31 @@ public class ClientDao extends AbstractDao {
 
     public ClientDao() { }
 
-    public void save(Client entity) {
+    public void save(Clients entity) {
         getCurrentSession().save(entity);
     }
 
-    public void update(Client entity) {
+    public void update(Clients entity) {
         getCurrentSession().update(entity);
     }
 
-    public Client findById(int id) {
-        Client client = getCurrentSession().get(Client.class, id);
+    public Clients findById(int id) {
+        Clients client = getCurrentSession().get(Clients.class, id);
         return client;
     }
 
-    public List<Client> findAll() {
-        CriteriaQuery<Client> cq = getCurrentSession()
+    public List<Clients> findAll() {
+        CriteriaQuery<Clients> cq = getCurrentSession()
                 .getCriteriaBuilder()
-                .createQuery(Client.class);
-        Root<Client> rootEntry = cq.from(Client.class);
-        CriteriaQuery<Client> all = cq.select(rootEntry);
+                .createQuery(Clients.class);
+        Root<Clients> rootEntry = cq.from(Clients.class);
+        CriteriaQuery<Clients> all = cq.select(rootEntry);
 
-        TypedQuery<Client> allQuery = getCurrentSession().createQuery(all);
+        TypedQuery<Clients> allQuery = getCurrentSession().createQuery(all);
         return allQuery.getResultList();
     }
 
-    public void delete(Client entity) {
+    public void delete(Clients entity) {
         getCurrentSession().delete(entity);
     }
 }

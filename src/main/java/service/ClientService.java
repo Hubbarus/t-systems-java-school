@@ -1,7 +1,7 @@
 package service;
 
 import dao.ClientDao;
-import entity.Client;
+import entity.Clients;
 
 public class ClientService {
 
@@ -11,21 +11,21 @@ public class ClientService {
         this.clientDao = new ClientDao();
     }
 
-    public void save(Client client) {
+    public void save(Clients client) {
         clientDao.openCurrentSessionwithTransaction();
         clientDao.save(client);
         clientDao.closeCurrentSessionwithTransaction();
     }
 
-    public void update(Client client) {
+    public void update(Clients client) {
         clientDao.openCurrentSessionwithTransaction();
         clientDao.update(client);
         clientDao.closeCurrentSessionwithTransaction();
     }
 
-    public Client findById(int id) {
+    public Clients findById(int id) {
         clientDao.openCurrentSession();
-        Client client = clientDao.findById(id);
+        Clients client = clientDao.findById(id);
         clientDao.closeCurrentSession();
         return client;
     }

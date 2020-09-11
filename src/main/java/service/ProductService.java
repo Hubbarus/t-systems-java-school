@@ -1,7 +1,7 @@
 package service;
 
 import dao.ProductDao;
-import entity.Product;
+import entity.Products;
 
 public class ProductService {
     private final ProductDao productDao;
@@ -10,22 +10,28 @@ public class ProductService {
         this.productDao = new ProductDao();
     }
 
-    public void save(Product product) {
+    public void save(Products product) {
         productDao.openCurrentSessionwithTransaction();
         productDao.save(product);
         productDao.closeCurrentSessionwithTransaction();
     }
 
-    public void update(Product product) {
+    public void update(Products product) {
         productDao.openCurrentSessionwithTransaction();
         productDao.update(product);
         productDao.closeCurrentSessionwithTransaction();
     }
 
-    public Product findById(int id) {
+    public Products findById(int id) {
         productDao.openCurrentSession();
-        Product product = productDao.findById(id);
+        Products product = productDao.findById(id);
         productDao.closeCurrentSession();
         return product;
+    }
+
+    public void deleteAll() {
+        productDao.openCurrentSessionwithTransaction();
+        productDao.deleteAll();
+        productDao.closeCurrentSessionwithTransaction();
     }
 }

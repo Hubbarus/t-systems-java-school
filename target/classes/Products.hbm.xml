@@ -4,30 +4,30 @@
     "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
 
-    <class name="entity.Product" table="products" schema="mms_schema" catalog="postgres">
+    <class name="entity.Products" table="products" schema="mms_schema" catalog="postgres">
         <id name="id">
-            <column name="id" sql-type="integer"/>
+            <column name="id" sql-type="bigint"/>
         </id>
-        <property name="name">
-            <column name="name" sql-type="text" not-null="true"/>
+        <property name="itemName">
+            <column name="item_name" sql-type="text"/>
         </property>
-        <property name="type">
-            <column name="type" sql-type="text" not-null="true"/>
+        <property name="price">
+            <column name="price" sql-type="double precision" precision="-1"/>
         </property>
-        <property name="group">
-            <column name="group" sql-type="text" not-null="true"/>
+        <property name="itemGroup">
+            <column name="item_group" sql-type="text"/>
         </property>
         <property name="description">
-            <column name="description" sql-type="text" not-null="true"/>
+            <column name="description" sql-type="text"/>
         </property>
         <property name="weight">
-            <column name="weight" sql-type="double precision" precision="-1" not-null="true"/>
+            <column name="weight" sql-type="double precision" precision="-1"/>
         </property>
         <property name="volume">
-            <column name="volume" sql-type="double precision" precision="-1" not-null="true"/>
+            <column name="volume" sql-type="double precision" precision="-1"/>
         </property>
-        <property name="quantity">
-            <column name="quantity" sql-type="integer" not-null="true"/>
+        <property name="stock">
+            <column name="stock" sql-type="integer"/>
         </property>
     </class>
 </hibernate-mapping>

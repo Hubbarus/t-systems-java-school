@@ -4,27 +4,33 @@
     "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
 
-    <class name="entity.Address" table="addresses" schema="mms_schema" catalog="postgres">
+    <class name="entity.Addresses" table="addresses" schema="mms_schema" catalog="postgres">
         <id name="id">
-            <column name="id" sql-type="integer"/>
+            <column name="id" sql-type="bigint"/>
         </id>
         <property name="country">
-            <column name="country" sql-type="text" not-null="true"/>
+            <column name="country" sql-type="text"/>
         </property>
         <property name="city">
-            <column name="city" sql-type="text" not-null="true"/>
+            <column name="city" sql-type="text"/>
         </property>
         <property name="postcode">
-            <column name="postcode" sql-type="integer" not-null="true"/>
+            <column name="postcode" sql-type="integer"/>
         </property>
         <property name="street">
-            <column name="street" sql-type="text" not-null="true"/>
+            <column name="street" sql-type="text"/>
         </property>
         <property name="building">
-            <column name="building" sql-type="integer" not-null="true"/>
+            <column name="building" sql-type="integer"/>
         </property>
-        <property name="apart">
-            <column name="apart" sql-type="integer" not-null="true"/>
+        <property name="flat">
+            <column name="flat" sql-type="integer"/>
         </property>
+        <set name="ordersById" inverse="true">
+            <key>
+                <column name="address_id" not-null="true"/>
+            </key>
+            <one-to-many not-found="ignore" class="entity.Orders"/>
+        </set>
     </class>
 </hibernate-mapping>

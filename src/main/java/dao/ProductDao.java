@@ -1,6 +1,6 @@
 package dao;
 
-import entity.Product;
+import entity.Products;
 
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaQuery;
@@ -10,31 +10,38 @@ import java.util.List;
 public class ProductDao extends AbstractDao {
     public ProductDao() { }
 
-    public void save(Product entity) {
+    public void save(Products entity) {
         getCurrentSession().save(entity);
     }
 
-    public void update(Product entity) {
+    public void update(Products entity) {
         getCurrentSession().update(entity);
     }
 
-    public Product findById(int id) {
-        Product product = getCurrentSession().get(Product.class, id);
+    public Products findById(int id) {
+        Products product = getCurrentSession().get(Products.class, id);
         return product;
     }
 
-    public List<Product> findAll() {
-        CriteriaQuery<Product> cq = getCurrentSession()
+    public List<Products> findAll() {
+        CriteriaQuery<Products> cq = getCurrentSession()
                 .getCriteriaBuilder()
-                .createQuery(Product.class);
-        Root<Product> rootEntry = cq.from(Product.class);
-        CriteriaQuery<Product> all = cq.select(rootEntry);
+                .createQuery(Products.class);
+        Root<Products> rootEntry = cq.from(Products.class);
+        CriteriaQuery<Products> all = cq.select(rootEntry);
 
-        TypedQuery<Product> allQuery = getCurrentSession().createQuery(all);
+        TypedQuery<Products> allQuery = getCurrentSession().createQuery(all);
         return allQuery.getResultList();
     }
 
-    public void delete(Product entity) {
+    public void delete(Products entity) {
         getCurrentSession().delete(entity);
+    }
+
+    public void deleteAll() {
+        List<Products> all = findAll();
+        for (Products p : all) {
+            delete(p);
+        }
     }
 }

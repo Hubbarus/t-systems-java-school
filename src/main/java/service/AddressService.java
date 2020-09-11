@@ -1,7 +1,7 @@
 package service;
 
 import dao.AddressDao;
-import entity.Address;
+import entity.Addresses;
 
 import java.util.List;
 
@@ -13,33 +13,33 @@ public class AddressService {
         this.addressDao = new AddressDao();
     }
 
-    public void save(Address address) {
+    public void save(Addresses address) {
         addressDao.openCurrentSessionwithTransaction();
         addressDao.save(address);
         addressDao.closeCurrentSessionwithTransaction();
     }
 
-    public void update(Address address) {
+    public void update(Addresses address) {
         addressDao.openCurrentSessionwithTransaction();
         addressDao.update(address);
         addressDao.closeCurrentSessionwithTransaction();
     }
 
-    public Address findById(int id) {
+    public Addresses findById(int id) {
         addressDao.openCurrentSession();
-        Address address = addressDao.findById(id);
+        Addresses address = addressDao.findById(id);
         addressDao.closeCurrentSession();
         return address;
     }
 
-    public List<Address> findAll() {
+    public List<Addresses> findAll() {
         addressDao.openCurrentSession();
-        List<Address> addresses = addressDao.findAll();
+        List<Addresses> addresses = addressDao.findAll();
         addressDao.closeCurrentSession();
         return addresses;
     }
 
-    public void delete(Address address) {
+    public void delete(Addresses address) {
         addressDao.openCurrentSessionwithTransaction();
         addressDao.delete(address);
         addressDao.closeCurrentSessionwithTransaction();
