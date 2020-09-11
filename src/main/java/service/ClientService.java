@@ -23,7 +23,7 @@ public class ClientService {
         clientDao.closeCurrentSessionwithTransaction();
     }
 
-    public Clients findById(int id) {
+    public Clients findById(Long id) {
         clientDao.openCurrentSession();
         Clients client = clientDao.findById(id);
         clientDao.closeCurrentSession();

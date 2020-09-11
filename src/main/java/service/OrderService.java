@@ -23,14 +23,14 @@ public class OrderService {
         orderDao.closeCurrentSessionwithTransaction();
     }
 
-    public Orders findById(int id) {
+    public Orders findById(Long id) {
         orderDao.openCurrentSession();
         Orders order = orderDao.findById(id);
         orderDao.closeCurrentSession();
         return order;
     }
 
-    public void addItem(int id, Products product) {
+    public void addItem(Long id, Products product) {
         orderDao.openCurrentSessionwithTransaction();
         orderDao.addItem(id, product);
         orderDao.closeCurrentSessionwithTransaction();

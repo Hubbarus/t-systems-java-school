@@ -19,7 +19,7 @@ public class ClientDao extends AbstractDao {
         getCurrentSession().update(entity);
     }
 
-    public Clients findById(int id) {
+    public Clients findById(Long id) {
         Clients client = getCurrentSession().get(Clients.class, id);
         return client;
     }

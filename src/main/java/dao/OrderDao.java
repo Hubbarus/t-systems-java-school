@@ -20,7 +20,7 @@ public class OrderDao extends AbstractDao {
         getCurrentSession().update(entity);
     }
 
-    public Orders findById(int id) {
+    public Orders findById(Long id) {
         Orders order = getCurrentSession().get(Orders.class, id);
         return order;
     }
@@ -40,7 +40,7 @@ public class OrderDao extends AbstractDao {
         getCurrentSession().delete(entity);
     }
 
-    public void addItem(int id, Products product) {
+    public void addItem(Long id, Products product) {
         Orders order = findById(id);
         HashMap<Products, Integer> list = order.getProducts();
         if (list.containsKey(product)) {

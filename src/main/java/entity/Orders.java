@@ -27,8 +27,8 @@ public class Orders {
     private Addresses address;
     @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(name = "cart",
-            joinColumns = @JoinColumn(name = "product_id"))
-    @MapKeyJoinColumn(name = "order_id")
+            joinColumns = {@JoinColumn(name = "order_id", referencedColumnName = "id")})
+    @MapKeyJoinColumn(name = "product_id")
     @Column(name = "quantity")
     private HashMap<Products, Integer> products;
 
@@ -109,6 +109,20 @@ public class Orders {
         result = 31 * result + (payStatus ? 1 : 0);
         result = 31 * result + (status != null ? status.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Order {" +
+                "id=" + id +
+                ", payMethod='" + payMethod + '\'' +
+                ", shipMethod='" + shipMethod + '\'' +
+                ", payStatus=" + payStatus +
+                ", status=" + status +
+                ", client=" + client +
+                ", address=" + address +
+                ", products=" + products +
+                '}';
     }
 
     @ManyToOne

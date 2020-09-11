@@ -7,11 +7,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import java.io.Serializable;
 import java.sql.Date;
 import java.util.Collection;
 
 @Entity
-public class Clients {
+public class Clients implements Serializable {
     private long id;
     private String firstName;
     private String lastName;
@@ -120,6 +121,20 @@ public class Clients {
         result = 31 * result + (username != null ? username.hashCode() : 0);
         result = 31 * result + (userPass != null ? userPass.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Client {" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", birthDate=" + birthDate +
+                ", email='" + email + '\'' +
+                ", username='" + username + '\'' +
+                ", userPass='" + userPass + '\'' +
+                ", orders=" + orders +
+                '}';
     }
 
     @OneToMany(mappedBy = "client")

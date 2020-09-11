@@ -22,7 +22,7 @@ public class ProductService {
         productDao.closeCurrentSessionwithTransaction();
     }
 
-    public Products findById(int id) {
+    public Products findById(Long id) {
         productDao.openCurrentSession();
         Products product = productDao.findById(id);
         productDao.closeCurrentSession();

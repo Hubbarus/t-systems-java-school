@@ -121,6 +121,19 @@ public class Addresses {
         return result;
     }
 
+    @Override
+    public String toString() {
+        return "Address {" +
+                "id=" + id +
+                ", country='" + country + '\'' +
+                ", city='" + city + '\'' +
+                ", postcode=" + postcode +
+                ", street='" + street + '\'' +
+                ", building=" + building +
+                ", flat=" + flat +
+                '}';
+    }
+
     @OneToMany(mappedBy = "address")
     public Collection<Orders> getOrdersById() {
         return ordersById;

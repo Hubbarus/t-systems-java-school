@@ -19,7 +19,7 @@ public class AddressDao extends AbstractDao {
         getCurrentSession().update(entity);
     }
 
-    public Addresses findById(int id) {
+    public Addresses findById(Long id) {
         Addresses address = getCurrentSession().get(Addresses.class, id);
         return address;
     }

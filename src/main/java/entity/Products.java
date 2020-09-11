@@ -6,9 +6,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.io.Serializable;
 
 @Entity
-public class Products {
+public class Products implements Serializable {
     private long id;
     private String itemName;
     private double price;
@@ -135,5 +136,19 @@ public class Products {
         result = 31 * result + (int) (temp ^ (temp >>> 32));
         result = 31 * result + stock;
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Product {" +
+                "id=" + id +
+                ", itemName='" + itemName + '\'' +
+                ", price=" + price +
+                ", itemGroup='" + itemGroup + '\'' +
+                ", description='" + description + '\'' +
+                ", weight=" + weight +
+                ", volume=" + volume +
+                ", stock=" + stock +
+                '}';
     }
 }

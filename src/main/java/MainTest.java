@@ -20,18 +20,21 @@ public class MainTest {
     static OrderService orderService = new OrderService();
 
     public static void main(String[] args) {
-        createClients();
+       // createOrders();
+
+        Orders order = orderService.findById(1L);
+        System.out.println();
     }
 
     public static void createOrders() {
-        Addresses address = addressService.findById(1);
-        Clients client = clientService.findById(1);
+        Addresses address = addressService.findById(1L);
+        Clients client = clientService.findById(1L);
 
-        Map<Products, Integer> products = new HashMap<>();
-        Products p1 = productService.findById(1);
-        Products p2 = productService.findById(2);
-        products.put(p1, 2);
-        products.put(p2, 1);
+        HashMap<Products, Integer> products = new HashMap<>();
+        Products p1 = productService.findById(1L);
+        Products p2 = productService.findById(2L);
+        products.put(p1, 20);
+        products.put(p2, 11);
 
         Orders order = new Orders();
         order.setAddress(address);
@@ -40,7 +43,7 @@ public class MainTest {
         order.setPayStatus(true);
         order.setShipMethod("delivery");
         order.setStatus(StatusEnum.NEW);
-        //order.setProducts(products);
+        order.setProducts(products);
 
         orderService.save(order);
     }

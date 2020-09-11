@@ -25,7 +25,7 @@ public class AddressService {
         addressDao.closeCurrentSessionwithTransaction();
     }
 
-    public Addresses findById(int id) {
+    public Addresses findById(Long id) {
         addressDao.openCurrentSession();
         Addresses address = addressDao.findById(id);
         addressDao.closeCurrentSession();

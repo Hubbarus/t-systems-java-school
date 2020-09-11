@@ -18,7 +18,7 @@ public class ProductDao extends AbstractDao {
         getCurrentSession().update(entity);
     }
 
-    public Products findById(int id) {
+    public Products findById(Long id) {
         Products product = getCurrentSession().get(Products.class, id);
         return product;
     }
