@@ -26,6 +26,7 @@ public class MainTest {
 
     }
 
+
     public static void printAllEntities() {
         List<Products> products = productService.findAll();
         List<Clients> clients = clientService.findAll();
