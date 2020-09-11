@@ -3,6 +3,8 @@ package service;
 import dao.ProductDao;
 import entity.Products;
 
+import java.util.List;
+
 public class ProductService {
     private final ProductDao productDao;
 
@@ -33,5 +35,12 @@ public class ProductService {
         productDao.openCurrentSessionwithTransaction();
         productDao.deleteAll();
         productDao.closeCurrentSessionwithTransaction();
+    }
+
+    public List<Products> findAll() {
+        productDao.openCurrentSession();
+        List<Products> products = productDao.findAll();
+        productDao.closeCurrentSession();
+        return products;
     }
 }

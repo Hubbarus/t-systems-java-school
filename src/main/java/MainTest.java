@@ -3,15 +3,18 @@ import entity.Addresses;
 import entity.Clients;
 import entity.Orders;
 import entity.Products;
-import entity.StatusEnum;
+import entity.enums.PaymentEnum;
+import entity.enums.ShipmentEnum;
+import entity.enums.StatusEnum;
 import service.AddressService;
 import service.ClientService;
 import service.OrderService;
 import service.ProductService;
 
 import java.sql.Date;
+import java.util.Collection;
 import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 public class MainTest {
     static ProductService productService = new ProductService();
@@ -20,10 +23,27 @@ public class MainTest {
     static OrderService orderService = new OrderService();
 
     public static void main(String[] args) {
-       // createOrders();
 
-        Orders order = orderService.findById(1L);
+    }
+
+    public static void printAllEntities() {
+        List<Products> products = productService.findAll();
+        List<Clients> clients = clientService.findAll();
+        List<Addresses> addresses = addressService.findAll();
+        List<Orders> orders = orderService.findAll();
+
+        printAll(products);
         System.out.println();
+
+        printAll(clients);
+        System.out.println();
+
+        printAll(addresses);
+        System.out.println();
+
+        printAll(orders);
+        System.out.println();
+
     }
 
     public static void createOrders() {
@@ -39,9 +59,9 @@ public class MainTest {
         Orders order = new Orders();
         order.setAddress(address);
         order.setClient(client);
-        order.setPayMethod("cash");
+        order.setPayMethod(PaymentEnum.CASH);
         order.setPayStatus(true);
-        order.setShipMethod("delivery");
+        order.setShipMethod(ShipmentEnum.DOOR_TO_DOOR);
         order.setStatus(StatusEnum.NEW);
         order.setProducts(products);
 
@@ -128,5 +148,11 @@ public class MainTest {
 
         productService.save(product1);
         productService.save(product2);
+    }
+
+    public static void printAll(Collection collection) {
+        for (Object o : collection) {
+            System.out.println(o);
+        }
     }
 }

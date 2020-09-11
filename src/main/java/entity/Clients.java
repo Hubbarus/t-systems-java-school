@@ -133,7 +133,6 @@ public class Clients implements Serializable {
                 ", email='" + email + '\'' +
                 ", username='" + username + '\'' +
                 ", userPass='" + userPass + '\'' +
-                ", orders=" + orders +
                 '}';
     }
 

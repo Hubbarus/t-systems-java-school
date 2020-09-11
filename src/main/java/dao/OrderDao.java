@@ -5,6 +5,7 @@ import entity.Products;
 
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Root;
 import java.util.HashMap;
 import java.util.List;
@@ -40,13 +41,23 @@ public class OrderDao extends AbstractDao {
         getCurrentSession().delete(entity);
     }
 
-    public void addItem(Long id, Products product) {
-        Orders order = findById(id);
+    public void addItem(Long orderId, Products product) {
+        Orders order = findById(orderId);
         HashMap<Products, Integer> list = order.getProducts();
         if (list.containsKey(product)) {
             list.put(product, list.get(product) + 1);
         } else {
             list.put(product, 1);
+        }
+        order.setProducts(list);
+        update(order);
+    }
+
+    public void removeItem(Long orderId, Products product) {
+        Orders order = findById(orderId);
+        HashMap<Products, Integer> list = order.getProducts();
+        if (list.containsKey(product)) {
+            list.remove(product);
         }
         order.setProducts(list);
         update(order);

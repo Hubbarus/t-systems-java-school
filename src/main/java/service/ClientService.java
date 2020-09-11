@@ -3,6 +3,8 @@ package service;
 import dao.ClientDao;
 import entity.Clients;
 
+import java.util.List;
+
 public class ClientService {
 
     private final ClientDao clientDao;
@@ -28,5 +30,12 @@ public class ClientService {
         Clients client = clientDao.findById(id);
         clientDao.closeCurrentSession();
         return client;
+    }
+
+    public List<Clients> findAll() {
+        clientDao.openCurrentSession();
+        List<Clients> clients = clientDao.findAll();
+        clientDao.closeCurrentSession();
+        return clients;
     }
 }

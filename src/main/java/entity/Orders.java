@@ -1,5 +1,9 @@
 package entity;
 
+import entity.enums.PaymentEnum;
+import entity.enums.ShipmentEnum;
+import entity.enums.StatusEnum;
+
 import javax.persistence.Basic;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
@@ -14,13 +18,14 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapKeyJoinColumn;
+import java.io.Serializable;
 import java.util.HashMap;
 
 @Entity
-public class Orders {
+public class Orders implements Serializable {
     private long id;
-    private String payMethod;
-    private String shipMethod;
+    private PaymentEnum payMethod;
+    private ShipmentEnum shipMethod;
     private boolean payStatus;
     private StatusEnum status;
     private Clients client;
@@ -46,21 +51,23 @@ public class Orders {
 
     @Basic
     @Column(name = "pay_method", nullable = false, length = -1)
-    public String getPayMethod() {
+    @Enumerated(EnumType.STRING)
+    public PaymentEnum getPayMethod() {
         return payMethod;
     }
 
-    public void setPayMethod(String payMethod) {
+    public void setPayMethod(PaymentEnum payMethod) {
         this.payMethod = payMethod;
     }
 
     @Basic
     @Column(name = "ship_method", nullable = false, length = -1)
-    public String getShipMethod() {
+    @Enumerated(EnumType.STRING)
+    public ShipmentEnum getShipMethod() {
         return shipMethod;
     }
 
-    public void setShipMethod(String shipMethod) {
+    public void setShipMethod(ShipmentEnum shipMethod) {
         this.shipMethod = shipMethod;
     }
 

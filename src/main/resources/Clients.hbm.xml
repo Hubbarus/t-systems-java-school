@@ -26,7 +26,7 @@
         <property name="userPass">
             <column name="user_pass" sql-type="text"/>
         </property>
-        <set name="orders" inverse="true">
+        <set name="orders" inverse="true" lazy="false">
             <key>
                 <column name="client_id"/>
             </key>

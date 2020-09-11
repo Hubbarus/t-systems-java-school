@@ -4,6 +4,8 @@ import dao.OrderDao;
 import entity.Orders;
 import entity.Products;
 
+import java.util.List;
+
 public class OrderService {
     private final OrderDao orderDao;
 
@@ -30,9 +32,22 @@ public class OrderService {
         return order;
     }
 
-    public void addItem(Long id, Products product) {
+    public List<Orders> findAll() {
+        orderDao.openCurrentSession();
+        List<Orders> orders = orderDao.findAll();
+        orderDao.closeCurrentSession();
+        return orders;
+    }
+
+    public void addItem(Long orderId, Products product) {
         orderDao.openCurrentSessionwithTransaction();
-        orderDao.addItem(id, product);
+        orderDao.addItem(orderId, product);
+        orderDao.closeCurrentSessionwithTransaction();
+    }
+
+    public void removeItem(Long orderId, Products product) {
+        orderDao.openCurrentSessionwithTransaction();
+        orderDao.removeItem(orderId, product);
         orderDao.closeCurrentSessionwithTransaction();
     }
 }

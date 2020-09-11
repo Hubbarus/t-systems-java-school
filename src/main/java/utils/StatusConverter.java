@@ -1,6 +1,6 @@
 package utils;
 
-import entity.StatusEnum;
+import entity.enums.StatusEnum;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;

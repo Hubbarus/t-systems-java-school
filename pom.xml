@@ -51,7 +51,12 @@
             <artifactId>hibernate-jpa-2.1-api</artifactId>
             <version>1.0.0.Final</version>
         </dependency>
-
+<!--        ModelMapper-->
+        <dependency>
+            <groupId>org.modelmapper</groupId>
+            <artifactId>modelmapper</artifactId>
+            <version>2.3.0</version>
+        </dependency>
 
 
 
