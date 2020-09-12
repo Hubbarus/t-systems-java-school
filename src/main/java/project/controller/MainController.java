@@ -9,15 +9,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @RequestMapping(value = "/", method = RequestMethod.GET)
 public class MainController {
 
-    @GetMapping("/h")
-    public String getHome() {
-        System.out.println("____________________________________________________________________________");
-        return "home";
-    }
-
     @GetMapping("/")
-    public String get() {
-        System.out.println("----------------------------------------------------------");
+    public String getHome() {
+
         return "home";
     }
 }
