@@ -4,7 +4,7 @@
     "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
 
-    <class name="entity.Clients" table="clients" schema="mms_schema" catalog="postgres">
+    <class name="project.entity.Clients" table="clients" schema="mms_schema" catalog="postgres">
         <id name="id">
             <column name="id" sql-type="bigint"/>
         </id>
@@ -30,7 +30,7 @@
             <key>
                 <column name="client_id"/>
             </key>
-            <one-to-many not-found="ignore" class="entity.Orders"/>
+            <one-to-many not-found="ignore" class="project.entity.Orders"/>
         </set>
     </class>
 </hibernate-mapping>

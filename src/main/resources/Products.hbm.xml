@@ -4,7 +4,7 @@
     "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
 
-    <class name="entity.Products" table="products" schema="mms_schema" catalog="postgres">
+    <class name="project.entity.Products" table="products" schema="mms_schema" catalog="postgres">
         <id name="id">
             <column name="id" sql-type="bigint"/>
         </id>

@@ -4,7 +4,7 @@
     "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
 
-    <class name="entity.Orders" table="orders" schema="mms_schema" catalog="postgres">
+    <class name="project.entity.Orders" table="orders" schema="mms_schema" catalog="postgres">
         <id name="id">
             <column name="id" sql-type="bigint"/>
         </id>
@@ -20,10 +20,10 @@
         <property name="status">
             <column name="status" sql-type="text"/>
         </property>
-        <many-to-one name="client" class="entity.Clients">
+        <many-to-one name="client" class="project.entity.Clients">
             <column name="client_id"/>
         </many-to-one>
-        <many-to-one name="address" class="entity.Addresses">
+        <many-to-one name="address" class="project.entity.Addresses">
             <column name="address_id" not-null="true"/>
         </many-to-one>
     </class>

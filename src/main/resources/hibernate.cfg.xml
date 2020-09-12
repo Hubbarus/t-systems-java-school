@@ -13,13 +13,13 @@
          <property name="connection.password">0000</property>
 
 
-        <mapping class="entity.Addresses"/>
+        <mapping class="project.entity.Addresses"/>
         <mapping resource="Addresses.hbm.xml"/>
-        <mapping class="entity.Clients"/>
+        <mapping class="project.entity.Clients"/>
         <mapping resource="Clients.hbm.xml"/>
-        <mapping class="entity.Orders"/>
+        <mapping class="project.entity.Orders"/>
         <mapping resource="Orders.hbm.xml"/>
-        <mapping class="entity.Products"/>
+        <mapping class="project.entity.Products"/>
         <mapping resource="Products.hbm.xml"/>
 
 

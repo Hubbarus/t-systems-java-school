@@ -1,22 +1,22 @@
-import config.HibernateConfig;
-import config.SpringConfig;
-import converter.AddressConverter;
-import converter.ClientConverter;
-import converter.OrderConverter;
-import converter.ProductConverter;
-import entity.Addresses;
-import entity.Clients;
-import entity.Orders;
-import entity.Products;
-import entity.enums.PaymentEnum;
-import entity.enums.ShipmentEnum;
-import entity.enums.StatusEnum;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import service.AddressService;
-import service.ClientService;
-import service.OrderService;
-import service.ProductService;
+import project.config.HibernateConfig;
+import project.config.SpringConfig;
+import project.converter.AddressConverter;
+import project.converter.ClientConverter;
+import project.converter.OrderConverter;
+import project.converter.ProductConverter;
+import project.entity.Addresses;
+import project.entity.Clients;
+import project.entity.Orders;
+import project.entity.Products;
+import project.entity.enums.PaymentEnum;
+import project.entity.enums.ShipmentEnum;
+import project.entity.enums.StatusEnum;
+import project.service.AddressService;
+import project.service.ClientService;
+import project.service.OrderService;
+import project.service.ProductService;
 
 import java.sql.Date;
 import java.util.Collection;
@@ -46,7 +46,7 @@ public class MainTest {
 
 
     public static void main(String[] args) {
-
+        System.out.println(productService.findById(3L));
     }
 
 
