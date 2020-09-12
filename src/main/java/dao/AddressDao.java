@@ -1,15 +1,20 @@
 package dao;
 
 import entity.Addresses;
+import org.hibernate.SessionFactory;
+import org.springframework.stereotype.Repository;
 
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import java.util.List;
 
+@Repository
 public class AddressDao extends AbstractDao {
 
-    public AddressDao() { }
+    public AddressDao(SessionFactory sessionFactory) {
+        super(sessionFactory);
+    }
 
     public void save(Addresses entity) {
         getCurrentSession().save(entity);
@@ -37,5 +42,12 @@ public class AddressDao extends AbstractDao {
 
     public void delete(Addresses entity) {
         getCurrentSession().delete(entity);
+    }
+
+    public void deleteAll() {
+        List<Addresses> list = findAll();
+        for (Addresses a : list) {
+            delete(a);
+        }
     }
 }

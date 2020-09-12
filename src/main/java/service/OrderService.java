@@ -3,14 +3,18 @@ package service;
 import dao.OrderDao;
 import entity.Orders;
 import entity.Products;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class OrderService {
     private final OrderDao orderDao;
 
-    public OrderService() {
-        this.orderDao = new OrderDao();
+    @Autowired
+    public OrderService(OrderDao orderDao) {
+        this.orderDao = orderDao;
     }
 
     public void save(Orders order) {
@@ -37,6 +41,18 @@ public class OrderService {
         List<Orders> orders = orderDao.findAll();
         orderDao.closeCurrentSession();
         return orders;
+    }
+
+    public void delete(Orders order) {
+        orderDao.openCurrentSessionwithTransaction();
+        orderDao.delete(order);
+        orderDao.closeCurrentSessionwithTransaction();
+    }
+
+    public void deleteAll() {
+        orderDao.openCurrentSessionwithTransaction();
+        orderDao.deleteAll();
+        orderDao.closeCurrentSessionwithTransaction();
     }
 
     public void addItem(Long orderId, Products product) {

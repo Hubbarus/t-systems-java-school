@@ -2,16 +2,20 @@ package dao;
 
 import entity.Orders;
 import entity.Products;
+import org.hibernate.SessionFactory;
+import org.springframework.stereotype.Repository;
 
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Root;
 import java.util.HashMap;
 import java.util.List;
 
+@Repository
 public class OrderDao extends AbstractDao {
-    public OrderDao() { }
+    public OrderDao(SessionFactory sessionFactory) {
+        super(sessionFactory);
+    }
 
     public void save(Orders entity) {
         getCurrentSession().save(entity);
@@ -39,6 +43,13 @@ public class OrderDao extends AbstractDao {
 
     public void delete(Orders entity) {
         getCurrentSession().delete(entity);
+    }
+
+    public void deleteAll() {
+        List<Orders> orders = findAll();
+        for (Orders o : orders) {
+            delete(o);
+        }
     }
 
     public void addItem(Long orderId, Products product) {

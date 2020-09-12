@@ -2,14 +2,17 @@ package service;
 
 import dao.ProductDao;
 import entity.Products;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
-
+@Service("productService")
 public class ProductService {
     private final ProductDao productDao;
 
-    public ProductService() {
-        this.productDao = new ProductDao();
+    @Autowired
+    public ProductService(ProductDao productDao) {
+        this.productDao = productDao;
     }
 
     public void save(Products product) {
@@ -29,6 +32,12 @@ public class ProductService {
         Products product = productDao.findById(id);
         productDao.closeCurrentSession();
         return product;
+    }
+
+    public void delete(Products product) {
+        productDao.closeCurrentSessionwithTransaction();
+        productDao.delete(product);
+        productDao.closeCurrentSessionwithTransaction();
     }
 
     public void deleteAll() {

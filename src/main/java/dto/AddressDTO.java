@@ -1,5 +1,7 @@
 package dto;
 
+import java.util.Objects;
+
 public class AddressDTO {
     private long id;
     private String country;
@@ -63,5 +65,37 @@ public class AddressDTO {
 
     public void setFlat(int flat) {
         this.flat = flat;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof AddressDTO)) return false;
+        AddressDTO that = (AddressDTO) o;
+        return getId() == that.getId() &&
+                getPostcode() == that.getPostcode() &&
+                getBuilding() == that.getBuilding() &&
+                getFlat() == that.getFlat() &&
+                Objects.equals(getCountry(), that.getCountry()) &&
+                Objects.equals(getCity(), that.getCity()) &&
+                Objects.equals(getStreet(), that.getStreet());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getCountry(), getCity(), getPostcode(), getStreet(), getBuilding(), getFlat());
+    }
+
+    @Override
+    public String toString() {
+        return "AddressDTO{" +
+                "id=" + id +
+                ", country='" + country + '\'' +
+                ", city='" + city + '\'' +
+                ", postcode=" + postcode +
+                ", street='" + street + '\'' +
+                ", building=" + building +
+                ", flat=" + flat +
+                '}';
     }
 }

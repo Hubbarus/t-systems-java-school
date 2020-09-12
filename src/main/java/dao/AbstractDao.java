@@ -1,22 +1,32 @@
 package dao;
 
-import config.HibernateConfig;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public abstract class AbstractDao {
-    private HibernateConfig instance = HibernateConfig.getInstance();
+    //private HibernateConfig instance = HibernateConfig.getInstance();
 
     private Session currentSession;
     private Transaction currentTransaction;
+//
+    private SessionFactory sessionFactory;
+
+    @Autowired
+    public AbstractDao(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
+    }
 
     public Session openCurrentSession() {
-        currentSession = instance.getSessionFactory().openSession();
+        currentSession = sessionFactory.openSession();
         return currentSession;
     }
 
     public Session openCurrentSessionwithTransaction() {
-        currentSession = instance.getSessionFactory().openSession();
+        currentSession = sessionFactory.openSession();
         currentTransaction = currentSession.beginTransaction();
         return currentSession;
     }

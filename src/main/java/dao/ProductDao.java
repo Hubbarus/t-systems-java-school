@@ -1,14 +1,20 @@
 package dao;
 
 import entity.Products;
+import org.hibernate.SessionFactory;
+import org.springframework.stereotype.Repository;
 
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import java.util.List;
 
+@Repository
 public class ProductDao extends AbstractDao {
-    public ProductDao() { }
+
+    public ProductDao(SessionFactory sessionFactory) {
+        super(sessionFactory);
+    }
 
     public void save(Products entity) {
         getCurrentSession().save(entity);

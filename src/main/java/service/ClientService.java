@@ -2,15 +2,19 @@ package service;
 
 import dao.ClientDao;
 import entity.Clients;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class ClientService {
 
     private final ClientDao clientDao;
 
-    public ClientService() {
-        this.clientDao = new ClientDao();
+    @Autowired
+    public ClientService(ClientDao clientDao) {
+        this.clientDao = clientDao;
     }
 
     public void save(Clients client) {
@@ -37,5 +41,17 @@ public class ClientService {
         List<Clients> clients = clientDao.findAll();
         clientDao.closeCurrentSession();
         return clients;
+    }
+
+    public void delete(Clients client) {
+        clientDao.openCurrentSessionwithTransaction();
+        clientDao.delete(client);
+        clientDao.closeCurrentSessionwithTransaction();
+    }
+
+    public void deleteAll() {
+        clientDao.openCurrentSessionwithTransaction();
+        clientDao.deleteAll();
+        clientDao.closeCurrentSessionwithTransaction();
     }
 }

@@ -2,15 +2,19 @@ package service;
 
 import dao.AddressDao;
 import entity.Addresses;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class AddressService {
 
     private final AddressDao addressDao;
 
-    public AddressService() {
-        this.addressDao = new AddressDao();
+    @Autowired
+    public AddressService(AddressDao addressDao) {
+        this.addressDao = addressDao;
     }
 
     public void save(Addresses address) {
@@ -42,6 +46,12 @@ public class AddressService {
     public void delete(Addresses address) {
         addressDao.openCurrentSessionwithTransaction();
         addressDao.delete(address);
+        addressDao.closeCurrentSessionwithTransaction();
+    }
+
+    public void deleteAll() {
+        addressDao.openCurrentSessionwithTransaction();
+        addressDao.deleteAll();
         addressDao.closeCurrentSessionwithTransaction();
     }
 }
