@@ -12,6 +12,7 @@ import project.entity.Order;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -28,7 +29,7 @@ public class OrderConverter {
     public Order convertToEntity(OrderDTO order) {
         Order entity = mapper.map(order, Order.class);
         HashMap<ItemDTO, Integer> itemDTOS = order.getItems();
-        Collection<Item> items = new ArrayList<>();
+        List<Item> items = new ArrayList<>();
         for (Map.Entry<ItemDTO, Integer> entry : itemDTOS.entrySet()) {
             Item item = itemConverter.convertToEntity(entry.getKey());
             for (int i = 0; i < entry.getValue(); i++) {
