@@ -5,12 +5,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import project.converter.ItemConverter;
+import project.converter.OrderConverter;
 import project.dto.AddressDTO;
 import project.dto.ClientDTO;
 import project.dto.ItemDTO;
 import project.dto.OrderDTO;
-import project.entity.Item;
+import project.entity.Order;
 import project.entity.enums.PaymentEnum;
 import project.entity.enums.ShipmentEnum;
 import project.entity.enums.StatusEnum;
@@ -22,7 +22,6 @@ import project.service.OrderService;
 import java.sql.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping(value = "/", method = RequestMethod.GET)
@@ -37,7 +36,7 @@ public class MainController {
     @Autowired
     private OrderService orderService;
     @Autowired
-    private ItemConverter itemConverter;
+    private OrderConverter orderConverter;
 
     @GetMapping("/")
     public String getHome() {
@@ -47,6 +46,7 @@ public class MainController {
     @GetMapping("/getOrders")
     public String getOrders() {
         OrderDTO orderDTO = orderService.findById(1L);
+        Order order = orderConverter.convertToEntity(orderDTO);
         System.out.println();
         return "home";
     }
@@ -54,20 +54,18 @@ public class MainController {
     @GetMapping("/crOrders")
     public String createOrders() {
         List<ItemDTO> all = itemService.findAll();
-        List<Item> allEnt = all.stream().map(it -> itemConverter.convertToEntity(it)).collect(Collectors.toList());
-        HashMap<Item, Integer> map = new HashMap<>();
-        for (Item item : allEnt) {
-            map.put(item, 5);
-        }
 
         OrderDTO order = new OrderDTO();
-        order.setClient(clientService.findById(1L));
-        order.setAddress(addressService.findById(2L));
-        order.setStatus(StatusEnum.NEW);
-        order.setPaymentMethod(PaymentEnum.CARD);
+        order.setClient(clientService.findById(2L));
+        order.setAddress(addressService.findById(1L));
+        order.setStatus(StatusEnum.COLLECTING);
+        order.setPaymentMethod(PaymentEnum.CASH);
         order.setPaymentStatus(true);
-        order.setShipmentMethod(ShipmentEnum.DOOR_TO_DOOR);
+        order.setShipmentMethod(ShipmentEnum.SELF_PICKUP);
 
+        HashMap<ItemDTO, Integer> map = new HashMap<>();
+        map.put(all.get(0), 10);
+        map.put(all.get(1), 4);
         order.setItems(map);
 
         orderService.save(order);

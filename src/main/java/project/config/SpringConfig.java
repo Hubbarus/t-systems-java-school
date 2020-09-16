@@ -11,6 +11,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 import java.util.Collection;
+import java.util.HashMap;
 
 import static org.modelmapper.config.Configuration.AccessLevel.PRIVATE;
 
@@ -32,8 +33,8 @@ public class SpringConfig {
         Condition skipCollections = new Condition() {
             @Override
             public boolean applies(MappingContext context) {
-                boolean what = !(context.getMapping().getSourceType().equals(Collection.class));
-                return what;
+                return !(context.getMapping().getSourceType().equals(Collection.class))
+                        || !(context.getMapping().getSourceType().equals(HashMap.class));
             }
         };
         mapper.getConfiguration()

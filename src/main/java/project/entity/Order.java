@@ -10,6 +10,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -156,7 +157,7 @@ public class Order implements Serializable {
                 '}';
     }
 
-    @ManyToMany(cascade = CascadeType.ALL, targetEntity = Item.class)
+    @ManyToMany(cascade = CascadeType.ALL, targetEntity = Item.class, fetch = FetchType.EAGER)
     @JoinTable(name = "cart",
             joinColumns = @JoinColumn(name = "order_id"),
             inverseJoinColumns = @JoinColumn(name = "item_id"))

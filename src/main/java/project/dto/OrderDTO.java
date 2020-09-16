@@ -1,6 +1,5 @@
 package project.dto;
 
-import project.entity.Item;
 import project.entity.enums.PaymentEnum;
 import project.entity.enums.ShipmentEnum;
 import project.entity.enums.StatusEnum;
@@ -16,7 +15,7 @@ public class OrderDTO {
     private StatusEnum status;
     private ClientDTO client;
     private AddressDTO address;
-    private HashMap<Item, Integer> items;
+    private HashMap<ItemDTO, Integer> items;
 
     public long getId() {
         return id;
@@ -107,11 +106,11 @@ public class OrderDTO {
                 '}';
     }
 
-    public HashMap<Item, Integer> getItems() {
+    public HashMap<ItemDTO, Integer> getItems() {
         return items;
     }
 
-    public void setItems(HashMap<Item, Integer> items) {
+    public void setItems(HashMap<ItemDTO, Integer> items) {
         this.items = items;
     }
 }
