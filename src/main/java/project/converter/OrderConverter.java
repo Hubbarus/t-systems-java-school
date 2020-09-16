@@ -9,6 +9,7 @@ import project.dto.OrderDTO;
 import project.entity.Item;
 import project.entity.Order;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -48,13 +49,17 @@ public class OrderConverter {
                 .map(it -> itemConverter.convertToDTO(it))
                 .collect(Collectors.toList());
         HashMap<ItemDTO, Integer> itemMap = new HashMap<>();
+        BigDecimal subtotal = BigDecimal.ZERO;
         for (ItemDTO item : itemDTOS) {
             if (itemMap.get(item) != null) {
                 itemMap.put(item, itemMap.get(item) + 1);
             } else {
                 itemMap.put(item, 1);
             }
+            subtotal.add(BigDecimal.valueOf(item.getPrice()));
         }
+
+        dto.setSubtotal(subtotal);
         dto.setItems(itemMap);
         return dto;
     }
