@@ -47,7 +47,7 @@ public class MainController {
     public String getOrders() {
         OrderDTO orderDTO = orderService.findById(1L);
         Order order = orderConverter.convertToEntity(orderDTO);
-        System.out.println();
+        System.out.println(orderDTO);
         return "home";
     }
 
