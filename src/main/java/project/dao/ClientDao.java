@@ -1,8 +1,7 @@
 package project.dao;
 
-import project.entity.Client;
-import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
+import project.entity.Client;
 
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaQuery;
@@ -11,10 +10,6 @@ import java.util.List;
 
 @Repository
 public class ClientDao extends AbstractDao {
-
-    public ClientDao(SessionFactory sessionFactory) {
-        super(sessionFactory);
-    }
 
     public void save(Client entity) {
         getCurrentSession().save(entity);

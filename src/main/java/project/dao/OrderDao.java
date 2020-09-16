@@ -1,6 +1,5 @@
 package project.dao;
 
-import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
 import project.entity.Order;
 
@@ -11,9 +10,6 @@ import java.util.List;
 
 @Repository
 public class OrderDao extends AbstractDao {
-    public OrderDao(SessionFactory sessionFactory) {
-        super(sessionFactory);
-    }
 
     public void save(Order entity) {
         getCurrentSession().save(entity);
@@ -49,5 +45,4 @@ public class OrderDao extends AbstractDao {
             delete(o);
         }
     }
-    // TODO add item to cart and so on
 }

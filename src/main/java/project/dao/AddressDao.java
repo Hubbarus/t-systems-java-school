@@ -1,8 +1,7 @@
 package project.dao;
 
-import project.entity.Address;
-import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
+import project.entity.Address;
 
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaQuery;
@@ -11,10 +10,6 @@ import java.util.List;
 
 @Repository
 public class AddressDao extends AbstractDao {
-
-    public AddressDao(SessionFactory sessionFactory) {
-        super(sessionFactory);
-    }
 
     public void save(Address entity) {
         getCurrentSession().save(entity);

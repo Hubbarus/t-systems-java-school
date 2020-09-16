@@ -1,8 +1,7 @@
 package project.dao;
 
-import project.entity.Item;
-import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
+import project.entity.Item;
 
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaQuery;
@@ -11,10 +10,6 @@ import java.util.List;
 
 @Repository
 public class ItemDao extends AbstractDao {
-
-    public ItemDao(SessionFactory sessionFactory) {
-        super(sessionFactory);
-    }
 
     public void save(Item entity) {
         getCurrentSession().save(entity);

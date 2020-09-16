@@ -11,12 +11,8 @@ public abstract class AbstractDao {
     private Session currentSession;
     private Transaction currentTransaction;
 
-    private SessionFactory sessionFactory;
-
     @Autowired
-    public AbstractDao(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
-    }
+    private SessionFactory sessionFactory;
 
     public Session openCurrentSession() {
         currentSession = sessionFactory.openSession();
