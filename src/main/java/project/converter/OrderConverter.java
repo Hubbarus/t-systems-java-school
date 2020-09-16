@@ -1,34 +1,26 @@
 package project.converter;
 
-import project.dto.OrderDTO;
-import project.entity.Orders;
-import project.entity.Products;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.Map;
+import org.springframework.transaction.annotation.Transactional;
+import project.dto.OrderDTO;
+import project.entity.Order;
 
 @Service
+@Transactional
 public class OrderConverter {
 
     @Autowired
     private ModelMapper mapper;
 
-    public Orders convertToEntity(OrderDTO order) {
-        Orders entity = mapper.map(order, Orders.class);
+    public Order convertToEntity(OrderDTO order) {
+        Order entity = mapper.map(order, Order.class);
         return entity;
     }
 
-    public OrderDTO convertToDTO(Orders order) {
+    public OrderDTO convertToDTO(Order order) {
         OrderDTO dto = mapper.map(order, OrderDTO.class);
-        Map<Products, Integer> list = order.getProducts();
-        double subtotal = 0;
-        for (Map.Entry<Products, Integer> entry : list.entrySet()) {
-            subtotal += (entry.getKey().getPrice() * entry.getValue());
-        }
-
-        dto.setSubtotal(subtotal);
         return dto;
     }
 }

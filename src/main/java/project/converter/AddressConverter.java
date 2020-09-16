@@ -1,7 +1,7 @@
 package project.converter;
 
 import project.dto.AddressDTO;
-import project.entity.Addresses;
+import project.entity.Address;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,12 +12,12 @@ public class AddressConverter {
     @Autowired
     private ModelMapper mapper;
 
-    public Addresses convertToEntity(AddressDTO address) {
-        Addresses entity = mapper.map(address, Addresses.class);
+    public Address convertToEntity(AddressDTO address) {
+        Address entity = mapper.map(address, Address.class);
         return entity;
     }
 
-    public AddressDTO convertToDTO(Addresses address) {
+    public AddressDTO convertToDTO(Address address) {
         AddressDTO dto = mapper.map(address, AddressDTO.class);
         return dto;
     }

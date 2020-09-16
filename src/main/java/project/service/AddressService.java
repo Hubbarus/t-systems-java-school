@@ -1,49 +1,61 @@
 package project.service;
 
-import project.dao.AddressDao;
-import project.entity.Addresses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import project.converter.AddressConverter;
+import project.dao.AddressDao;
+import project.dto.AddressDTO;
+import project.entity.Address;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class AddressService {
 
     private final AddressDao addressDao;
+    private final AddressConverter addressConverter;
 
     @Autowired
-    public AddressService(AddressDao addressDao) {
+    public AddressService(AddressDao addressDao, AddressConverter addressConverter) {
+        this.addressConverter = addressConverter;
         this.addressDao = addressDao;
     }
 
-    public void save(Addresses address) {
+    public void save(AddressDTO addressDTO) {
+        Address address = addressConverter.convertToEntity(addressDTO);
         addressDao.openCurrentSessionwithTransaction();
         addressDao.save(address);
         addressDao.closeCurrentSessionwithTransaction();
     }
 
-    public void update(Addresses address) {
+    public void update(AddressDTO addressDTO) {
+        Address address = addressConverter.convertToEntity(addressDTO);
         addressDao.openCurrentSessionwithTransaction();
         addressDao.update(address);
         addressDao.closeCurrentSessionwithTransaction();
     }
 
-    public Addresses findById(Long id) {
+    public AddressDTO findById(Long id) {
         addressDao.openCurrentSession();
-        Addresses address = addressDao.findById(id);
+        Address address = addressDao.findById(id);
         addressDao.closeCurrentSession();
-        return address;
+        return addressConverter.convertToDTO(address);
     }
 
-    public List<Addresses> findAll() {
+    public List<AddressDTO> findAll() {
         addressDao.openCurrentSession();
-        List<Addresses> addresses = addressDao.findAll();
+        List<Address> address = addressDao.findAll();
         addressDao.closeCurrentSession();
-        return addresses;
+        List<AddressDTO> addressDTOS = address
+                .stream()
+                .map(ad -> addressConverter.convertToDTO(ad))
+                .collect(Collectors.toList());
+        return addressDTOS;
     }
 
-    public void delete(Addresses address) {
+    public void delete(AddressDTO addressDTO) {
+        Address address = addressConverter.convertToEntity(addressDTO);
         addressDao.openCurrentSessionwithTransaction();
         addressDao.delete(address);
         addressDao.closeCurrentSessionwithTransaction();

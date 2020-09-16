@@ -1,6 +1,6 @@
 package project.dao;
 
-import project.entity.Clients;
+import project.entity.Client;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
 
@@ -16,37 +16,37 @@ public class ClientDao extends AbstractDao {
         super(sessionFactory);
     }
 
-    public void save(Clients entity) {
+    public void save(Client entity) {
         getCurrentSession().save(entity);
     }
 
-    public void update(Clients entity) {
+    public void update(Client entity) {
         getCurrentSession().update(entity);
     }
 
-    public Clients findById(Long id) {
-        Clients client = getCurrentSession().get(Clients.class, id);
+    public Client findById(Long id) {
+        Client client = getCurrentSession().get(Client.class, id);
         return client;
     }
 
-    public List<Clients> findAll() {
-        CriteriaQuery<Clients> cq = getCurrentSession()
+    public List<Client> findAll() {
+        CriteriaQuery<Client> cq = getCurrentSession()
                 .getCriteriaBuilder()
-                .createQuery(Clients.class);
-        Root<Clients> rootEntry = cq.from(Clients.class);
-        CriteriaQuery<Clients> all = cq.select(rootEntry);
+                .createQuery(Client.class);
+        Root<Client> rootEntry = cq.from(Client.class);
+        CriteriaQuery<Client> all = cq.select(rootEntry);
 
-        TypedQuery<Clients> allQuery = getCurrentSession().createQuery(all);
+        TypedQuery<Client> allQuery = getCurrentSession().createQuery(all);
         return allQuery.getResultList();
     }
 
-    public void delete(Clients entity) {
+    public void delete(Client entity) {
         getCurrentSession().delete(entity);
     }
 
     public void deleteAll() {
-        List<Clients> clients = findAll();
-        for (Clients c : clients) {
+        List<Client> client = findAll();
+        for (Client c : client) {
             delete(c);
         }
     }

@@ -1,6 +1,6 @@
 package project.dao;
 
-import project.entity.Addresses;
+import project.entity.Address;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
 
@@ -16,37 +16,37 @@ public class AddressDao extends AbstractDao {
         super(sessionFactory);
     }
 
-    public void save(Addresses entity) {
+    public void save(Address entity) {
         getCurrentSession().save(entity);
     }
 
-    public void update(Addresses entity) {
+    public void update(Address entity) {
         getCurrentSession().update(entity);
     }
 
-    public Addresses findById(Long id) {
-        Addresses address = getCurrentSession().get(Addresses.class, id);
+    public Address findById(Long id) {
+        Address address = getCurrentSession().get(Address.class, id);
         return address;
     }
 
-    public List<Addresses> findAll() {
-        CriteriaQuery<Addresses> cq = getCurrentSession()
+    public List<Address> findAll() {
+        CriteriaQuery<Address> cq = getCurrentSession()
                 .getCriteriaBuilder()
-                .createQuery(Addresses.class);
-        Root<Addresses> rootEntry = cq.from(Addresses.class);
-        CriteriaQuery<Addresses> all = cq.select(rootEntry);
+                .createQuery(Address.class);
+        Root<Address> rootEntry = cq.from(Address.class);
+        CriteriaQuery<Address> all = cq.select(rootEntry);
 
-        TypedQuery<Addresses> allQuery = getCurrentSession().createQuery(all);
+        TypedQuery<Address> allQuery = getCurrentSession().createQuery(all);
         return allQuery.getResultList();
     }
 
-    public void delete(Addresses entity) {
+    public void delete(Address entity) {
         getCurrentSession().delete(entity);
     }
 
     public void deleteAll() {
-        List<Addresses> list = findAll();
-        for (Addresses a : list) {
+        List<Address> list = findAll();
+        for (Address a : list) {
             delete(a);
         }
     }

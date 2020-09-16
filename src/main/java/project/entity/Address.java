@@ -6,19 +6,17 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import java.util.Collection;
+import java.io.Serializable;
 
 @Entity
-public class Addresses {
+public class Address implements Serializable {
     private long id;
     private String country;
     private String city;
-    private int postcode;
+    private String postcode;
     private String street;
     private int building;
-    private int flat;
-    private Collection<Orders> ordersById;
+    private int apart;
 
     @Id
     @Column(name = "id", nullable = false)
@@ -52,12 +50,12 @@ public class Addresses {
     }
 
     @Basic
-    @Column(name = "postcode", nullable = false)
-    public int getPostcode() {
+    @Column(name = "postcode", nullable = false, length = -1)
+    public String getPostcode() {
         return postcode;
     }
 
-    public void setPostcode(int postcode) {
+    public void setPostcode(String postcode) {
         this.postcode = postcode;
     }
 
@@ -82,13 +80,13 @@ public class Addresses {
     }
 
     @Basic
-    @Column(name = "flat", nullable = false)
-    public int getFlat() {
-        return flat;
+    @Column(name = "apart", nullable = false)
+    public int getApart() {
+        return apart;
     }
 
-    public void setFlat(int flat) {
-        this.flat = flat;
+    public void setApart(int apart) {
+        this.apart = apart;
     }
 
     @Override
@@ -96,15 +94,15 @@ public class Addresses {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Addresses addresses = (Addresses) o;
+        Address address = (Address) o;
 
-        if (id != addresses.id) return false;
-        if (postcode != addresses.postcode) return false;
-        if (building != addresses.building) return false;
-        if (flat != addresses.flat) return false;
-        if (country != null ? !country.equals(addresses.country) : addresses.country != null) return false;
-        if (city != null ? !city.equals(addresses.city) : addresses.city != null) return false;
-        if (street != null ? !street.equals(addresses.street) : addresses.street != null) return false;
+        if (id != address.id) return false;
+        if (building != address.building) return false;
+        if (apart != address.apart) return false;
+        if (country != null ? !country.equals(address.country) : address.country != null) return false;
+        if (city != null ? !city.equals(address.city) : address.city != null) return false;
+        if (postcode != null ? !postcode.equals(address.postcode) : address.postcode != null) return false;
+        if (street != null ? !street.equals(address.street) : address.street != null) return false;
 
         return true;
     }
@@ -114,32 +112,23 @@ public class Addresses {
         int result = (int) (id ^ (id >>> 32));
         result = 31 * result + (country != null ? country.hashCode() : 0);
         result = 31 * result + (city != null ? city.hashCode() : 0);
-        result = 31 * result + postcode;
+        result = 31 * result + (postcode != null ? postcode.hashCode() : 0);
         result = 31 * result + (street != null ? street.hashCode() : 0);
         result = 31 * result + building;
-        result = 31 * result + flat;
+        result = 31 * result + apart;
         return result;
     }
 
     @Override
     public String toString() {
-        return "Address {" +
+        return "Address{" +
                 "id=" + id +
                 ", country='" + country + '\'' +
                 ", city='" + city + '\'' +
-                ", postcode=" + postcode +
+                ", postcode='" + postcode + '\'' +
                 ", street='" + street + '\'' +
                 ", building=" + building +
-                ", flat=" + flat +
+                ", apart=" + apart +
                 '}';
-    }
-
-    @OneToMany(mappedBy = "address")
-    public Collection<Orders> getOrdersById() {
-        return ordersById;
-    }
-
-    public void setOrdersById(Collection<Orders> ordersById) {
-        this.ordersById = ordersById;
     }
 }

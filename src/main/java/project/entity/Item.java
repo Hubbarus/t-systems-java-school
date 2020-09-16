@@ -9,11 +9,11 @@ import javax.persistence.Id;
 import java.io.Serializable;
 
 @Entity
-public class Products implements Serializable {
+public class Item  implements Serializable {
     private long id;
     private String itemName;
-    private double price;
     private String itemGroup;
+    private double price;
     private String description;
     private double weight;
     private double volume;
@@ -41,16 +41,6 @@ public class Products implements Serializable {
     }
 
     @Basic
-    @Column(name = "price", nullable = false, precision = 0)
-    public double getPrice() {
-        return price;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
-    @Basic
     @Column(name = "item_group", nullable = false, length = -1)
     public String getItemGroup() {
         return itemGroup;
@@ -58,6 +48,16 @@ public class Products implements Serializable {
 
     public void setItemGroup(String itemGroup) {
         this.itemGroup = itemGroup;
+    }
+
+    @Basic
+    @Column(name = "price", nullable = false, precision = 0)
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
     }
 
     @Basic
@@ -105,17 +105,16 @@ public class Products implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Products products = (Products) o;
+        Item item = (Item) o;
 
-        if (id != products.id) return false;
-        if (Double.compare(products.price, price) != 0) return false;
-        if (Double.compare(products.weight, weight) != 0) return false;
-        if (Double.compare(products.volume, volume) != 0) return false;
-        if (stock != products.stock) return false;
-        if (itemName != null ? !itemName.equals(products.itemName) : products.itemName != null) return false;
-        if (itemGroup != null ? !itemGroup.equals(products.itemGroup) : products.itemGroup != null) return false;
-        if (description != null ? !description.equals(products.description) : products.description != null)
-            return false;
+        if (id != item.id) return false;
+        if (Double.compare(item.price, price) != 0) return false;
+        if (Double.compare(item.weight, weight) != 0) return false;
+        if (Double.compare(item.volume, volume) != 0) return false;
+        if (stock != item.stock) return false;
+        if (itemName != null ? !itemName.equals(item.itemName) : item.itemName != null) return false;
+        if (itemGroup != null ? !itemGroup.equals(item.itemGroup) : item.itemGroup != null) return false;
+        if (description != null ? !description.equals(item.description) : item.description != null) return false;
 
         return true;
     }
@@ -126,9 +125,9 @@ public class Products implements Serializable {
         long temp;
         result = (int) (id ^ (id >>> 32));
         result = 31 * result + (itemName != null ? itemName.hashCode() : 0);
+        result = 31 * result + (itemGroup != null ? itemGroup.hashCode() : 0);
         temp = Double.doubleToLongBits(price);
         result = 31 * result + (int) (temp ^ (temp >>> 32));
-        result = 31 * result + (itemGroup != null ? itemGroup.hashCode() : 0);
         result = 31 * result + (description != null ? description.hashCode() : 0);
         temp = Double.doubleToLongBits(weight);
         result = 31 * result + (int) (temp ^ (temp >>> 32));
@@ -140,11 +139,11 @@ public class Products implements Serializable {
 
     @Override
     public String toString() {
-        return "Product {" +
+        return "Item{" +
                 "id=" + id +
                 ", itemName='" + itemName + '\'' +
-                ", price=" + price +
                 ", itemGroup='" + itemGroup + '\'' +
+                ", price=" + price +
                 ", description='" + description + '\'' +
                 ", weight=" + weight +
                 ", volume=" + volume +

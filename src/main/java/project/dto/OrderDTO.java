@@ -1,8 +1,6 @@
 package project.dto;
 
-import project.entity.Addresses;
-import project.entity.Clients;
-import project.entity.Products;
+import project.entity.Item;
 import project.entity.enums.PaymentEnum;
 import project.entity.enums.ShipmentEnum;
 import project.entity.enums.StatusEnum;
@@ -11,37 +9,45 @@ import java.util.HashMap;
 import java.util.Objects;
 
 public class OrderDTO {
-    private PaymentEnum payMethod;
-    private ShipmentEnum shipMethod;
-    private boolean payStatus;
+    private long id;
+    private PaymentEnum paymentMethod;
+    private ShipmentEnum shipmentMethod;
+    private boolean paymentStatus;
     private StatusEnum status;
-    private Clients client;
-    private Addresses address;
-    private HashMap<Products, Integer> products;
-    private double subtotal;
+    private ClientDTO client;
+    private AddressDTO address;
+    private HashMap<Item, Integer> items;
 
-    public PaymentEnum getPayMethod() {
-        return payMethod;
+    public long getId() {
+        return id;
     }
 
-    public void setPayMethod(PaymentEnum payMethod) {
-        this.payMethod = payMethod;
+    public void setId(long id) {
+        this.id = id;
     }
 
-    public ShipmentEnum getShipMethod() {
-        return shipMethod;
+    public PaymentEnum getPaymentMethod() {
+        return paymentMethod;
     }
 
-    public void setShipMethod(ShipmentEnum shipMethod) {
-        this.shipMethod = shipMethod;
+    public void setPaymentMethod(PaymentEnum paymentMethod) {
+        this.paymentMethod = paymentMethod;
     }
 
-    public boolean isPayStatus() {
-        return payStatus;
+    public ShipmentEnum getShipmentMethod() {
+        return shipmentMethod;
     }
 
-    public void setPayStatus(boolean payStatus) {
-        this.payStatus = payStatus;
+    public void setShipmentMethod(ShipmentEnum shipmentMethod) {
+        this.shipmentMethod = shipmentMethod;
+    }
+
+    public boolean isPaymentStatus() {
+        return paymentStatus;
+    }
+
+    public void setPaymentStatus(boolean paymentStatus) {
+        this.paymentStatus = paymentStatus;
     }
 
     public StatusEnum getStatus() {
@@ -52,36 +58,20 @@ public class OrderDTO {
         this.status = status;
     }
 
-    public Clients getClient() {
+    public ClientDTO getClient() {
         return client;
     }
 
-    public void setClient(Clients client) {
+    public void setClient(ClientDTO client) {
         this.client = client;
     }
 
-    public Addresses getAddress() {
+    public AddressDTO getAddress() {
         return address;
     }
 
-    public void setAddress(Addresses address) {
+    public void setAddress(AddressDTO address) {
         this.address = address;
-    }
-
-    public HashMap<Products, Integer> getProducts() {
-        return products;
-    }
-
-    public void setProducts(HashMap<Products, Integer> products) {
-        this.products = products;
-    }
-
-    public double getSubtotal() {
-        return subtotal;
-    }
-
-    public void setSubtotal(double subtotal) {
-        this.subtotal = subtotal;
     }
 
     @Override
@@ -89,32 +79,38 @@ public class OrderDTO {
         if (this == o) return true;
         if (!(o instanceof OrderDTO)) return false;
         OrderDTO orderDTO = (OrderDTO) o;
-        return isPayStatus() == orderDTO.isPayStatus() &&
-                Double.compare(orderDTO.getSubtotal(), getSubtotal()) == 0 &&
-                getPayMethod() == orderDTO.getPayMethod() &&
-                getShipMethod() == orderDTO.getShipMethod() &&
-                getStatus() == orderDTO.getStatus() &&
-                Objects.equals(getClient(), orderDTO.getClient()) &&
-                Objects.equals(getAddress(), orderDTO.getAddress()) &&
-                Objects.equals(getProducts(), orderDTO.getProducts());
+        return id == orderDTO.id &&
+                paymentStatus == orderDTO.paymentStatus &&
+                paymentMethod == orderDTO.paymentMethod &&
+                shipmentMethod == orderDTO.shipmentMethod &&
+                status == orderDTO.status &&
+                Objects.equals(client, orderDTO.client) &&
+                Objects.equals(address, orderDTO.address);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getPayMethod(), getShipMethod(), isPayStatus(), getStatus(), getClient(), getAddress(), getProducts(), getSubtotal());
+        return Objects.hash(id, paymentMethod, shipmentMethod, paymentStatus, status, client, address);
     }
 
     @Override
     public String toString() {
         return "OrderDTO{" +
-                "payMethod=" + payMethod +
-                ", shipMethod=" + shipMethod +
-                ", payStatus=" + payStatus +
+                "id=" + id +
+                ", paymentMethod=" + paymentMethod +
+                ", shipmentMethod=" + shipmentMethod +
+                ", paymentStatus=" + paymentStatus +
                 ", status=" + status +
                 ", client=" + client +
                 ", address=" + address +
-                ", products=" + products +
-                ", subtotal=" + subtotal +
                 '}';
+    }
+
+    public HashMap<Item, Integer> getItems() {
+        return items;
+    }
+
+    public void setItems(HashMap<Item, Integer> items) {
+        this.items = items;
     }
 }

@@ -6,10 +6,10 @@ public class AddressDTO {
     private long id;
     private String country;
     private String city;
-    private int postcode;
+    private String postcode;
     private String street;
     private int building;
-    private int flat;
+    private int apart;
 
     public long getId() {
         return id;
@@ -35,11 +35,11 @@ public class AddressDTO {
         this.city = city;
     }
 
-    public int getPostcode() {
+    public String getPostcode() {
         return postcode;
     }
 
-    public void setPostcode(int postcode) {
+    public void setPostcode(String postcode) {
         this.postcode = postcode;
     }
 
@@ -59,12 +59,12 @@ public class AddressDTO {
         this.building = building;
     }
 
-    public int getFlat() {
-        return flat;
+    public int getApart() {
+        return apart;
     }
 
-    public void setFlat(int flat) {
-        this.flat = flat;
+    public void setApart(int apart) {
+        this.apart = apart;
     }
 
     @Override
@@ -73,17 +73,17 @@ public class AddressDTO {
         if (!(o instanceof AddressDTO)) return false;
         AddressDTO that = (AddressDTO) o;
         return getId() == that.getId() &&
-                getPostcode() == that.getPostcode() &&
                 getBuilding() == that.getBuilding() &&
-                getFlat() == that.getFlat() &&
+                getApart() == that.getApart() &&
                 Objects.equals(getCountry(), that.getCountry()) &&
                 Objects.equals(getCity(), that.getCity()) &&
+                Objects.equals(getPostcode(), that.getPostcode()) &&
                 Objects.equals(getStreet(), that.getStreet());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getCountry(), getCity(), getPostcode(), getStreet(), getBuilding(), getFlat());
+        return Objects.hash(getId(), getCountry(), getCity(), getPostcode(), getStreet(), getBuilding(), getApart());
     }
 
     @Override
@@ -92,10 +92,10 @@ public class AddressDTO {
                 "id=" + id +
                 ", country='" + country + '\'' +
                 ", city='" + city + '\'' +
-                ", postcode=" + postcode +
+                ", postcode='" + postcode + '\'' +
                 ", street='" + street + '\'' +
                 ", building=" + building +
-                ", flat=" + flat +
+                ", apart=" + apart +
                 '}';
     }
 }

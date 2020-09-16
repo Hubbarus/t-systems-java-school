@@ -1,49 +1,70 @@
 package project.service;
 
-import project.dao.OrderDao;
-import project.entity.Orders;
-import project.entity.Products;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import project.converter.ItemConverter;
+import project.converter.OrderConverter;
+import project.dao.OrderDao;
+import project.dto.OrderDTO;
+import project.entity.Order;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class OrderService {
     private final OrderDao orderDao;
+    private final OrderConverter orderConverter;
+    private final ItemConverter itemConverter;
+    private final CartService cartService;
 
     @Autowired
-    public OrderService(OrderDao orderDao) {
+    public OrderService(OrderDao orderDao,
+                        OrderConverter orderConverter,
+                        ItemConverter itemConverter, CartService cartService) {
         this.orderDao = orderDao;
+        this.orderConverter = orderConverter;
+        this.itemConverter = itemConverter;
+        this.cartService = cartService;
     }
 
-    public void save(Orders order) {
+    public void save(OrderDTO orderDTO) {
+        Order order = orderConverter.convertToEntity(orderDTO);
         orderDao.openCurrentSessionwithTransaction();
         orderDao.save(order);
         orderDao.closeCurrentSessionwithTransaction();
     }
 
-    public void update(Orders order) {
+    public void update(OrderDTO orderDTO) {
+        Order order = orderConverter.convertToEntity(orderDTO);
         orderDao.openCurrentSessionwithTransaction();
         orderDao.update(order);
         orderDao.closeCurrentSessionwithTransaction();
     }
 
-    public Orders findById(Long id) {
+    @Transactional
+    public OrderDTO findById(Long id) {
         orderDao.openCurrentSession();
-        Orders order = orderDao.findById(id);
+        Order order = orderDao.findById(id);
         orderDao.closeCurrentSession();
-        return order;
+        return orderConverter.convertToDTO(order);
     }
 
-    public List<Orders> findAll() {
+    @Transactional
+    public List<OrderDTO> findAll() {
         orderDao.openCurrentSession();
-        List<Orders> orders = orderDao.findAll();
+        List<Order> order = orderDao.findAll();
         orderDao.closeCurrentSession();
-        return orders;
+        List<OrderDTO> orderDTOS = order
+                .stream()
+                .map(orderConverter::convertToDTO)
+                .collect(Collectors.toList());
+        return orderDTOS;
     }
 
-    public void delete(Orders order) {
+    public void delete(OrderDTO orderDTO) {
+        Order order = orderConverter.convertToEntity(orderDTO);
         orderDao.openCurrentSessionwithTransaction();
         orderDao.delete(order);
         orderDao.closeCurrentSessionwithTransaction();
@@ -54,16 +75,5 @@ public class OrderService {
         orderDao.deleteAll();
         orderDao.closeCurrentSessionwithTransaction();
     }
-
-    public void addItem(Long orderId, Products product) {
-        orderDao.openCurrentSessionwithTransaction();
-        orderDao.addItem(orderId, product);
-        orderDao.closeCurrentSessionwithTransaction();
-    }
-
-    public void removeItem(Long orderId, Products product) {
-        orderDao.openCurrentSessionwithTransaction();
-        orderDao.removeItem(orderId, product);
-        orderDao.closeCurrentSessionwithTransaction();
-    }
+    // TODO add item and so on
 }

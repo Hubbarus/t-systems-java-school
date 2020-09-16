@@ -121,6 +121,13 @@
             <version>2.3.1</version>
             <scope>runtime</scope>
         </dependency>
+<!--        Javax Transaction-->
+        <dependency>
+            <groupId>javax.transaction</groupId>
+            <artifactId>jta</artifactId>
+            <version>1.1</version>
+        </dependency>
+
     </dependencies>
 
     <build>

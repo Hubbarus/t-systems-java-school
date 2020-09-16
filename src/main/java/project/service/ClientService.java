@@ -1,49 +1,64 @@
 package project.service;
 
-import project.dao.ClientDao;
-import project.entity.Clients;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import project.converter.ClientConverter;
+import project.dao.ClientDao;
+import project.dto.ClientDTO;
+import project.entity.Client;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ClientService {
 
     private final ClientDao clientDao;
+    private final ClientConverter clientConverter;
 
     @Autowired
-    public ClientService(ClientDao clientDao) {
+    public ClientService(ClientDao clientDao, ClientConverter clientConverter) {
         this.clientDao = clientDao;
+        this.clientConverter = clientConverter;
     }
 
-    public void save(Clients client) {
+    public void save(ClientDTO clientDTO) {
+        Client client = clientConverter.convertToEntity(clientDTO);
         clientDao.openCurrentSessionwithTransaction();
         clientDao.save(client);
         clientDao.closeCurrentSessionwithTransaction();
     }
 
-    public void update(Clients client) {
+    public void update(ClientDTO clientDTO) {
+        Client client = clientConverter.convertToEntity(clientDTO);
         clientDao.openCurrentSessionwithTransaction();
         clientDao.update(client);
         clientDao.closeCurrentSessionwithTransaction();
     }
 
-    public Clients findById(Long id) {
+    @Transactional
+    public ClientDTO findById(Long id) {
         clientDao.openCurrentSession();
-        Clients client = clientDao.findById(id);
+        Client client = clientDao.findById(id);
         clientDao.closeCurrentSession();
-        return client;
+        return clientConverter.convertToDTO(client);
     }
 
-    public List<Clients> findAll() {
+    @Transactional
+    public List<ClientDTO> findAll() {
         clientDao.openCurrentSession();
-        List<Clients> clients = clientDao.findAll();
+        List<Client> client = clientDao.findAll();
         clientDao.closeCurrentSession();
-        return clients;
+        List<ClientDTO> clientDTOS = client
+                .stream()
+                .map(cl -> clientConverter.convertToDTO(cl))
+                .collect(Collectors.toList());
+        return clientDTOS;
     }
 
-    public void delete(Clients client) {
+    public void delete(ClientDTO clientDTO) {
+        Client client = clientConverter.convertToEntity(clientDTO);
         clientDao.openCurrentSessionwithTransaction();
         clientDao.delete(client);
         clientDao.closeCurrentSessionwithTransaction();

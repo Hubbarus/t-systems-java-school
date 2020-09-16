@@ -7,11 +7,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-@RequestMapping("/address")
-public class AddressController {
+@RequestMapping("/item")
+public class ItemController {
 
     @GetMapping
     public String getAddressById(@RequestParam(name = "id") Long id, Model model) {
-        return "address";
+        return "item";
     }
 }

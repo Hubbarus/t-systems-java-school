@@ -1,14 +1,12 @@
 package project.dao;
 
-import project.entity.Orders;
-import project.entity.Products;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
+import project.entity.Order;
 
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import java.util.HashMap;
 import java.util.List;
 
 @Repository
@@ -17,60 +15,39 @@ public class OrderDao extends AbstractDao {
         super(sessionFactory);
     }
 
-    public void save(Orders entity) {
+    public void save(Order entity) {
         getCurrentSession().save(entity);
     }
 
-    public void update(Orders entity) {
+    public void update(Order entity) {
         getCurrentSession().update(entity);
     }
 
-    public Orders findById(Long id) {
-        Orders order = getCurrentSession().get(Orders.class, id);
+    public Order findById(Long id) {
+        Order order = getCurrentSession().get(Order.class, id);
         return order;
     }
 
-    public List<Orders> findAll() {
-        CriteriaQuery<Orders> cq = getCurrentSession()
+    public List<Order> findAll() {
+        CriteriaQuery<Order> cq = getCurrentSession()
                 .getCriteriaBuilder()
-                .createQuery(Orders.class);
-        Root<Orders> rootEntry = cq.from(Orders.class);
-        CriteriaQuery<Orders> all = cq.select(rootEntry);
+                .createQuery(Order.class);
+        Root<Order> rootEntry = cq.from(Order.class);
+        CriteriaQuery<Order> all = cq.select(rootEntry);
 
-        TypedQuery<Orders> allQuery = getCurrentSession().createQuery(all);
+        TypedQuery<Order> allQuery = getCurrentSession().createQuery(all);
         return allQuery.getResultList();
     }
 
-    public void delete(Orders entity) {
+    public void delete(Order entity) {
         getCurrentSession().delete(entity);
     }
 
     public void deleteAll() {
-        List<Orders> orders = findAll();
-        for (Orders o : orders) {
+        List<Order> order = findAll();
+        for (Order o : order) {
             delete(o);
         }
     }
-
-    public void addItem(Long orderId, Products product) {
-        Orders order = findById(orderId);
-        HashMap<Products, Integer> list = order.getProducts();
-        if (list.containsKey(product)) {
-            list.put(product, list.get(product) + 1);
-        } else {
-            list.put(product, 1);
-        }
-        order.setProducts(list);
-        update(order);
-    }
-
-    public void removeItem(Long orderId, Products product) {
-        Orders order = findById(orderId);
-        HashMap<Products, Integer> list = order.getProducts();
-        if (list.containsKey(product)) {
-            list.remove(product);
-        }
-        order.setProducts(list);
-        update(order);
-    }
+    // TODO add item to cart and so on
 }
