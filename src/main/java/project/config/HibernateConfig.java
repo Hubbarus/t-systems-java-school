@@ -7,10 +7,6 @@ import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-import project.entity.Address;
-import project.entity.Client;
-import project.entity.Item;
-import project.entity.Order;
 
 import javax.sql.DataSource;
 import java.util.Properties;
@@ -19,27 +15,32 @@ import java.util.Properties;
 @EnableTransactionManagement
 public class HibernateConfig {
 
+    private static final String DRIVER = "org.postgresql.Driver";
+    private static final String URL = "jdbc:postgresql://localhost:5432/postgres";
+    private static final String USER_NAME = "postgres";
+    private static final String PASSWORD = "0000";
+    private static final String SCHEMA = "mms_schema";
+    private static final String DIALECT = "org.hibernate.dialect.PostgresPlusDialect";
+
+    private static final String PACKAGE = "project.entity";
+
+
     @Bean
     public LocalSessionFactoryBean sessionFactory() {
         LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
         sessionFactory.setDataSource(dataSource());
-        sessionFactory.setAnnotatedClasses(
-                Item.class,
-                Client.class,
-                Order.class,
-                Address.class);
+        sessionFactory.setPackagesToScan(PACKAGE);
         sessionFactory.setHibernateProperties(hibernateProperties());
-
         return sessionFactory;
     }
 
     @Bean
     public DataSource dataSource() {
         BasicDataSource dataSource = new BasicDataSource();
-        dataSource.setDriverClassName("org.postgresql.Driver");
-        dataSource.setUrl("jdbc:postgresql://localhost:5432/postgres");
-        dataSource.setUsername("postgres");
-        dataSource.setPassword("0000");
+        dataSource.setDriverClassName(DRIVER);
+        dataSource.setUrl(URL);
+        dataSource.setUsername(USER_NAME);
+        dataSource.setPassword(PASSWORD);
         return dataSource;
     }
 
@@ -51,18 +52,10 @@ public class HibernateConfig {
         return transactionManager;
     }
 
-    private final Properties hibernateProperties() {
+    private Properties hibernateProperties() {
         Properties hibernateProperties = new Properties();
-//        hibernateProperties.setProperty("connection.url", "jdbc:postgresql://localhost:5432/postgres");
-//        hibernateProperties.setProperty("connection.driver_class", "org.postgresql.Driver");
-        hibernateProperties.setProperty(
-                "hibernate.default_schema",
-                "mms_schema");
-        hibernateProperties.setProperty(
-                "hibernate.dialect",
-                "org.hibernate.dialect.PostgresPlusDialect");
-//        hibernateProperties.setProperty("connection.username", "postgres");
-//        hibernateProperties.setProperty("connection.password", "0000");
+        hibernateProperties.setProperty("hibernate.default_schema", SCHEMA);
+        hibernateProperties.setProperty("hibernate.dialect", DIALECT);
         hibernateProperties.setProperty("hibernate.hbm2ddl.auto", "update");
         return hibernateProperties;
     }
