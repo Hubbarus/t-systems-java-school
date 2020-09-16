@@ -103,6 +103,7 @@ public class OrderDTO {
                 ", status=" + status +
                 ", client=" + client +
                 ", address=" + address +
+                ", items" + items +
                 '}';
     }
 

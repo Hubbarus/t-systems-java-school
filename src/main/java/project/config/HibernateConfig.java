@@ -8,7 +8,6 @@ import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import project.entity.Address;
-import project.entity.Cart;
 import project.entity.Client;
 import project.entity.Item;
 import project.entity.Order;
@@ -28,7 +27,7 @@ public class HibernateConfig {
                 Item.class,
                 Client.class,
                 Order.class,
-                Address.class, Cart.class);
+                Address.class);
         sessionFactory.setHibernateProperties(hibernateProperties());
 
         return sessionFactory;
@@ -64,6 +63,7 @@ public class HibernateConfig {
                 "org.hibernate.dialect.PostgresPlusDialect");
 //        hibernateProperties.setProperty("connection.username", "postgres");
 //        hibernateProperties.setProperty("connection.password", "0000");
+        hibernateProperties.setProperty("hibernate.hbm2ddl.auto", "update");
         return hibernateProperties;
     }
 }

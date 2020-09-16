@@ -15,7 +15,6 @@ import project.entity.enums.PaymentEnum;
 import project.entity.enums.ShipmentEnum;
 import project.entity.enums.StatusEnum;
 import project.service.AddressService;
-import project.service.CartService;
 import project.service.ClientService;
 import project.service.ItemService;
 import project.service.OrderService;
@@ -38,12 +37,17 @@ public class MainController {
     @Autowired
     private OrderService orderService;
     @Autowired
-    private CartService cartService;
-    @Autowired
     private ItemConverter itemConverter;
 
     @GetMapping("/")
     public String getHome() {
+        return "home";
+    }
+
+    @GetMapping("/getOrders")
+    public String getOrders() {
+        OrderDTO orderDTO = orderService.findById(1L);
+        System.out.println();
         return "home";
     }
 
@@ -114,6 +118,32 @@ public class MainController {
 
         clientService.save(client);
         clientService.save(client1);
+        return "home";
+    }
+
+
+    @GetMapping("/crItems")
+    public String createItems() {
+        ItemDTO item = new ItemDTO();
+        item.setItemName("T-Shirt");
+        item.setItemGroup("Clothes");
+        item.setPrice(25.0);
+        item.setDescription("White, Linen");
+        item.setStock(20);
+        item.setWeight(0.4);
+        item.setVolume(0.2);
+
+        ItemDTO item1 = new ItemDTO();
+        item1.setItemName("Sneakers");
+        item1.setItemGroup("Shoes");
+        item1.setPrice(50.0);
+        item1.setDescription("Black, Nike Air");
+        item1.setStock(10);
+        item1.setWeight(0.7);
+        item1.setVolume(0.3);
+
+        itemService.save(item);
+        itemService.save(item1);
         return "home";
     }
 }

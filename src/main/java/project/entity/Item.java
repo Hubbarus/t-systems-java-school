@@ -6,7 +6,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import java.io.Serializable;
+import java.util.Collection;
 
 @Entity
 public class Item  implements Serializable {
@@ -18,6 +20,7 @@ public class Item  implements Serializable {
     private double weight;
     private double volume;
     private int stock;
+    private Collection<Order> orders;
 
     @Id
     @Column(name = "id", nullable = false)
@@ -149,5 +152,14 @@ public class Item  implements Serializable {
                 ", volume=" + volume +
                 ", stock=" + stock +
                 '}';
+    }
+
+    @ManyToMany(mappedBy = "items")
+    public Collection<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(Collection<Order> orders) {
+        this.orders = orders;
     }
 }

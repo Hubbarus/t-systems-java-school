@@ -3,7 +3,6 @@ package project.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import project.converter.ItemConverter;
 import project.converter.OrderConverter;
 import project.dao.OrderDao;
 import project.dto.OrderDTO;
@@ -16,17 +15,13 @@ import java.util.stream.Collectors;
 public class OrderService {
     private final OrderDao orderDao;
     private final OrderConverter orderConverter;
-    private final ItemConverter itemConverter;
-    private final CartService cartService;
+
 
     @Autowired
     public OrderService(OrderDao orderDao,
-                        OrderConverter orderConverter,
-                        ItemConverter itemConverter, CartService cartService) {
+                        OrderConverter orderConverter) {
         this.orderDao = orderDao;
         this.orderConverter = orderConverter;
-        this.itemConverter = itemConverter;
-        this.cartService = cartService;
     }
 
     public void save(OrderDTO orderDTO) {

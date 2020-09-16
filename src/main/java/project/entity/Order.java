@@ -17,10 +17,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.MapKeyClass;
-import javax.persistence.MapKeyJoinColumn;
 import java.io.Serializable;
-import java.util.HashMap;
+import java.util.Collection;
 
 @Entity
 public class Order implements Serializable {
@@ -31,13 +29,17 @@ public class Order implements Serializable {
     private StatusEnum status;
     private Client client;
     private Address address;
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "cart",
-            joinColumns = {@JoinColumn(name = "order_id", referencedColumnName = "id")},
-            inverseJoinColumns = {@JoinColumn(name = "quantity")})
-    @MapKeyJoinColumn(name = "item_id", referencedColumnName = "id")
-    @MapKeyClass(Item.class)
-    private HashMap<Item, Integer> items;
+    private Collection<Item> items;
+
+    public void addItem(Item item) {
+        items.add(item);
+        item.getOrders().add(this);
+    }
+
+    public void removeItem(Item item) {
+        items.remove(item);
+        item.getOrders().remove(this);
+    }
 
     @Id
     @Column(name = "id", nullable = false)
@@ -154,11 +156,15 @@ public class Order implements Serializable {
                 '}';
     }
 
-    public HashMap<Item, Integer> getItems() {
+    @ManyToMany(cascade = CascadeType.ALL, targetEntity = Item.class)
+    @JoinTable(name = "cart",
+            joinColumns = @JoinColumn(name = "order_id"),
+            inverseJoinColumns = @JoinColumn(name = "item_id"))
+    public Collection<Item> getItems() {
         return items;
     }
 
-    public void setItems(HashMap<Item, Integer> items) {
+    public void setItems(Collection<Item> items) {
         this.items = items;
     }
 }
