@@ -2,14 +2,16 @@ package project.entity;
 
 import lombok.Data;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import java.io.Serializable;
-import java.util.Collection;
+import java.util.Set;
 
 @Entity
 @Data
@@ -32,6 +34,6 @@ public class Item  implements Serializable {
     private double volume;
     @Column(name = "stock", nullable = false)
     private int stock;
-    @ManyToMany(mappedBy = "items")
-    private Collection<Order> orders;
+    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Set<Cart> carts;
 }

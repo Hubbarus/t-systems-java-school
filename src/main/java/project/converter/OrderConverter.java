@@ -6,16 +6,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import project.dto.ItemDTO;
 import project.dto.OrderDTO;
+import project.entity.Cart;
 import project.entity.Item;
 import project.entity.Order;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.Set;
 
 @Service
 @Transactional
@@ -30,37 +29,36 @@ public class OrderConverter {
     public Order convertToEntity(OrderDTO order) {
         Order entity = mapper.map(order, Order.class);
         HashMap<ItemDTO, Integer> itemDTOS = order.getItems();
-        List<Item> items = new ArrayList<>();
-        for (Map.Entry<ItemDTO, Integer> entry : itemDTOS.entrySet()) {
-            Item item = itemConverter.convertToEntity(entry.getKey());
-            for (int i = 0; i < entry.getValue(); i++) {
-                items.add(item);
-            }
+        Set<Cart> carts = new HashSet<>();
+        for (Map.Entry<ItemDTO, Integer> mapEntry : itemDTOS.entrySet()) {
+            Item item = itemConverter.convertToEntity(mapEntry.getKey());
+            int quantity = mapEntry.getValue();
+
+            Cart cart = new Cart();
+            cart.setItem(item);
+            cart.setQuantity(quantity);
+            carts.add(cart);
         }
-        entity.setItems(items);
+        entity.setCarts(carts);
+
         return entity;
     }
 
     public OrderDTO convertToDTO(Order order) {
         OrderDTO dto = mapper.map(order, OrderDTO.class);
-        Collection<Item> items = order.getItems();
-        Collection<ItemDTO> itemDTOS = items
-                .stream()
-                .map(it -> itemConverter.convertToDTO(it))
-                .collect(Collectors.toList());
-        HashMap<ItemDTO, Integer> itemMap = new HashMap<>();
         BigDecimal subtotal = BigDecimal.ZERO;
-        for (ItemDTO item : itemDTOS) {
-            if (itemMap.get(item) != null) {
-                itemMap.put(item, itemMap.get(item) + 1);
-            } else {
-                itemMap.put(item, 1);
-            }
-            subtotal.add(BigDecimal.valueOf(item.getPrice()));
+        Set<Cart> carts = order.getCarts();
+        HashMap<ItemDTO, Integer> items = new HashMap<>();
+
+        for (Cart cart : carts) {
+            ItemDTO item = itemConverter.convertToDTO(cart.getItem());
+            int quantity = cart.getQuantity();
+            items.put(item, quantity);
+            subtotal = subtotal.add(BigDecimal.valueOf(item.getPrice() * quantity));
         }
 
         dto.setSubtotal(subtotal);
-        dto.setItems(itemMap);
+        dto.setItems(items);
         return dto;
     }
 }

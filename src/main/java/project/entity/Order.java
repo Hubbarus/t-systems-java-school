@@ -15,11 +15,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import java.io.Serializable;
-import java.util.Collection;
+import java.util.Set;
 
 @Entity
 @Data
@@ -45,9 +44,6 @@ public class Order implements Serializable {
     @ManyToOne
     @JoinColumn(name = "address_id", referencedColumnName = "id", nullable = false)
     private Address address;
-    @ManyToMany(cascade = CascadeType.ALL, targetEntity = Item.class, fetch = FetchType.EAGER)
-    @JoinTable(name = "cart",
-            joinColumns = @JoinColumn(name = "order_id"),
-            inverseJoinColumns = @JoinColumn(name = "item_id"))
-    private Collection<Item> items;
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Set<Cart> carts;
 }
