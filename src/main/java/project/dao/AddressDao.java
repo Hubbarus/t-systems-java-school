@@ -12,31 +12,31 @@ import java.util.List;
 public class AddressDao extends AbstractDao {
 
     public void save(Address entity) {
-        getCurrentSession().save(entity);
+        getSession().save(entity);
     }
 
     public void update(Address entity) {
-        getCurrentSession().update(entity);
+        getSession().update(entity);
     }
 
     public Address findById(Long id) {
-        Address address = getCurrentSession().get(Address.class, id);
+        Address address = getSession().get(Address.class, id);
         return address;
     }
 
     public List<Address> findAll() {
-        CriteriaQuery<Address> cq = getCurrentSession()
+        CriteriaQuery<Address> cq = getSession()
                 .getCriteriaBuilder()
                 .createQuery(Address.class);
         Root<Address> rootEntry = cq.from(Address.class);
         CriteriaQuery<Address> all = cq.select(rootEntry);
 
-        TypedQuery<Address> allQuery = getCurrentSession().createQuery(all);
+        TypedQuery<Address> allQuery = getSession().createQuery(all);
         return allQuery.getResultList();
     }
 
     public void delete(Address entity) {
-        getCurrentSession().delete(entity);
+        getSession().delete(entity);
     }
 
     public void deleteAll() {

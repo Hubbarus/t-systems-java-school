@@ -2,6 +2,7 @@ package project.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import project.converter.AddressConverter;
 import project.dao.AddressDao;
 import project.dto.AddressDTO;
@@ -22,31 +23,25 @@ public class AddressService {
         this.addressDao = addressDao;
     }
 
+    @Transactional
     public void save(AddressDTO addressDTO) {
         Address address = addressConverter.convertToEntity(addressDTO);
-        addressDao.openCurrentSessionwithTransaction();
         addressDao.save(address);
-        addressDao.closeCurrentSessionwithTransaction();
     }
 
+    @Transactional
     public void update(AddressDTO addressDTO) {
         Address address = addressConverter.convertToEntity(addressDTO);
-        addressDao.openCurrentSessionwithTransaction();
         addressDao.update(address);
-        addressDao.closeCurrentSessionwithTransaction();
     }
 
     public AddressDTO findById(Long id) {
-        addressDao.openCurrentSession();
         Address address = addressDao.findById(id);
-        addressDao.closeCurrentSession();
         return addressConverter.convertToDTO(address);
     }
 
     public List<AddressDTO> findAll() {
-        addressDao.openCurrentSession();
         List<Address> address = addressDao.findAll();
-        addressDao.closeCurrentSession();
         List<AddressDTO> addressDTOS = address
                 .stream()
                 .map(ad -> addressConverter.convertToDTO(ad))
@@ -54,16 +49,14 @@ public class AddressService {
         return addressDTOS;
     }
 
+    @Transactional
     public void delete(AddressDTO addressDTO) {
         Address address = addressConverter.convertToEntity(addressDTO);
-        addressDao.openCurrentSessionwithTransaction();
         addressDao.delete(address);
-        addressDao.closeCurrentSessionwithTransaction();
     }
 
+    @Transactional
     public void deleteAll() {
-        addressDao.openCurrentSessionwithTransaction();
         addressDao.deleteAll();
-        addressDao.closeCurrentSessionwithTransaction();
     }
 }

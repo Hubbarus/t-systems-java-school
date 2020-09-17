@@ -24,33 +24,25 @@ public class OrderService {
         this.orderConverter = orderConverter;
     }
 
+    @Transactional
     public void save(OrderDTO orderDTO) {
         Order order = orderConverter.convertToEntity(orderDTO);
-        orderDao.openCurrentSessionwithTransaction();
         orderDao.save(order);
-        orderDao.closeCurrentSessionwithTransaction();
-    }
-
-    public void update(OrderDTO orderDTO) {
-        Order order = orderConverter.convertToEntity(orderDTO);
-        orderDao.openCurrentSessionwithTransaction();
-        orderDao.update(order);
-        orderDao.closeCurrentSessionwithTransaction();
     }
 
     @Transactional
+    public void update(OrderDTO orderDTO) {
+        Order order = orderConverter.convertToEntity(orderDTO);
+        orderDao.update(order);
+    }
+
     public OrderDTO findById(Long id) {
-        orderDao.openCurrentSession();
         Order order = orderDao.findById(id);
-        orderDao.closeCurrentSession();
         return orderConverter.convertToDTO(order);
     }
 
-    @Transactional
     public List<OrderDTO> findAll() {
-        orderDao.openCurrentSession();
         List<Order> order = orderDao.findAll();
-        orderDao.closeCurrentSession();
         List<OrderDTO> orderDTOS = order
                 .stream()
                 .map(orderConverter::convertToDTO)
@@ -58,17 +50,14 @@ public class OrderService {
         return orderDTOS;
     }
 
+    @Transactional
     public void delete(OrderDTO orderDTO) {
         Order order = orderConverter.convertToEntity(orderDTO);
-        orderDao.openCurrentSessionwithTransaction();
         orderDao.delete(order);
-        orderDao.closeCurrentSessionwithTransaction();
     }
 
+    @Transactional
     public void deleteAll() {
-        orderDao.openCurrentSessionwithTransaction();
         orderDao.deleteAll();
-        orderDao.closeCurrentSessionwithTransaction();
     }
-    // TODO add item and so on
 }

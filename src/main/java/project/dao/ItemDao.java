@@ -12,31 +12,31 @@ import java.util.List;
 public class ItemDao extends AbstractDao {
 
     public void save(Item entity) {
-        getCurrentSession().save(entity);
+        getSession().save(entity);
     }
 
     public void update(Item entity) {
-        getCurrentSession().update(entity);
+        getSession().update(entity);
     }
 
     public Item findById(Long id) {
-        Item item = getCurrentSession().get(Item.class, id);
+        Item item = getSession().get(Item.class, id);
         return item;
     }
 
     public List<Item> findAll() {
-        CriteriaQuery<Item> cq = getCurrentSession()
+        CriteriaQuery<Item> cq = getSession()
                 .getCriteriaBuilder()
                 .createQuery(Item.class);
         Root<Item> rootEntry = cq.from(Item.class);
         CriteriaQuery<Item> all = cq.select(rootEntry);
 
-        TypedQuery<Item> allQuery = getCurrentSession().createQuery(all);
+        TypedQuery<Item> allQuery = getSession().createQuery(all);
         return allQuery.getResultList();
     }
 
     public void delete(Item entity) {
-        getCurrentSession().delete(entity);
+        getSession().delete(entity);
     }
 
     public void deleteAll() {

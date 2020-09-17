@@ -21,47 +21,33 @@ public class ItemService {
         this.itemDao = itemDao;
         this.itemConverter = itemConverter;
     }
-
+    @Transactional
     public void save(ItemDTO itemDTO) {
         Item item = itemConverter.convertToEntity(itemDTO);
-        itemDao.openCurrentSessionwithTransaction();
         itemDao.save(item);
-        itemDao.closeCurrentSessionwithTransaction();
     }
-
+    @Transactional
     public void update(ItemDTO itemDTO) {
         Item item = itemConverter.convertToEntity(itemDTO);
-        itemDao.openCurrentSessionwithTransaction();
         itemDao.update(item);
-        itemDao.closeCurrentSessionwithTransaction();
     }
 
-    @Transactional
     public ItemDTO findById(Long id) {
-        itemDao.openCurrentSession();
         Item item = itemDao.findById(id);
-        itemDao.closeCurrentSession();
         return itemConverter.convertToDTO(item);
     }
-
+    @Transactional
     public void delete(ItemDTO itemDTO) {
         Item item = itemConverter.convertToEntity(itemDTO);
-        itemDao.closeCurrentSessionwithTransaction();
         itemDao.delete(item);
-        itemDao.closeCurrentSessionwithTransaction();
     }
-
-    public void deleteAll() {
-        itemDao.openCurrentSessionwithTransaction();
-        itemDao.deleteAll();
-        itemDao.closeCurrentSessionwithTransaction();
-    }
-
     @Transactional
+    public void deleteAll() {
+        itemDao.deleteAll();
+    }
+
     public List<ItemDTO> findAll() {
-        itemDao.openCurrentSession();
         List<Item> item = itemDao.findAll();
-        itemDao.closeCurrentSession();
         return item
                 .stream()
                 .map(itemConverter::convertToDTO)

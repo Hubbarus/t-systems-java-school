@@ -12,31 +12,31 @@ import java.util.List;
 public class ClientDao extends AbstractDao {
 
     public void save(Client entity) {
-        getCurrentSession().save(entity);
+        getSession().save(entity);
     }
 
     public void update(Client entity) {
-        getCurrentSession().update(entity);
+        getSession().update(entity);
     }
 
     public Client findById(Long id) {
-        Client client = getCurrentSession().get(Client.class, id);
+        Client client = getSession().get(Client.class, id);
         return client;
     }
 
     public List<Client> findAll() {
-        CriteriaQuery<Client> cq = getCurrentSession()
+        CriteriaQuery<Client> cq = getSession()
                 .getCriteriaBuilder()
                 .createQuery(Client.class);
         Root<Client> rootEntry = cq.from(Client.class);
         CriteriaQuery<Client> all = cq.select(rootEntry);
 
-        TypedQuery<Client> allQuery = getCurrentSession().createQuery(all);
+        TypedQuery<Client> allQuery = getSession().createQuery(all);
         return allQuery.getResultList();
     }
 
     public void delete(Client entity) {
-        getCurrentSession().delete(entity);
+        getSession().delete(entity);
     }
 
     public void deleteAll() {

@@ -21,7 +21,6 @@ import project.service.OrderService;
 
 import java.sql.Date;
 import java.util.HashMap;
-import java.util.List;
 
 @Controller
 @RequestMapping(value = "/", method = RequestMethod.GET)
@@ -53,21 +52,24 @@ public class MainController {
 
     @GetMapping("/crOrders")
     public String createOrders() {
-        List<ItemDTO> all = itemService.findAll();
+        ItemDTO item1 = itemService.findById(3L);
+        ItemDTO item2 = itemService.findById(2L);
+        AddressDTO address = addressService.findById(4L);
+        ClientDTO client = clientService.findById(1L);
 
         OrderDTO order = new OrderDTO();
-        order.setClient(clientService.findById(2L));
-        order.setAddress(addressService.findById(1L));
-        order.setStatus(StatusEnum.COLLECTING);
-        order.setPaymentMethod(PaymentEnum.CASH);
-        order.setPaymentStatus(true);
+        order.setClient(client);
+        order.setAddress(address);
         order.setShipmentMethod(ShipmentEnum.SELF_PICKUP);
+        order.setPaymentStatus(true);
+        order.setPaymentMethod(PaymentEnum.CARD);
+        order.setStatus(StatusEnum.PROCESSING);
 
-        HashMap<ItemDTO, Integer> map = new HashMap<>();
-        map.put(all.get(0), 10);
-        map.put(all.get(1), 4);
-        order.setItems(map);
+        HashMap<ItemDTO, Integer> items = new HashMap<>();
+        items.put(item1, 20);
+        items.put(item2, 30);
 
+        order.setItems(items);
         orderService.save(order);
         return "home";
     }

@@ -23,33 +23,25 @@ public class ClientService {
         this.clientConverter = clientConverter;
     }
 
+    @Transactional
     public void save(ClientDTO clientDTO) {
         Client client = clientConverter.convertToEntity(clientDTO);
-        clientDao.openCurrentSessionwithTransaction();
         clientDao.save(client);
-        clientDao.closeCurrentSessionwithTransaction();
-    }
-
-    public void update(ClientDTO clientDTO) {
-        Client client = clientConverter.convertToEntity(clientDTO);
-        clientDao.openCurrentSessionwithTransaction();
-        clientDao.update(client);
-        clientDao.closeCurrentSessionwithTransaction();
     }
 
     @Transactional
+    public void update(ClientDTO clientDTO) {
+        Client client = clientConverter.convertToEntity(clientDTO);
+        clientDao.update(client);
+    }
+
     public ClientDTO findById(Long id) {
-        clientDao.openCurrentSession();
         Client client = clientDao.findById(id);
-        clientDao.closeCurrentSession();
         return clientConverter.convertToDTO(client);
     }
 
-    @Transactional
     public List<ClientDTO> findAll() {
-        clientDao.openCurrentSession();
         List<Client> client = clientDao.findAll();
-        clientDao.closeCurrentSession();
         List<ClientDTO> clientDTOS = client
                 .stream()
                 .map(cl -> clientConverter.convertToDTO(cl))
@@ -57,16 +49,14 @@ public class ClientService {
         return clientDTOS;
     }
 
+    @Transactional
     public void delete(ClientDTO clientDTO) {
         Client client = clientConverter.convertToEntity(clientDTO);
-        clientDao.openCurrentSessionwithTransaction();
         clientDao.delete(client);
-        clientDao.closeCurrentSessionwithTransaction();
     }
 
+    @Transactional
     public void deleteAll() {
-        clientDao.openCurrentSessionwithTransaction();
         clientDao.deleteAll();
-        clientDao.closeCurrentSessionwithTransaction();
     }
 }
