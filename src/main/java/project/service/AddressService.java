@@ -1,5 +1,6 @@
 package project.service;
 
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,16 +13,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@AllArgsConstructor
 public class AddressService {
 
-    private final AddressDao addressDao;
-    private final AddressConverter addressConverter;
-
     @Autowired
-    public AddressService(AddressDao addressDao, AddressConverter addressConverter) {
-        this.addressConverter = addressConverter;
-        this.addressDao = addressDao;
-    }
+    private final AddressDao addressDao;
+    @Autowired
+    private final AddressConverter addressConverter;
 
     @Transactional
     public void save(AddressDTO addressDTO) {
@@ -42,11 +40,10 @@ public class AddressService {
 
     public List<AddressDTO> findAll() {
         List<Address> address = addressDao.findAll();
-        List<AddressDTO> addressDTOS = address
+        return address
                 .stream()
-                .map(ad -> addressConverter.convertToDTO(ad))
+                .map(addressConverter::convertToDTO)
                 .collect(Collectors.toList());
-        return addressDTOS;
     }
 
     @Transactional

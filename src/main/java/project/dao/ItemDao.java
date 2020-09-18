@@ -12,7 +12,6 @@ import java.util.List;
 public class ItemDao extends AbstractDao {
 
     public void save(Item entity) {
-//        getSession().save(entity);
         getSession().persist(entity);
     }
 
@@ -21,8 +20,7 @@ public class ItemDao extends AbstractDao {
     }
 
     public Item findById(Long id) {
-        Item item = getSession().get(Item.class, id);
-        return item;
+        return getSession().get(Item.class, id);
     }
 
     public List<Item> findAll() {

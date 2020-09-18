@@ -15,6 +15,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -31,7 +32,7 @@ public class Item  implements Serializable {
     @Column(name = "item_group", nullable = false)
     private String itemGroup;
     @Column(name = "price", nullable = false)
-    private double price;
+    private BigDecimal price;
     @Column(name = "description", nullable = false)
     private String description;
     @Column(name = "weight", nullable = false)

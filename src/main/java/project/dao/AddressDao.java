@@ -13,7 +13,6 @@ public class AddressDao extends AbstractDao {
 
     public void save(Address entity) {
         getSession().persist(entity);
-//        getSession().save(entity);
     }
 
     public void update(Address entity) {
@@ -21,8 +20,7 @@ public class AddressDao extends AbstractDao {
     }
 
     public Address findById(Long id) {
-        Address address = getSession().get(Address.class, id);
-        return address;
+        return getSession().get(Address.class, id);
     }
 
     public List<Address> findAll() {

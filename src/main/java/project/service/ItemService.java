@@ -1,31 +1,31 @@
 package project.service;
 
+import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import project.converter.ItemConverter;
 import project.dao.ItemDao;
 import project.dto.ItemDTO;
 import project.entity.Item;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@AllArgsConstructor
 public class ItemService {
+    @Autowired
     private final ItemDao itemDao;
+    @Autowired
     private final ItemConverter itemConverter;
 
-    @Autowired
-    public ItemService(ItemDao itemDao, ItemConverter itemConverter) {
-        this.itemDao = itemDao;
-        this.itemConverter = itemConverter;
-    }
     @Transactional
     public void save(ItemDTO itemDTO) {
         Item item = itemConverter.convertToEntity(itemDTO);
         itemDao.save(item);
     }
+
     @Transactional
     public void update(ItemDTO itemDTO) {
         Item item = itemConverter.convertToEntity(itemDTO);
@@ -36,11 +36,13 @@ public class ItemService {
         Item item = itemDao.findById(id);
         return itemConverter.convertToDTO(item);
     }
+
     @Transactional
     public void delete(ItemDTO itemDTO) {
         Item item = itemConverter.convertToEntity(itemDTO);
         itemDao.delete(item);
     }
+
     @Transactional
     public void deleteAll() {
         itemDao.deleteAll();

@@ -62,7 +62,7 @@ public class OrderConverter {
             cartDTO.setQuantity(quantity);
 
             cartDTOS.add(cartDTO);
-            subtotal = subtotal.add(BigDecimal.valueOf(item.getPrice() * quantity));
+            subtotal = subtotal.add(item.getPrice().multiply(BigDecimal.valueOf(quantity)));
         }
 
         dto.setSubtotal(subtotal);

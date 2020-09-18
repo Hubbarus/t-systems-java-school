@@ -12,7 +12,6 @@ import java.util.List;
 public class OrderDao extends AbstractDao {
 
     public void save(Order entity) {
-        //getSession().save(entity);
         getSession().persist(entity);
     }
 
@@ -21,8 +20,7 @@ public class OrderDao extends AbstractDao {
     }
 
     public Order findById(Long id) {
-        Order order = getSession().get(Order.class, id);
-        return order;
+        return getSession().get(Order.class, id);
     }
 
     public List<Order> findAll() {

@@ -1,5 +1,6 @@
 package project.service;
 
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,16 +13,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@AllArgsConstructor
 public class ClientService {
 
-    private final ClientDao clientDao;
-    private final ClientConverter clientConverter;
-
     @Autowired
-    public ClientService(ClientDao clientDao, ClientConverter clientConverter) {
-        this.clientDao = clientDao;
-        this.clientConverter = clientConverter;
-    }
+    private final ClientDao clientDao;
+    @Autowired
+    private final ClientConverter clientConverter;
 
     @Transactional
     public void save(ClientDTO clientDTO) {
@@ -42,11 +40,10 @@ public class ClientService {
 
     public List<ClientDTO> findAll() {
         List<Client> client = clientDao.findAll();
-        List<ClientDTO> clientDTOS = client
+        return client
                 .stream()
-                .map(cl -> clientConverter.convertToDTO(cl))
+                .map(clientConverter::convertToDTO)
                 .collect(Collectors.toList());
-        return clientDTOS;
     }
 
     @Transactional

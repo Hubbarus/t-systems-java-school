@@ -13,7 +13,6 @@ public class ClientDao extends AbstractDao {
 
     public void save(Client entity) {
         getSession().persist(entity);
-//        getSession().save(entity);
     }
 
     public void update(Client entity) {
@@ -21,8 +20,7 @@ public class ClientDao extends AbstractDao {
     }
 
     public Client findById(Long id) {
-        Client client = getSession().get(Client.class, id);
-        return client;
+        return getSession().get(Client.class, id);
     }
 
     public List<Client> findAll() {

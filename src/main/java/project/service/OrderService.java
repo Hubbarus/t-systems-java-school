@@ -1,5 +1,6 @@
 package project.service;
 
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,31 +18,18 @@ import project.entity.enums.ShipmentEnum;
 import project.entity.enums.StatusEnum;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
+@AllArgsConstructor
 public class OrderService {
-    private final OrderDao orderDao;
-    private final OrderConverter orderConverter;
-    private final ClientDao clientDao;
-    private final AddressDao addressDao;
-    private final ItemDao itemDao;
-
-
-    @Autowired
-    public OrderService(OrderDao orderDao,
-                        OrderConverter orderConverter,
-                        ClientDao clientDao, AddressDao addressDao, ItemDao itemDao) {
-        this.orderDao = orderDao;
-        this.orderConverter = orderConverter;
-        this.clientDao = clientDao;
-        this.addressDao = addressDao;
-        this.itemDao = itemDao;
-    }
+    @Autowired private final OrderDao orderDao;
+    @Autowired private final OrderConverter orderConverter;
+    @Autowired private final ClientDao clientDao;
+    @Autowired private final AddressDao addressDao;
+    @Autowired private final ItemDao itemDao;
 
     @Transactional
     public void save(OrderDTO orderDTO) {
@@ -62,11 +50,10 @@ public class OrderService {
 
     public List<OrderDTO> findAll() {
         List<Order> order = orderDao.findAll();
-        List<OrderDTO> orderDTOS = order
+        return order
                 .stream()
                 .map(orderConverter::convertToDTO)
                 .collect(Collectors.toList());
-        return orderDTOS;
     }
 
     @Transactional
@@ -91,7 +78,6 @@ public class OrderService {
         order.setShipmentMethod(shipMethod);
         order.setStatus(StatusEnum.NEW);
 
-        Set<Cart> carts = new HashSet<>();
         for (Map.Entry<Long, Integer> entry : items.entrySet()) {
             Item item = itemDao.findById(entry.getKey());
             int quantity = entry.getValue();
@@ -100,8 +86,7 @@ public class OrderService {
             cart.setQuantity(quantity);
             item.addCart(cart);
             order.addCart(cart);
-            }
-
+        }
 
         orderDao.save(order);
     }

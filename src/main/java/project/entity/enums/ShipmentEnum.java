@@ -1,7 +1,8 @@
 package project.entity.enums;
 
 public enum ShipmentEnum {
-    DOOR_TO_DOOR("Door to door delivery"), SELF_PICKUP("Self-pickup");
+    DOOR_TO_DOOR("Door to door delivery"),
+    SELF_PICKUP("Self-pickup");
 
     String value;
 
