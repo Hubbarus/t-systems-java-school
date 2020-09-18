@@ -12,7 +12,8 @@ import java.util.List;
 public class AddressDao extends AbstractDao {
 
     public void save(Address entity) {
-        getSession().save(entity);
+        getSession().persist(entity);
+//        getSession().save(entity);
     }
 
     public void update(Address entity) {

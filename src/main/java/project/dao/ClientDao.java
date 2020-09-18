@@ -12,7 +12,8 @@ import java.util.List;
 public class ClientDao extends AbstractDao {
 
     public void save(Client entity) {
-        getSession().save(entity);
+        getSession().persist(entity);
+//        getSession().save(entity);
     }
 
     public void update(Client entity) {

@@ -12,7 +12,8 @@ import java.util.List;
 public class OrderDao extends AbstractDao {
 
     public void save(Order entity) {
-        getSession().save(entity);
+        //getSession().save(entity);
+        getSession().persist(entity);
     }
 
     public void update(Order entity) {

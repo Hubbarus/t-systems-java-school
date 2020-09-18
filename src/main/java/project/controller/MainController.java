@@ -2,6 +2,7 @@ package project.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -13,7 +14,6 @@ import project.dto.OrderDTO;
 import project.entity.Order;
 import project.entity.enums.PaymentEnum;
 import project.entity.enums.ShipmentEnum;
-import project.entity.enums.StatusEnum;
 import project.service.AddressService;
 import project.service.ClientService;
 import project.service.ItemService;
@@ -50,27 +50,14 @@ public class MainController {
         return "home";
     }
 
+    @Transactional
     @GetMapping("/crOrders")
     public String createOrders() {
-        ItemDTO item1 = itemService.findById(3L);
-        ItemDTO item2 = itemService.findById(2L);
-        AddressDTO address = addressService.findById(4L);
-        ClientDTO client = clientService.findById(1L);
-
-        OrderDTO order = new OrderDTO();
-        order.setClient(client);
-        order.setAddress(address);
-        order.setShipmentMethod(ShipmentEnum.SELF_PICKUP);
-        order.setPaymentStatus(true);
-        order.setPaymentMethod(PaymentEnum.CARD);
-        order.setStatus(StatusEnum.PROCESSING);
-
-        HashMap<ItemDTO, Integer> items = new HashMap<>();
-        items.put(item1, 20);
-        items.put(item2, 30);
-
-        order.setItems(items);
-        orderService.save(order);
+        HashMap<Long, Integer> map = new HashMap<>();
+        map.put(3L, 10);
+        map.put(2L, 20);
+        orderService.createOrderAndSave(4L, 1L, map,
+                PaymentEnum.CASH, ShipmentEnum.DOOR_TO_DOOR, true);
         return "home";
     }
 

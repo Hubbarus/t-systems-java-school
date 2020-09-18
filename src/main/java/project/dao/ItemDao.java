@@ -12,7 +12,8 @@ import java.util.List;
 public class ItemDao extends AbstractDao {
 
     public void save(Item entity) {
-        getSession().save(entity);
+//        getSession().save(entity);
+        getSession().persist(entity);
     }
 
     public void update(Item entity) {
