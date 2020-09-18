@@ -6,12 +6,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import project.converter.OrderConverter;
 import project.dto.AddressDTO;
 import project.dto.ClientDTO;
 import project.dto.ItemDTO;
 import project.dto.OrderDTO;
-import project.entity.Order;
 import project.entity.enums.PaymentEnum;
 import project.entity.enums.ShipmentEnum;
 import project.service.AddressService;
@@ -34,8 +32,6 @@ public class MainController {
     private AddressService addressService;
     @Autowired
     private OrderService orderService;
-    @Autowired
-    private OrderConverter orderConverter;
 
     @GetMapping("/")
     public String getHome() {
@@ -44,8 +40,7 @@ public class MainController {
 
     @GetMapping("/getOrders")
     public String getOrders() {
-        OrderDTO orderDTO = orderService.findById(1L);
-        Order order = orderConverter.convertToEntity(orderDTO);
+        OrderDTO orderDTO = orderService.findById(105L);
         System.out.println(orderDTO);
         return "home";
     }

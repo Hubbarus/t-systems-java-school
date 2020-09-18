@@ -97,13 +97,12 @@ public class OrderService {
             int quantity = entry.getValue();
 
             Cart cart = new Cart();
-            cart.setItem(item);
             cart.setQuantity(quantity);
-            //cart.setOrder(order);
-            carts.add(cart);
-        }
+            item.addCart(cart);
+            order.addCart(cart);
+            }
 
-        order.setCarts(carts);
+
         orderDao.save(order);
     }
 }
