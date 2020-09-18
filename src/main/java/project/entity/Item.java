@@ -3,6 +3,8 @@ package project.entity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -40,11 +42,17 @@ public class Item  implements Serializable {
     private int stock;
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     private Set<Cart> carts = new HashSet<>();
 
     public void addCart(Cart cart) {
         carts.add(cart);
         cart.setItem(this);
+    }
+
+    public void removeCart(Cart cart) {
+        cart.setItem(null);
+        carts.remove(cart);
     }
 }

@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import project.dto.AddressDTO;
 import project.dto.ClientDTO;
 import project.dto.ItemDTO;
@@ -42,6 +43,13 @@ public class MainController {
     public String getOrders() {
         OrderDTO orderDTO = orderService.findById(105L);
         System.out.println(orderDTO);
+        return "home";
+    }
+
+    @GetMapping("/remOrders")
+    public String remOrders(@RequestParam(name = "id") long id) {
+        OrderDTO orderDTO = orderService.findById(id);
+        orderService.delete(orderDTO);
         return "home";
     }
 

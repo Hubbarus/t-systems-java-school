@@ -6,7 +6,7 @@ import project.entity.enums.ShipmentEnum;
 import project.entity.enums.StatusEnum;
 
 import java.math.BigDecimal;
-import java.util.HashMap;
+import java.util.Set;
 
 @Data
 public class OrderDTO {
@@ -17,6 +17,6 @@ public class OrderDTO {
     private StatusEnum status;
     private ClientDTO client;
     private AddressDTO address;
-    private HashMap<ItemDTO, Integer> items;
+    private Set<CartDTO> items;
     private BigDecimal subtotal;
 }

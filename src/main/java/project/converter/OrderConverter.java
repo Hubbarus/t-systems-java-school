@@ -4,6 +4,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import project.dto.CartDTO;
 import project.dto.ItemDTO;
 import project.dto.OrderDTO;
 import project.entity.Cart;
@@ -11,9 +12,7 @@ import project.entity.Item;
 import project.entity.Order;
 
 import java.math.BigDecimal;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
 @Service
@@ -28,13 +27,16 @@ public class OrderConverter {
 
     public Order convertToEntity(OrderDTO order) {
         Order entity = mapper.map(order, Order.class);
-        HashMap<ItemDTO, Integer> itemDTOS = order.getItems();
+        Set<CartDTO> cartDTOS = order.getItems();
         Set<Cart> carts = new HashSet<>();
-        for (Map.Entry<ItemDTO, Integer> mapEntry : itemDTOS.entrySet()) {
-            Item item = itemConverter.convertToEntity(mapEntry.getKey());
-            int quantity = mapEntry.getValue();
+
+        for (CartDTO cartDTO : cartDTOS) {
+            Item item = itemConverter.convertToEntity(cartDTO.getItem());
+            int quantity = cartDTO.getQuantity();
 
             Cart cart = new Cart();
+            cart.setOrder(cartDTO.getOrder());
+            cart.setId(cartDTO.getId());
             cart.setItem(item);
             cart.setQuantity(quantity);
             carts.add(cart);
@@ -48,17 +50,23 @@ public class OrderConverter {
         OrderDTO dto = mapper.map(order, OrderDTO.class);
         BigDecimal subtotal = BigDecimal.ZERO;
         Set<Cart> carts = order.getCarts();
-        HashMap<ItemDTO, Integer> items = new HashMap<>();
+        Set<CartDTO> cartDTOS = new HashSet<>();
 
         for (Cart cart : carts) {
             ItemDTO item = itemConverter.convertToDTO(cart.getItem());
             int quantity = cart.getQuantity();
-            items.put(item, quantity);
+            CartDTO cartDTO = new CartDTO();
+            cartDTO.setId(cart.getId());
+            cartDTO.setItem(item);
+            cartDTO.setOrder(order);
+            cartDTO.setQuantity(quantity);
+
+            cartDTOS.add(cartDTO);
             subtotal = subtotal.add(BigDecimal.valueOf(item.getPrice() * quantity));
         }
 
         dto.setSubtotal(subtotal);
-        dto.setItems(items);
+        dto.setItems(cartDTOS);
         return dto;
     }
 }

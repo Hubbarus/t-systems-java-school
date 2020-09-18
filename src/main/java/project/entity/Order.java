@@ -30,15 +30,15 @@ public class Order implements Serializable {
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @Column(name = "payment_method", nullable = false, length = -1)
+    @Column(name = "payment_method", nullable = false)
     @Enumerated(EnumType.STRING)
     private PaymentEnum paymentMethod;
-    @Column(name = "shipment_method", nullable = false, length = -1)
+    @Column(name = "shipment_method", nullable = false)
     @Enumerated(EnumType.STRING)
     private ShipmentEnum shipmentMethod;
     @Column(name = "payment_status", nullable = false)
     private boolean paymentStatus;
-    @Column(name = "status", nullable = false, length = -1)
+    @Column(name = "status", nullable = false)
     @Enumerated(EnumType.STRING)
     private StatusEnum status;
     @ManyToOne
@@ -49,11 +49,16 @@ public class Order implements Serializable {
     private Address address;
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     private Set<Cart> carts = new HashSet<>();
 
     public void addCart(Cart cart) {
         carts.add(cart);
         cart.setOrder(this);
+    }
+
+    public void removeCart(Cart cart) {
+        cart.setOrder(null);
+        carts.remove(cart);
     }
 }
