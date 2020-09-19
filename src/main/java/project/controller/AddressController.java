@@ -17,20 +17,20 @@ public class AddressController {
     @GetMapping("/crAddresses")
     public String createAddresses() {
         AddressDTO address = new AddressDTO();
-        address.setCountry("Russia");
-        address.setCity("Spb");
-        address.setPostcode("197349");
-        address.setStreet("Nevskiy prospect");
-        address.setBuilding(20);
-        address.setApart(5);
+        address.setCountry("Ukraine");
+        address.setCity("Lviv");
+        address.setPostcode("148832");
+        address.setStreet("Lenina str");
+        address.setBuilding(15);
+        address.setApart(2);
 
         AddressDTO address1 = new AddressDTO();
-        address1.setCountry("USA");
-        address1.setCity("Los-Angeles");
-        address1.setPostcode("19733124");
-        address1.setStreet("Black Str.");
-        address1.setBuilding(45);
-        address1.setApart(1);
+        address1.setCountry("Germany");
+        address1.setCity("Berlin");
+        address1.setPostcode("155223");
+        address1.setStreet("Zoidberg Strasse");
+        address1.setBuilding(42);
+        address1.setApart(66);
 
         addressService.save(address);
         addressService.save(address1);

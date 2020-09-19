@@ -38,10 +38,23 @@ public class OrderController {
     @GetMapping("/crOrders")
     public String createOrders() {
         HashMap<Long, Integer> map = new HashMap<>();
-        map.put(1L, 30);
-        map.put(2L, 10);
-        orderService.createOrderAndSave(1L, 4L, map,
-                PaymentEnum.REMITTANCE, ShipmentEnum.SELF_PICKUP, false);
+        map.put(1L, 10);
+        map.put(2L, 15);
+        orderService.createOrderAndSave(1L, 1L, map,
+                PaymentEnum.CARD, ShipmentEnum.SELF_PICKUP, true);
+
+
+        map = new HashMap<>();
+        map.put(5L, 20);
+        map.put(4L, 35);
+        orderService.createOrderAndSave(2L, 6L, map,
+                PaymentEnum.CASH, ShipmentEnum.DOOR_TO_DOOR, false);
+
+        map = new HashMap<>();
+        map.put(6L, 5);
+        map.put(7L, 1);
+        orderService.createOrderAndSave(6L, 2L, map,
+                PaymentEnum.REMITTANCE, ShipmentEnum.DOOR_TO_DOOR, false);
         return "home";
     }
 }

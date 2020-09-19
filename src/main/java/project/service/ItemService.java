@@ -8,7 +8,10 @@ import project.converter.ItemConverter;
 import project.dao.ItemDao;
 import project.dto.ItemDTO;
 import project.entity.Item;
+import project.exception.NoSuchItemGroupExeption;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -54,5 +57,36 @@ public class ItemService {
                 .stream()
                 .map(itemConverter::convertToDTO)
                 .collect(Collectors.toList());
+    }
+
+    public List<ItemDTO> findByGroup(String group) throws NoSuchItemGroupExeption {
+        List<ItemDTO> result = new ArrayList<>();
+        List<ItemDTO> all = findAll();
+
+        for (ItemDTO item : all) {
+            if (item.getItemGroup().equalsIgnoreCase(group)) {
+                result.add(item);
+            }
+        }
+
+        if (result.size() == 0) {
+            throw new NoSuchItemGroupExeption("Group " + group + " not found");
+        }
+
+        return result;
+    }
+
+    public List<ItemDTO> findByPriceGap(BigDecimal from, BigDecimal to) {
+        List<ItemDTO> result = new ArrayList<>();
+        List<ItemDTO> all = findAll();
+
+        for (ItemDTO item : all) {
+            BigDecimal currentPrice = item.getPrice();
+            if (currentPrice.compareTo(from) >= 0 &&  currentPrice.compareTo(to) <= 0) {
+                result.add(item);
+            }
+        }
+
+        return result;
     }
 }
