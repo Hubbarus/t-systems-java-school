@@ -5,7 +5,8 @@ public enum StatusEnum {
     PROCESSING("Processing"),
     COLLECTING("Collecting"),
     SHIPPED("Shipped"),
-    DELIVERED("Delivered");
+    DELIVERED("Delivered"),
+    TEMPORARY_ORDER("Temporary order");
 
     String value;
 

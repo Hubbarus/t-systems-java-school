@@ -12,7 +12,9 @@ import project.exception.NoSuchItemGroupExeption;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -87,6 +89,15 @@ public class ItemService {
             }
         }
 
+        return result;
+    }
+
+    public Set<String> getGroupNames() {
+        Set<String> result = new HashSet<>();
+        List<ItemDTO> list = findAll();
+        for (ItemDTO item : list) {
+            result.add(item.getItemGroup());
+        }
         return result;
     }
 }

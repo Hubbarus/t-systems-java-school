@@ -11,7 +11,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
-import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 
 @Configuration
 @EnableWebMvc
@@ -41,18 +40,16 @@ public class DispatcherConfig extends WebMvcConfigurerAdapter implements WebMvcC
 
     @Override
     public void configureViewResolvers(ViewResolverRegistry registry) {
-        ThymeleafViewResolver resolver = new ThymeleafViewResolver();
-        resolver.setTemplateEngine(templateEngine());
-        registry.viewResolver(resolver);
+        registry.jsp("/WEB-INF/views/", ".jsp");
     }
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/login").setViewName("login");
+        registry.addViewController("/").setViewName("home");
         registry.addViewController("/client");
+        registry.addViewController("/address");
+        registry.addViewController("/shop");
         registry.addViewController("/order");
-        registry.addViewController("/home");
-        registry.addViewController("/product");
-
     }
 }

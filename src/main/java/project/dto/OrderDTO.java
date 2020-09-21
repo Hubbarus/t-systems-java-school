@@ -1,14 +1,18 @@
 package project.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import project.entity.enums.PaymentEnum;
 import project.entity.enums.ShipmentEnum;
 import project.entity.enums.StatusEnum;
 
 import java.math.BigDecimal;
-import java.util.Set;
+import java.util.List;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class OrderDTO {
     private long id;
     private PaymentEnum paymentMethod;
@@ -17,6 +21,6 @@ public class OrderDTO {
     private StatusEnum status;
     private ClientDTO client;
     private AddressDTO address;
-    private Set<CartDTO> items;
+    private List<CartDTO> items;
     private BigDecimal subtotal;
 }

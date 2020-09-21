@@ -7,7 +7,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Data
@@ -28,4 +30,6 @@ public class Address implements Serializable {
     private int building;
     @Column(name = "apart", nullable = false)
     private int apart;
+    @ManyToMany(mappedBy = "addressList")
+    private List<Client> clientList;
 }

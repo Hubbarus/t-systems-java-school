@@ -14,7 +14,7 @@ import project.service.OrderService;
 import java.util.HashMap;
 
 @Controller
-@RequestMapping("/")
+@RequestMapping("/order")
 public class OrderController {
 
     @Autowired

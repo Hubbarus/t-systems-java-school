@@ -12,8 +12,8 @@ import project.entity.Item;
 import project.entity.Order;
 
 import java.math.BigDecimal;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @Transactional
@@ -27,8 +27,8 @@ public class OrderConverter {
 
     public Order convertToEntity(OrderDTO order) {
         Order entity = mapper.map(order, Order.class);
-        Set<CartDTO> cartDTOS = order.getItems();
-        Set<Cart> carts = new HashSet<>();
+        List<CartDTO> cartDTOS = order.getItems();
+        List<Cart> carts = new ArrayList<>();
 
         for (CartDTO cartDTO : cartDTOS) {
             Item item = itemConverter.convertToEntity(cartDTO.getItem());
@@ -49,8 +49,8 @@ public class OrderConverter {
     public OrderDTO convertToDTO(Order order) {
         OrderDTO dto = mapper.map(order, OrderDTO.class);
         BigDecimal subtotal = BigDecimal.ZERO;
-        Set<Cart> carts = order.getCarts();
-        Set<CartDTO> cartDTOS = new HashSet<>();
+        List<Cart> carts = order.getCarts();
+        List<CartDTO> cartDTOS = new ArrayList<>();
 
         for (Cart cart : carts) {
             ItemDTO item = itemConverter.convertToDTO(cart.getItem());

@@ -6,9 +6,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import project.converter.ClientConverter;
 import project.dao.ClientDao;
+import project.dto.AddressDTO;
 import project.dto.ClientDTO;
 import project.entity.Client;
+import project.entity.enums.RoleEnum;
+import project.exception.NoSuchClientException;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -55,5 +59,24 @@ public class ClientService {
     @Transactional
     public void deleteAll() {
         clientDao.deleteAll();
+    }
+
+    public ClientDTO findByUserName(String username) {
+        List<ClientDTO> clients = findAll();
+        for (ClientDTO client : clients) {
+            if (client.getUsername().equalsIgnoreCase(username)) {
+                return client;
+            }
+        }
+        throw new NoSuchClientException("Client with username " + username + " not found!");
+    }
+
+    public void createUserAndSave(ClientDTO user, AddressDTO address) {
+        List<AddressDTO> addresses = new ArrayList<>();
+        addresses.add(address);
+        user.setAddressList(addresses);
+        user.setRole(RoleEnum.USER);
+
+        save(user);
     }
 }

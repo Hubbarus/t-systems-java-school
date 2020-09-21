@@ -8,7 +8,7 @@ import project.dto.AddressDTO;
 import project.service.AddressService;
 
 @Controller
-@RequestMapping("/")
+@RequestMapping("/address")
 public class AddressController {
 
     @Autowired

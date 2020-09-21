@@ -1,14 +1,21 @@
 package project.entity;
 
 import lombok.Data;
+import project.entity.enums.RoleEnum;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.List;
 
 @Entity
 @Data
@@ -29,4 +36,12 @@ public class Client  implements Serializable {
     private Date birthDate;
     @Column(name = "email", nullable = false)
     private String email;
+    @ManyToMany
+    @JoinTable(name = "client_address",
+            joinColumns = @JoinColumn(name = "client_id"),
+            inverseJoinColumns = @JoinColumn(name = "address_id"))
+    private List<Address> addressList;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role")
+    private RoleEnum role;
 }

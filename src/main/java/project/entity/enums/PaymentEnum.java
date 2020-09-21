@@ -3,7 +3,8 @@ package project.entity.enums;
 public enum PaymentEnum {
     CASH("Cash"),
     CARD("Card"),
-    REMITTANCE("Remittance");
+    REMITTANCE("Remittance"),
+    NO_PAYMENT("No payment");
 
     String value;
 
