@@ -151,6 +151,12 @@
             <artifactId>spring-security-config</artifactId>
             <version>5.3.4.RELEASE</version>
         </dependency>
+        <!--            Security TagLibs-->
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-taglibs</artifactId>
+            <version>5.2.0.RELEASE</version>
+        </dependency>
 <!--        Lombok-->
         <dependency>
             <groupId>org.projectlombok</groupId>

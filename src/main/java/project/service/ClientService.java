@@ -2,6 +2,7 @@ package project.service;
 
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import project.converter.ClientConverter;
@@ -23,7 +24,7 @@ public class ClientService {
 
     @Autowired private final ClientDao clientDao;
     @Autowired private final ClientConverter clientConverter;
-    @Autowired private final AddressService addressService;
+    @Autowired private final PasswordEncoder passwordEncoder;
 
     @Transactional
     public void save(ClientDTO clientDTO) {
@@ -77,6 +78,7 @@ public class ClientService {
         user.setAddressList(addresses);
         user.setRole(RoleEnum.USER);
         user.setActive(true);
+        user.setUserPass(passwordEncoder.encode(user.getUserPass()));
 
         save(user);
     }

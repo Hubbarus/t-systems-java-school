@@ -1,6 +1,7 @@
 package project.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -12,13 +13,14 @@ import project.dto.ClientDTO;
 import project.dto.OrderDTO;
 import project.exception.NoSuchClientException;
 import project.service.ClientService;
+import project.service.UserService;
 
 @Controller
 @RequestMapping("/client")
 public class ClientController {
 
-    @Autowired
-    private ClientService clientService;
+    @Autowired private ClientService clientService;
+    @Autowired private UserService userService;
 
     @RequestMapping(value = "/registration", method = RequestMethod.GET)
     public String registration(Model model) {
@@ -43,8 +45,8 @@ public class ClientController {
             AddressDTO address = orderDTO.getAddress();
 
             clientService.createUserAndSave(client, address);
-            ClientDTO clientWithId = clientService.findByEmail(client.getEmail());
-            return "redirect:userInfo/" + clientWithId.getId();
+            model.addAttribute("user", new ClientDTO());
+            return "login";
         }
     }
 
@@ -53,5 +55,19 @@ public class ClientController {
         ClientDTO client = clientService.findById(id);
         model.addAttribute("client", client);
         return "/userInfo";
+    }
+
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    public String showLogin(Model model) {
+        model.addAttribute("user", new ClientDTO());
+        return "login";
+    }
+
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    public String doLogin(@ModelAttribute ClientDTO user,
+                          Model model) {
+        UserDetails userDetails = userService.loadUserByUsername(user.getEmail());
+        System.out.println(userDetails);
+        return "redirect:/";
     }
 }

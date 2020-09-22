@@ -1,5 +1,5 @@
-<%@ taglib prefix="c" uri="http://www.springframework.org/tags" %>
-<%@ taglib prefix="sec" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html; charset=UTF-8" language="java" %>
 
 <!DOCTYPE html>
@@ -17,10 +17,16 @@
 </head>
 <body>
 <div class="container-md">
-    <a href="/client/registration/">Registration</a><br>
-    <a href="/login">Log In</a><br>
+    Hello <b><c:out value="${pageContext.request.remoteUser}"/></b><br>
     <a href="/shop/">View Shop</a><br>
-    <a href="/client/userInfo/">My account</a>
+    <sec:authorize access="!isAuthenticated()">
+        <a href="/client/registration/">Registration</a><br>
+        <a href="/login">Log In</a><br>
+    </sec:authorize>
+    <sec:authorize access="isAuthenticated()">
+        <a href="/client/userInfo/">My account</a>
+        <a href="/logout">Log Out</a>
+    </sec:authorize>
 </div>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
