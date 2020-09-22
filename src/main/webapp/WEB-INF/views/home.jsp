@@ -17,9 +17,10 @@
 </head>
 <body>
 <div class="container-md">
-    <a href="/client/registration">Registration</a><br>
+    <a href="/registration">Registration</a><br>
     <a href="/login">Log In</a><br>
     <a href="/shop">View Shop</a><br>
+    <a href="/userInfo/{id}">My account</a>
 </div>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>

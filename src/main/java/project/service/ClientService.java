@@ -12,18 +12,18 @@ import project.entity.Client;
 import project.entity.enums.RoleEnum;
 import project.exception.NoSuchClientException;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
 public class ClientService {
 
-    @Autowired
-    private final ClientDao clientDao;
-    @Autowired
-    private final ClientConverter clientConverter;
+    @Autowired private final ClientDao clientDao;
+    @Autowired private final ClientConverter clientConverter;
+    @Autowired private final AddressService addressService;
 
     @Transactional
     public void save(ClientDTO clientDTO) {
@@ -61,18 +61,18 @@ public class ClientService {
         clientDao.deleteAll();
     }
 
-    public ClientDTO findByUserName(String username) {
+    public ClientDTO findByEmail(String email) {
         List<ClientDTO> clients = findAll();
         for (ClientDTO client : clients) {
-            if (client.getUsername().equalsIgnoreCase(username)) {
+            if (client.getEmail().equalsIgnoreCase(email)) {
                 return client;
             }
         }
-        throw new NoSuchClientException("Client with username " + username + " not found!");
+        throw new NoSuchClientException("Client with email " + email + " not found!");
     }
 
     public void createUserAndSave(ClientDTO user, AddressDTO address) {
-        List<AddressDTO> addresses = new ArrayList<>();
+        Set<AddressDTO> addresses = new HashSet<>();
         addresses.add(address);
         user.setAddressList(addresses);
         user.setRole(RoleEnum.USER);

@@ -1,15 +1,19 @@
 package project.entity;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import java.io.Serializable;
-import java.util.List;
+import java.util.Set;
 
 @Entity
 @Data
@@ -30,6 +34,8 @@ public class Address implements Serializable {
     private int building;
     @Column(name = "apart", nullable = false)
     private int apart;
-    @ManyToMany(mappedBy = "addressList")
-    private List<Client> clientList;
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @ManyToMany(mappedBy = "addressList", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private Set<Client> clientList;
 }

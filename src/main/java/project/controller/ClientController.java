@@ -3,83 +3,55 @@ package project.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import project.dto.AddressDTO;
 import project.dto.ClientDTO;
-import project.entity.enums.RoleEnum;
-import project.service.AddressService;
+import project.dto.OrderDTO;
+import project.exception.NoSuchClientException;
 import project.service.ClientService;
 
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
-
 @Controller
-@RequestMapping("/client")
+@RequestMapping("/")
 public class ClientController {
 
     @Autowired
     private ClientService clientService;
-    @Autowired
-    private AddressService addressService;
 
-
-    @GetMapping("/registration")
+    @RequestMapping(value = "/registration", method = RequestMethod.GET)
     public String registration(Model model) {
-        model.addAttribute("clientForm", new ClientDTO());
-        model.addAttribute("addressForm", new AddressDTO());
+        OrderDTO order = new OrderDTO();
+        order.setClient(new ClientDTO());
+        order.setAddress(new AddressDTO());
+
+        model.addAttribute("clientForm", order);
         return "registration";
     }
 
-    @PostMapping("/registration")
-    public String addClient(@ModelAttribute("userForm") ClientDTO userForm,
-                            @ModelAttribute("addressForm") AddressDTO addressDTO,
+    @RequestMapping(value = "/registration", method = RequestMethod.POST)
+    public String addClient(@ModelAttribute("userForm") OrderDTO orderDTO,
                             Model model) {
         try {
-            clientService.findByUserName(userForm.getUsername());
-            clientService.createUserAndSave(userForm, addressDTO);
-        } catch (Exception e) {
-            model.addAttribute("userNameError", "This user already exist!");
+            ClientDTO client = orderDTO.getClient();
+            clientService.findByEmail(client.getEmail());
+            model.addAttribute("userNameError", "This username already exist!");
             return "registration";
+        } catch (NoSuchClientException e) {
+            ClientDTO client = orderDTO.getClient();
+            AddressDTO address = orderDTO.getAddress();
+
+            clientService.createUserAndSave(client, address);
+            ClientDTO clientWithId = clientService.findByEmail(client.getEmail());
+            return "redirect:userInfo/" + clientWithId.getId();
         }
-        return "redirect:/";
     }
 
-
-    @GetMapping("/crClients")
-    public String createClients() {
-        ClientDTO client = new ClientDTO();
-        client.setFirstName("Paul");
-        client.setLastName("Ponomarev");
-        client.setUsername("username1");
-        client.setUserPass("password1");
-        client.setEmail("paul@gmail.com");
-        client.setBirthDate(Date.valueOf("1990-11-15"));
-        client.setRole(RoleEnum.ADMIN);
-        List<AddressDTO> list = new ArrayList<>();
-        list.add(addressService.findById(1L));
-        list.add(addressService.findById(2L));
-        client.setAddressList(list);
-
-        ClientDTO client1 = new ClientDTO();
-        client1.setFirstName("James");
-        client1.setLastName("Bond");
-        client1.setUsername("username2");
-        client1.setUserPass("password2");
-        client1.setEmail("james@gmail.com");
-        client1.setBirthDate(Date.valueOf("1977-01-15"));
-        client1.setRole(RoleEnum.USER);
-        list = new ArrayList<>();
-        list.add(addressService.findById(6L));
-        client1.setAddressList(list);
-
-
-        clientService.save(client);
-        clientService.save(client1);
-        return "home";
+    @RequestMapping(value = "/userInfo/{id}", method = RequestMethod.GET)
+    public String getUserInfo(@PathVariable Long id, Model model) {
+        ClientDTO client = clientService.findById(id);
+        model.addAttribute("client", client);
+        return "/userInfo";
     }
-
 }
