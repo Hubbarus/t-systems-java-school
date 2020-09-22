@@ -17,14 +17,23 @@
 </head>
 <body>
 <div class="container-md">
-    Hello <b><c:out value="${pageContext.request.remoteUser}"/></b><br>
+    <h2>Greetings,
+        <sec:authorize access="isAuthenticated()">
+            ${pageContext.request.remoteUser}
+        </sec:authorize>
+        <sec:authorize access="!isAuthenticated()">
+            Guest
+        </sec:authorize>
+    !</h2><br>
+
     <a href="/shop/">View Shop</a><br>
     <sec:authorize access="!isAuthenticated()">
         <a href="/client/registration/">Registration</a><br>
         <a href="/login">Log In</a><br>
     </sec:authorize>
+
     <sec:authorize access="isAuthenticated()">
-        <a href="/client/userInfo/">My account</a>
+        <a href="/client/userInfo/">My account</a><br>
         <a href="/logout">Log Out</a>
     </sec:authorize>
 </div>
