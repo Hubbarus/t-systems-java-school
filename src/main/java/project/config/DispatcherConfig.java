@@ -48,8 +48,6 @@ public class DispatcherConfig extends WebMvcConfigurerAdapter implements WebMvcC
         registry.addViewController("/login").setViewName("login");
         registry.addViewController("/").setViewName("home");
         registry.addViewController("/client");
-        registry.addViewController("/address");
         registry.addViewController("/shop");
-        registry.addViewController("/order");
     }
 }

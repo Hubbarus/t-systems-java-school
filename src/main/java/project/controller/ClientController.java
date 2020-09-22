@@ -14,7 +14,7 @@ import project.exception.NoSuchClientException;
 import project.service.ClientService;
 
 @Controller
-@RequestMapping("/")
+@RequestMapping("/client")
 public class ClientController {
 
     @Autowired
@@ -48,7 +48,7 @@ public class ClientController {
         }
     }
 
-    @RequestMapping(value = "/userInfo/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "registration/userInfo/{id}", method = RequestMethod.GET)
     public String getUserInfo(@PathVariable Long id, Model model) {
         ClientDTO client = clientService.findById(id);
         model.addAttribute("client", client);

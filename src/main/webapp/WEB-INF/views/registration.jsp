@@ -19,11 +19,11 @@
 <c:choose>
     <c:when test="${userNameError != null}">
         <c:out value="${userNameError}"></c:out>
-        <a href="/registration" class="btn-success">Go back</a>
+        <a href="/client/registration/" class="btn-success">Go back</a>
     </c:when>
     <c:otherwise>
         <div class="tab">
-            <form:form method="POST" modelAttribute="clientForm" action="/registration">
+            <form:form method="POST" modelAttribute="clientForm" action="/client/registration/">
                 <h3 class="card-header">Client Information</h3>
                 <p class="text-dark">Name: </p>
                 <form:input path="client.firstName"></form:input>

@@ -13,14 +13,8 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 </head>
 <body>
-<div class="container" style="width: 300px;">
-    <c:url value="/j_spring_security_check" var="loginUrl" />
-    <form action="${loginUrl}" method="post">
-        <h2 class="form-signin-heading">Please sign in</h2>
-        <input type="text" class="form-control" name="j_username" placeholder="Email address" required autofocus value="colibri">
-        <input type="password" class="form-control" name="j_password" placeholder="Password" required value="1234">
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Sigh in</button>
-    </form>
+<div class="modal-dialog">
+
 </div>
 </body>
 </html>

@@ -64,8 +64,8 @@
         </table>
     </c:otherwise>
 </c:choose>
-<a href="/shop/pay" class="btn-success">Go to payment page</a>
-<a href="/shop" class="btn-success">Go back to shop</a>
+<a href="/pay/" class="btn-success">Go to payment page</a>
+<a href="/shop/" class="btn-success">Go back to shop</a>
 
 </body>
 </html>
