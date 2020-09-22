@@ -76,6 +76,7 @@ public class ClientService {
         addresses.add(address);
         user.setAddressList(addresses);
         user.setRole(RoleEnum.USER);
+        user.setActive(true);
 
         save(user);
     }

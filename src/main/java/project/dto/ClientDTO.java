@@ -18,6 +18,7 @@ public class ClientDTO {
     private String userPass;
     private Date birthDate;
     private String email;
+    private boolean active;
     private RoleEnum role;
     private Set<AddressDTO> addressList;
 }

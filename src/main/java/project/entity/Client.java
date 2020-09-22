@@ -38,6 +38,8 @@ public class Client  implements Serializable {
     private Date birthDate;
     @Column(name = "email", nullable = false)
     private String email;
+    @Column(name = "active")
+    private boolean active;
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
