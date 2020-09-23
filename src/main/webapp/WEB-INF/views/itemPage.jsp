@@ -40,8 +40,8 @@
         <form:hidden path="item.weight"></form:hidden>
         <form:hidden path="item.volume"></form:hidden>
         <form:hidden path="item.stock"></form:hidden>
-        <form:input path="quantity"></form:input>
-        <input type="submit" value="Click Me!"/>
+        <form:input type="number" path="quantity" min="1" max="${cart.item.stock}"></form:input>
+        <input type="submit" value="Add to cart"/>
     </form:form>
 </div>
 </body>
