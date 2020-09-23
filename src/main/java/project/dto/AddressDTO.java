@@ -19,7 +19,7 @@ public class AddressDTO {
 
     @Override
     public String toString() {
-        return postcode + ", "
+        return id + " | " + postcode + ", "
                 + StringUtils.capitalize(country) + ", "
                 + StringUtils.capitalize(city) + ", "
                 + StringUtils.capitalize(street) + ", "

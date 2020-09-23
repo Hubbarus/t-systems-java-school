@@ -3,8 +3,7 @@ package project.entity.enums;
 public enum PaymentEnum {
     CASH("Cash"),
     CARD("Card"),
-    REMITTANCE("Remittance"),
-    NO_PAYMENT("No payment");
+    REMITTANCE("Remittance");
 
     String value;
 
@@ -14,6 +13,10 @@ public enum PaymentEnum {
 
     @Override
     public String toString() {
+        return value;
+    }
+
+    public String getValue() {
         return value;
     }
 }

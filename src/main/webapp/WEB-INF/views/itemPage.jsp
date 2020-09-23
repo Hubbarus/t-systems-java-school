@@ -33,6 +33,7 @@
 <div class="btn-link">
     <form:form method="post" modelAttribute="cart" name="itemForm" action="/cart/">
         <form:hidden path="id"></form:hidden>
+        <form:hidden path="item.id"></form:hidden>
         <form:hidden path="item.itemName"></form:hidden>
         <form:hidden path="item.itemGroup"></form:hidden>
         <form:hidden path="item.description"></form:hidden>

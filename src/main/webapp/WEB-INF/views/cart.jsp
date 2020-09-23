@@ -1,11 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%--
-  Created by IntelliJ IDEA.
-  User: paulponomarev
-  Date: 2020-09-20
-  Time: 14:12
-  To change this template use File | Settings | File Templates.
---%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -21,7 +15,7 @@
 </head>
 <body>
 <c:choose>
-    <c:when test="${items.size() == 0}">
+    <c:when test="${items.list.size() == 0}">
         <span class="ui-state-error-text">
             No items in cart
         </span>
@@ -34,7 +28,7 @@
                 <td>Quantity</td>
                 <td>Price</td>
             </tr>
-            <c:forEach items="${items}" var="i" begin="0" end="${items.size()}">
+            <c:forEach items="${items.list}" var="i" begin="0" end="${items.list.size()}">
             <tr>
                     <td>
                         <c:out value="${i.item.itemName},"></c:out>
@@ -50,22 +44,37 @@
                         <c:set value="${quan * price}" var="amount" scope="page"></c:set>
                         <c:out value="${amount}"></c:out>
                         <c:set value="${total + amount}" var="total"></c:set>
-
                     </td>
-                </c:forEach>
             </tr>
+            </c:forEach>
             <tr>
-                <td></td>
+                <td>
+                    <form:form action="/pay/" method="get" modelAttribute="items">
+                        <c:forEach items="${items.list}" varStatus="vs">
+                            <form:hidden path="list[${vs.index}].item.id"></form:hidden>
+                            <form:hidden path="list[${vs.index}].item.itemName"></form:hidden>
+                            <form:hidden path="list[${vs.index}].item.itemGroup"></form:hidden>
+                            <form:hidden path="list[${vs.index}].item.description"></form:hidden>
+                            <form:hidden path="list[${vs.index}].item.price"></form:hidden>
+                            <form:hidden path="list[${vs.index}].item.weight"></form:hidden>
+                            <form:hidden path="list[${vs.index}].item.volume"></form:hidden>
+                            <form:hidden path="list[${vs.index}].item.stock"></form:hidden>
+                            <form:hidden path="list[${vs.index}].quantity"></form:hidden>
+                            <form:hidden path="subtotal" value="${total}"></form:hidden>
+                        </c:forEach>
+                        <button type="submit" class="btn-success">Go pay</button>
+                    </form:form>
+                </td>
                 <td>Total:</td>
                 <td>
                 <c:out value="${total}"></c:out>
                 </td>
             </tr>
         </table>
-    </c:otherwise>
+        </c:otherwise>
 </c:choose>
-<a href="/pay/" class="btn-success">Go to payment page</a>
-<a href="/shop/" class="btn-success">Go back to shop</a>
+<%--<a href="/pay/" class="btn-success">Go to payment page</a>--%>
+<a href="/shop/" class="btn-success h5">Go back to shop</a>
 
 </body>
 </html>

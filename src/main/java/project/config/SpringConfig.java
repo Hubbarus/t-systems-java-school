@@ -6,6 +6,7 @@ import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import project.utils.CartListWrapper;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -15,6 +16,11 @@ import static org.modelmapper.config.Configuration.AccessLevel.PRIVATE;
 @Configuration
 @ComponentScan("project")
 public class SpringConfig {
+
+    @Bean
+    public CartListWrapper getCartListWrapper() {
+        return new CartListWrapper();
+    }
 
     @Bean
     public ModelMapper getModelMapper() {
