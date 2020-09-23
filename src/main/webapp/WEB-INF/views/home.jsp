@@ -28,6 +28,7 @@
     !</h2><br>
 
     <a href="/shop/" class="text-dark text-md-center h4">View Shop</a><br>
+    <a href="/cart/" class="text-dark text-md-center h4">Cart</a>
 
     <sec:authorize access="!isAuthenticated()">
         <a href="/client/registration/">Registration</a><br>

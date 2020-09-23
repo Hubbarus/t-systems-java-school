@@ -12,8 +12,6 @@
 <body>
 <table class="table">
     <form:form action="" modelAttribute="order" method="post">
-<%--        <form:hidden path="items" value="${items.list}"></form:hidden>--%>
-<%--        Hidden--%>
         <c:forEach items="${items.list}" varStatus="vs">
             <form:hidden path="items[${vs.index}].item.id"></form:hidden>
             <form:hidden path="items[${vs.index}].item.itemName"></form:hidden>
@@ -25,44 +23,87 @@
             <form:hidden path="items[${vs.index}].item.stock"></form:hidden>
             <form:hidden path="items[${vs.index}].quantity"></form:hidden>
         </c:forEach>
-    <tr>
-        <td class="text-black-50 h5">Choose address:</td>
+        <tr>
+            <td class="text-black-50 h5">Choose address:</td>
+            <td class="form-group">
+                <select class="form-control" name="address" required="true">
+                    <option value="" selected></option>
+                    <c:forEach items="${order.client.addressList}" var="address">
+                        <option value="${address}">
+                                <c:out value="${address}"></c:out>
+                        </option>
+                    </c:forEach>
+                </select>
+            </td>
+        </tr>
+        <td class="text-black-50 h5">Choose payment:</td>
         <td class="form-group">
-            <select class="form-control" name="address" required="true">
-                <option value="" selected></option>
-                <c:forEach items="${order.client.addressList}" var="address">
-                    <option value="${address}">
-                            <c:out value="${address}"></c:out>
-                    </option>
+            <select class="form-control" name="paymentMethod" required="true">
+                <option value=""></option>
+                <c:forEach items="${PaymentEnum.values()}" var="payment">
+                    <option>${payment}</option>
                 </c:forEach>
             </select>
         </td>
-    </tr>
-    <td class="text-black-50 h5">Choose payment:</td>
-    <td class="form-group">
-        <select class="form-control" name="paymentMethod" required="true">
-            <option value=""></option>
-            <c:forEach items="${PaymentEnum.values()}" var="payment">
-                <option>${payment}</option>
-            </c:forEach>
-        </select>
-    </td>
-    <tr>
-    <td class="text-black-50 h5">Choose shipment:</td>
-    <td class="form-group">
-        <select class="form-control" name="shipmentMethod" required="true">
-            <option value="" selected placeholder="Choose shipment"></option>
-            <c:forEach items="${ShipmentEnum.values()}" var="shipment">
-                <option>${shipment}</option>
-            </c:forEach>
-        </select>
-    </td>
-    </tr>
-    <tr>
-        <td>
-            <button class="btn-dark" type="submit">Continue</button>
+        <tr>
+        <td class="text-black-50 h5">Choose shipment:</td>
+        <td class="form-group">
+            <select class="form-control" name="shipmentMethod" required="true">
+                <option value="" selected placeholder="Choose shipment"></option>
+                <c:forEach items="${ShipmentEnum.values()}" var="shipment">
+                    <option>${shipment}</option>
+                </c:forEach>
+            </select>
         </td>
-    </tr>
+        </tr>
+        <tr>
+            <td class="form-group">Order Details</td>
+            <td>
+                <table class="table">
+                    <tr>
+                        <td>Item</td>
+                        <td>Price</td>
+                        <td>Quantity</td>
+                        <td>Total</td>
+                    </tr>
+                    <c:forEach items="${items.list}" var="item" begin="0" end="${items.list.size()}">
+                        <tr>
+                            <td>
+                                <c:out value="${item.item.itemName} + ${item.item.description}"></c:out>
+                            </td>
+                            <td>
+                                <c:out value="${item.item.price}"></c:out>
+                            </td>
+                            <td>
+                                <c:out value="${item.quantity}"></c:out>
+                            </td>
+                            <td>
+                                <c:set value="${item.quantity}" var="quan"></c:set>
+                                <c:set value="${item.item.price}" var="price"></c:set>
+                                <c:set value="${quan * price}" var="amount" scope="page"></c:set>
+                                <c:out value="${amount}"></c:out>
+                                <c:set value="${total + amount}" var="total"></c:set>
+                            </td>
+                        </tr>
+
+                    </c:forEach>
+                    <tr>
+                        <td></td>
+                        <td>Total: </td>
+                        <td>${total}</td>
+                        <td></td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a href="/cart/">Back to Cart</a>
+            </td>
+            <td>
+                <button class="btn-dark" type="submit">Continue</button>
+            </td>
+        </tr>
     </form:form>
 </table>
 

@@ -19,7 +19,7 @@
         <span class="ui-state-error-text">
             No items in cart
         </span>
-        <a href="/shop" class="btn-dark">Go shopping</a>
+        <a href="/shop/" class="btn-dark">Go shopping</a>
     </c:when>
     <c:otherwise>
         <table class="table-bordered">
@@ -27,6 +27,7 @@
                 <td>Item</td>
                 <td>Quantity</td>
                 <td>Price</td>
+                <td></td>
             </tr>
             <c:forEach items="${items.list}" var="i" begin="0" end="${items.list.size()}">
             <tr>
@@ -44,6 +45,9 @@
                         <c:set value="${quan * price}" var="amount" scope="page"></c:set>
                         <c:out value="${amount}"></c:out>
                         <c:set value="${total + amount}" var="total"></c:set>
+                    </td>
+                    <td>
+                        <a href="/cart/removeItem?itemId=${i.item.id}" class="btn alert-danger">X</a>
                     </td>
             </tr>
             </c:forEach>
@@ -71,10 +75,11 @@
                 </td>
             </tr>
         </table>
+        <a href="/shop/" class="btn-success h5">Go back to shop</a>
         </c:otherwise>
 </c:choose>
 <%--<a href="/pay/" class="btn-success">Go to payment page</a>--%>
-<a href="/shop/" class="btn-success h5">Go back to shop</a>
+
 
 </body>
 </html>
