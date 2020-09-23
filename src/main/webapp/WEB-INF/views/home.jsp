@@ -19,21 +19,23 @@
 <div class="container-md">
     <h2>Greetings,
         <sec:authorize access="isAuthenticated()">
-            ${pageContext.request.remoteUser}
+<%--            ${pageContext.request.remoteUser}--%>
+            ${user.firstName}
         </sec:authorize>
         <sec:authorize access="!isAuthenticated()">
-            Guest
+            ${user}
         </sec:authorize>
     !</h2><br>
 
-    <a href="/shop/">View Shop</a><br>
+    <a href="/shop/" class="text-dark text-md-center h4">View Shop</a><br>
+
     <sec:authorize access="!isAuthenticated()">
         <a href="/client/registration/">Registration</a><br>
         <a href="/login">Log In</a><br>
     </sec:authorize>
 
     <sec:authorize access="isAuthenticated()">
-        <a href="/client/userInfo/">My account</a><br>
+        <a href="/client/userInfo/${user.id}">My account</a><br>
         <a href="/logout">Log Out</a>
     </sec:authorize>
 </div>

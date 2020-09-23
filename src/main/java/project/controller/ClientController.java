@@ -50,7 +50,7 @@ public class ClientController {
         }
     }
 
-    @RequestMapping(value = "registration/userInfo/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/userInfo/{id}", method = RequestMethod.GET)
     public String getUserInfo(@PathVariable Long id, Model model) {
         ClientDTO client = clientService.findById(id);
         model.addAttribute("client", client);
