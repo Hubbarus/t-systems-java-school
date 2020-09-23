@@ -46,4 +46,10 @@ public class CartController {
         }
         return showCart(model);
     }
+
+    @RequestMapping(value = "/clearCart", method = RequestMethod.GET)
+    public String clearCart() {
+        items = new ArrayList<>();
+        return "redirect:/?success=yes";
+    }
 }

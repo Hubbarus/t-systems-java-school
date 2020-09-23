@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import project.dto.OrderDTO;
 import project.entity.enums.PaymentEnum;
-import project.entity.enums.StatusEnum;
 import project.service.AddressService;
 import project.service.ClientService;
 import project.service.OrderService;
@@ -38,10 +37,16 @@ public class PaymentController {
     @RequestMapping(value = "/", method = RequestMethod.POST)
     public String doPayment(@ModelAttribute("order") OrderDTO order, Model model, Principal principal) {
         order.setClient(clientService.findByEmail(principal.getName()));
-        order.setStatus(StatusEnum.NEW);
         if (order.getPaymentMethod().equals(PaymentEnum.CASH.getValue())) {
             order.setPaymentStatus(false);
         }
-        return "redirect:/?success=yes";
+
+        orderService.createOrderAndSave(order.getAddress().getId(),
+                order.getClient().getId(),
+                order.getItems(),
+                order.getPaymentMethod(),
+                order.getShipmentMethod(),
+                order.isPaymentStatus());
+        return "redirect:/cart/clearCart";
     }
 }

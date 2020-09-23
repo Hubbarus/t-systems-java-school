@@ -9,6 +9,7 @@ import project.dao.AddressDao;
 import project.dao.ClientDao;
 import project.dao.ItemDao;
 import project.dao.OrderDao;
+import project.dto.CartDTO;
 import project.dto.OrderDTO;
 import project.entity.Cart;
 import project.entity.Item;
@@ -17,9 +18,7 @@ import project.entity.enums.PaymentEnum;
 import project.entity.enums.ShipmentEnum;
 import project.entity.enums.StatusEnum;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -67,7 +66,7 @@ public class OrderService {
         orderDao.deleteAll();
     }
 
-    public void createOrderAndSave(Long addressId, Long clientId, HashMap<Long, Integer> items,
+    public void createOrderAndSave(Long addressId, Long clientId, List<CartDTO> items,
                                    PaymentEnum payMethod, ShipmentEnum shipMethod, boolean payStatus) {
         Order order = new Order();
 
@@ -78,9 +77,9 @@ public class OrderService {
         order.setShipmentMethod(shipMethod);
         order.setStatus(StatusEnum.NEW);
 
-        for (Map.Entry<Long, Integer> entry : items.entrySet()) {
-            Item item = itemDao.findById(entry.getKey());
-            int quantity = entry.getValue();
+        for (CartDTO cartDTO : items) {
+            Item item = itemDao.findById(cartDTO.getItem().getId());
+            int quantity = cartDTO.getQuantity();
 
             Cart cart = new Cart();
             cart.setQuantity(quantity);
