@@ -40,12 +40,12 @@
     </tr>
     <tr>
         <td class="text-black-50 h5">Addresses: <br>
-            <a href="/client/userInfo/${client.id}/manageAddress?action=manage">Manage</a>
             <a href="/client/userInfo/${client.id}/manageAddress?action=add">Add address</a>
         </td>
         <td class="text-black-50 h5">
             <c:forEach var="i" items="${client.addressList}" begin="0" end="${client.addressList.size()}">
                 <c:out value="${i}"></c:out>
+                <a href="/client/userInfo/${client.id}/manageAddress?action=manage&addressId=${i.id}">Manage</a><br>
             </c:forEach>
         </td>
     </tr>

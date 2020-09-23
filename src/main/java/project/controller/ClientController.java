@@ -13,8 +13,11 @@ import project.dto.AddressDTO;
 import project.dto.ClientDTO;
 import project.dto.OrderDTO;
 import project.exception.NoSuchClientException;
+import project.service.AddressService;
 import project.service.ClientService;
 import project.service.UserService;
+
+import java.util.Set;
 
 @Controller
 @RequestMapping("/client")
@@ -22,6 +25,7 @@ public class ClientController {
 
     @Autowired private ClientService clientService;
     @Autowired private UserService userService;
+    @Autowired private AddressService addressService;
 
     @RequestMapping(value = "/registration", method = RequestMethod.GET)
     public String registration(Model model) {
@@ -102,16 +106,45 @@ public class ClientController {
 
     @RequestMapping(value = "/userInfo/{id}/manageAddress", method=RequestMethod.GET)
     public String editAddressInfo(@PathVariable Long id,
+                                    @RequestParam(value = "addressId", required = false) Long addressId,
                                     @RequestParam(value = "action") String action,
                                     Model model) {
+        AddressDTO address;
+        switch (action) {
+            case "manage": {
+                address = addressService.findById(addressId);
+            } break;
+            case "add" : {
+                address = new AddressDTO();
+            } break;
+            default: { return "redirect:/"; }
+        }
+        model.addAttribute("address", address);
 
         return "manageAddress";
     }
 
     @RequestMapping(value = "/userInfo/{id}/manageAddress", method=RequestMethod.POST)
-    public String manageAccountInfo(@PathVariable Long id,
-                                    @RequestParam(value = "action") String action,
-                                    Model model) {
-        return "redirect:/userInfo/{id}";
+    public String editAddressInfo(@PathVariable Long id,
+                                  @ModelAttribute AddressDTO addressDTO, Model model) {
+        ClientDTO user = clientService.findById(id);
+        Set<AddressDTO> addresses = user.getAddressList();
+        boolean wasAdded = false;
+        for (AddressDTO address : addresses) {
+            if (address.getId() == addressDTO.getId()) {
+                addresses.remove(address);
+                addresses.add(addressDTO);
+                wasAdded = true;
+                break;
+            }
+        }
+
+        if (!wasAdded) {
+            addresses.add(addressDTO);
+        }
+
+        user.setAddressList(addresses);
+        clientService.update(user);
+        return getUserInfo(id, model);
     }
 }
