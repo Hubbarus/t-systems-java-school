@@ -32,7 +32,7 @@ public class PaymentController {
         order.setSubtotal(items.getSubtotal());
         model.addAttribute("order", order);
         model.addAttribute("items", items);
-        return "payment";
+        return "details";
     }
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
@@ -42,6 +42,6 @@ public class PaymentController {
         if (order.getPaymentMethod().equals(PaymentEnum.CASH.getValue())) {
             order.setPaymentStatus(false);
         }
-        return "payment";
+        return "redirect:/?success=yes";
     }
 }

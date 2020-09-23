@@ -27,6 +27,12 @@
         </sec:authorize>
     !</h2><br>
 
+    <c:if test="${param.get('success').equals('yes')}">
+        <div class="alert alert-success">
+        <c:out value="Order has been placed successfully"></c:out>
+        </div>
+    </c:if>
+
     <a href="/shop/" class="text-dark text-md-center h4">View Shop</a><br>
     <a href="/cart/" class="text-dark text-md-center h4">Cart</a>
 

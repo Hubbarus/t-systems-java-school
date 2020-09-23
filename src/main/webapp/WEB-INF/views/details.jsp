@@ -101,7 +101,7 @@
                 <a href="/cart/">Back to Cart</a>
             </td>
             <td>
-                <button class="btn-dark" type="submit">Continue</button>
+                <button class="btn-dark" type="submit">Place Order</button>
             </td>
         </tr>
     </form:form>
