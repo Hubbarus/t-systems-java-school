@@ -19,42 +19,51 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 </head>
 <body>
-<h1 class="card">Greetings, ${client.firstName}</h1>
-<br>
-<table class="table">
-    <tr>
-        <td class="text-black-50 h5">Name:</td>
-        <td class="text-black-50 h5">${client.firstName}</td>
-    </tr>
-    <tr>
-        <td class="text-black-50 h5">Lastname:</td>
-        <td class="text-black-50 h5">${client.lastName}</td>
-    </tr>
-    <tr>
-        <td class="text-black-50 h5">E-mail:</td>
-        <td class="text-black-50 h5">${client.email}</td>
-    </tr>
-    <tr>
-        <td class="text-black-50 h5">Date of Birth:</td>
-        <td class="text-black-50 h5">${client.birthDate}</td>
-    </tr>
-    <tr>
-        <td class="text-black-50 h5">Addresses: <br>
-            <a href="/client/userInfo/${client.id}/manageAddress?action=add">Add address</a>
-        </td>
-        <td class="text-black-50 h5">
-            <c:forEach var="i" items="${client.addressList}" begin="0" end="${client.addressList.size()}">
-                <c:out value="${i}"></c:out>
-                <a href="/client/userInfo/${client.id}/manageAddress?action=manage&addressId=${i.id}">Manage</a><br>
-            </c:forEach>
-        </td>
-    </tr>
-    <tr>
-        <td class="text-black-50 h5">
-        <a href="/client/userInfo/${client.id}/manage">Edit account</a>
-        </td>
-    </tr>
+<div class="container align-content-center">
+    <h1 class="card">Greetings, ${client.firstName}</h1>
+    <br>
+    <table class="table">
+        <tr>
+            <td class="text-black-50 h5">Name:</td>
+            <td class="text-black-50 h5">${client.firstName}</td>
+        </tr>
+        <tr>
+            <td class="text-black-50 h5">Lastname:</td>
+            <td class="text-black-50 h5">${client.lastName}</td>
+        </tr>
+        <tr>
+            <td class="text-black-50 h5">E-mail:</td>
+            <td class="text-black-50 h5">${client.email}</td>
+        </tr>
+        <tr>
+            <td class="text-black-50 h5">Date of Birth:</td>
+            <td class="text-black-50 h5">${client.birthDate}</td>
+        </tr>
+        <tr>
+            <td class="text-black-50 h5">Addresses: <br>
+                <a href="/client/userInfo/${client.id}/manageAddress?action=add">Add address</a>
+            </td>
+            <td class="text-black-50 h5">
+                <c:forEach var="i" items="${client.addressList}" begin="0" end="${client.addressList.size()}">
+                    <c:out value="${i}"></c:out>
+                    <a href="/client/userInfo/${client.id}/manageAddress?action=manage&addressId=${i.id}">Manage</a><br>
+                </c:forEach>
+            </td>
+        </tr>
+        <tr>
+            <td class="text-black-50 h5">Orders:</td>
+            <td class="text-black-50 h5">
+                <a href="/client/userInfo/${client.id}/orders">See all orders</a>
+            </td>
+        </tr>
+        <tr>
+            <td class="text-black-50 h5">
+            <a href="/client/userInfo/${client.id}/manage">Edit account</a>
+            </td>
+            <td></td>
+        </tr>
 
-</table>
+    </table>
+</div>
 </body>
 </html>

@@ -15,8 +15,12 @@ import project.dto.OrderDTO;
 import project.exception.NoSuchClientException;
 import project.service.AddressService;
 import project.service.ClientService;
+import project.service.OrderService;
 import project.service.UserService;
 
+import java.security.Principal;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 @Controller
@@ -26,6 +30,7 @@ public class ClientController {
     @Autowired private ClientService clientService;
     @Autowired private UserService userService;
     @Autowired private AddressService addressService;
+    @Autowired private OrderService orderService;
 
     @RequestMapping(value = "/registration", method = RequestMethod.GET)
     public String registration(Model model) {
@@ -146,5 +151,21 @@ public class ClientController {
         user.setAddressList(addresses);
         clientService.update(user);
         return getUserInfo(id, model);
+    }
+
+    @RequestMapping(value = "/userInfo/{id}/orders", method = RequestMethod.GET)
+    public String viewAllOrders(@PathVariable Long id, Model model, Principal principal) {
+        List<OrderDTO> currentClientOrders = new ArrayList<>();
+        List<OrderDTO> orders = orderService.findAll();
+        for (OrderDTO order : orders) {
+            long clientId = order.getClient().getId();
+            if (clientId == id) {
+                currentClientOrders.add(order);
+            }
+        }
+
+        model.addAttribute("user", clientService.findByEmail(principal.getName()));
+        model.addAttribute("orders", currentClientOrders);
+        return "orders";
     }
 }

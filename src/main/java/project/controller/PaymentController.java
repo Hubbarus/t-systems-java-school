@@ -47,6 +47,7 @@ public class PaymentController {
                 order.getPaymentMethod(),
                 order.getShipmentMethod(),
                 order.isPaymentStatus());
+
         return "redirect:/cart/clearCart";
     }
 }

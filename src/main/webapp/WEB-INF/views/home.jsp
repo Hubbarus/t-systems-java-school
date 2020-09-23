@@ -14,12 +14,23 @@
     <title>Main</title>
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+
+    <style>
+        .tech-skills-item {
+            color: #924d07;
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 24px;
+            margin-left: 20px;
+        }
+
+    </style>
+
 </head>
 <body>
 <div class="container-md">
     <h2>Greetings,
         <sec:authorize access="isAuthenticated()">
-<%--            ${pageContext.request.remoteUser}--%>
             ${user.firstName}
         </sec:authorize>
         <sec:authorize access="!isAuthenticated()">
@@ -32,19 +43,48 @@
         <c:out value="Order has been placed successfully"></c:out>
         </div>
     </c:if>
+<ul>
+    <li class="tech-skills-item">
+    <div class="container align-content-center">
+        <a href="/shop/" class="text-dark text-md-center h4">View Shop</a>
+    </div>
+    </li>
 
-    <a href="/shop/" class="text-dark text-md-center h4">View Shop</a><br>
-    <a href="/cart/" class="text-dark text-md-center h4">Cart</a>
+    <li class="tech-skills-item">
+    <div class="container align-content-center">
+        <a href="/cart/" class="text-dark text-md-center h4">Cart</a>
+    </div>
+    </li>
 
     <sec:authorize access="!isAuthenticated()">
-        <a href="/client/registration/">Registration</a><br>
-        <a href="/login">Log In</a><br>
+    <li class="tech-skills-item">
+        <div class="container align-content-center">
+            <a href="/client/registration/" class="text-dark text-md-center h4">Registration</a>
+        </div>
+    </li>
+
+    <li class="tech-skills-item">
+        <div class="container align-content-center">
+            <a href="/login" class="text-dark text-md-center h4">Log In</a><br>
+        </div>
+    </li>
     </sec:authorize>
 
+
     <sec:authorize access="isAuthenticated()">
-        <a href="/client/userInfo/${user.id}">My account</a><br>
-        <a href="/logout">Log Out</a>
+    <li class="tech-skills-item">
+        <div class="container align-content-center">
+            <a href="/client/userInfo/${user.id}" class="text-dark text-md-center h4">My account</a>
+        </div>
+    </li>
+
+    <li class="tech-skills-item">
+        <div class="container align-content-center">
+            <a href="/logout" class="text-dark text-md-center h4">Log Out</a>
+        </div>
+    </li>
     </sec:authorize>
+</ul>
 </div>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
