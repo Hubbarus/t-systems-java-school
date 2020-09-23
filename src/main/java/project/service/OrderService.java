@@ -82,13 +82,12 @@ public class OrderService {
             int quantity = cartDTO.getQuantity();
 
             item.setStock(item.getStock() - quantity);
+            itemDao.update(item);
 
             Cart cart = new Cart();
             cart.setQuantity(quantity);
             item.addCart(cart);
             order.addCart(cart);
-
-            itemDao.save(item);
         }
 
         orderDao.save(order);
