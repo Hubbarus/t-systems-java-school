@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import project.dto.AddressDTO;
 import project.dto.ClientDTO;
 import project.dto.OrderDTO;
@@ -69,5 +70,48 @@ public class ClientController {
         UserDetails userDetails = userService.loadUserByUsername(user.getEmail());
         System.out.println(userDetails);
         return "redirect:/";
+    }
+
+    @RequestMapping(value = "/userInfo/{id}/manage", method=RequestMethod.GET)
+    public String manageAccountInfo(@PathVariable Long id, Model model) {
+        ClientDTO client = clientService.findById(id);
+        model.addAttribute("client", client);
+        return "userEdit";
+    }
+
+    @RequestMapping(value = "/userInfo/{id}/manage", method=RequestMethod.POST)
+    public String editAccountInfo(@PathVariable Long id,
+                                  @ModelAttribute ClientDTO client, Model model) {
+        try {
+            ClientDTO byEmail = clientService.findByEmail(client.getEmail());
+            if (byEmail.getId() == client.getId()) {
+                throw new NoSuchClientException("This is the same client");
+            }
+            model.addAttribute("errorMsg", "This login already exist!");
+            return manageAccountInfo(id, model);
+        } catch (NoSuchClientException e) {
+            ClientDTO old = clientService.findById(id);
+            client.setAddressList(old.getAddressList());
+
+            clientService.encodePassword(client);
+            clientService.update(client);
+        }
+
+        return "redirect:/client/userInfo/{id}";
+    }
+
+    @RequestMapping(value = "/userInfo/{id}/manageAddress", method=RequestMethod.GET)
+    public String editAddressInfo(@PathVariable Long id,
+                                    @RequestParam(value = "action") String action,
+                                    Model model) {
+
+        return "manageAddress";
+    }
+
+    @RequestMapping(value = "/userInfo/{id}/manageAddress", method=RequestMethod.POST)
+    public String manageAccountInfo(@PathVariable Long id,
+                                    @RequestParam(value = "action") String action,
+                                    Model model) {
+        return "redirect:/userInfo/{id}";
     }
 }

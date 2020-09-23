@@ -20,6 +20,41 @@
 </head>
 <body>
 <h1 class="card">Greetings, ${client.firstName}</h1>
+<br>
+<table class="table">
+    <tr>
+        <td class="text-black-50 h5">Name:</td>
+        <td class="text-black-50 h5">${client.firstName}</td>
+    </tr>
+    <tr>
+        <td class="text-black-50 h5">Lastname:</td>
+        <td class="text-black-50 h5">${client.lastName}</td>
+    </tr>
+    <tr>
+        <td class="text-black-50 h5">E-mail:</td>
+        <td class="text-black-50 h5">${client.email}</td>
+    </tr>
+    <tr>
+        <td class="text-black-50 h5">Date of Birth:</td>
+        <td class="text-black-50 h5">${client.birthDate}</td>
+    </tr>
+    <tr>
+        <td class="text-black-50 h5">Addresses: <br>
+            <a href="/client/userInfo/${client.id}/manageAddress?action=manage">Manage</a>
+            <a href="/client/userInfo/${client.id}/manageAddress?action=add">Add address</a>
+        </td>
+        <td class="text-black-50 h5">
+            <c:forEach var="i" items="${client.addressList}" begin="0" end="${client.addressList.size()}">
+                <c:out value="${i}"></c:out>
+            </c:forEach>
+        </td>
+    </tr>
+    <tr>
+        <td class="text-black-50 h5">
+        <a href="/client/userInfo/${client.id}/manage">Edit account</a>
+        </td>
+    </tr>
 
+</table>
 </body>
 </html>

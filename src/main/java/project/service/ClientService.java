@@ -82,4 +82,8 @@ public class ClientService {
 
         save(user);
     }
+
+    public void encodePassword(ClientDTO client) {
+        client.setUserPass(passwordEncoder.encode(client.getUserPass()));
+    }
 }

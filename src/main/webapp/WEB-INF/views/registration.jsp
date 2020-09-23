@@ -22,7 +22,7 @@
         <a href="/client/registration/" class="btn-success">Go back</a>
     </c:when>
     <c:otherwise>
-        <div class="tab">
+        <div class="table">
             <form:form method="POST" modelAttribute="clientForm" action="/client/registration/">
                 <h3 class="card-header">Client Information</h3>
                 <p class="text-dark">Name: </p>
@@ -33,7 +33,6 @@
 
                 <p class="text-dark">Date of birth: </p>
                 <fmt:formatDate value="${clientForm.client.birthDate}" var="date" pattern="yyyy-MM-dd"></fmt:formatDate>
-<%--                <input type="date" value="${date}" property="dateValue">--%>
                 <form:input type="date" path="client.birthDate" value="${date}"></form:input>
 
                 <p class="text-dark">E-mail: </p>

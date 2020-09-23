@@ -3,6 +3,7 @@ package project.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.util.StringUtils;
 
 @Data
 @AllArgsConstructor
@@ -15,4 +16,15 @@ public class AddressDTO {
     private String street;
     private int building;
     private int apart;
+
+    @Override
+    public String toString() {
+        return postcode + ", "
+                + StringUtils.capitalize(country) + ", "
+                + StringUtils.capitalize(city) + ", "
+                + StringUtils.capitalize(street) + ", "
+                + building + ", "
+                + apart + ", ";
+
+    }
 }
