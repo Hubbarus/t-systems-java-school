@@ -15,10 +15,13 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 </head>
 <body>
+<div class="container card">
 <h2>Registration</h2>
+</div>
+<div class="container">
 <c:choose>
     <c:when test="${userNameError != null}">
-        <c:out value="${userNameError}"></c:out>
+        <div class="alert alert-danger"><c:out value="${userNameError}"></c:out></div>
         <a href="/client/registration/" class="btn-success">Go back</a>
     </c:when>
     <c:otherwise>
@@ -40,32 +43,11 @@
 
                 <p class="text-dark">Password: </p>
                 <form:password path="client.userPass"></form:password>
-
-                <h3 class="card-header">Address</h3>
-                <p class="text-dark">Country: </p>
-                <form:input path="address.country"></form:input>
-
-                <p class="text-dark">City: </p>
-                <form:input path="address.city"></form:input>
-
-                <p class="text-dark">Postcode: </p>
-<%--                <input type="number">--%>
-                <form:input path="address.postcode"></form:input>
-
-                <p class="text-dark">Street: </p>
-                <form:input path="address.street"></form:input>
-
-                <p class="text-dark">Building #: </p>
-<%--                <input type="number">--%>
-                <form:input type="number" path="address.building"></form:input>
-
-                <p class="text-dark">Apart #: </p>
-<%--                <input type="number">--%>
-                <form:input type="number" path="address.apart"></form:input>
                 <button type="submit">Do register!</button>
             </form:form>
         </div>
     </c:otherwise>
 </c:choose>
+</div>
 </body>
 </html>
