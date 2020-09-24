@@ -8,7 +8,7 @@ import project.converter.ItemConverter;
 import project.dao.ItemDao;
 import project.dto.ItemDTO;
 import project.entity.Item;
-import project.exception.NoSuchItemGroupExeption;
+import project.exception.NoSuchItemGroupException;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -61,7 +61,7 @@ public class ItemService {
                 .collect(Collectors.toList());
     }
 
-    public List<ItemDTO> findByGroup(String group) throws NoSuchItemGroupExeption {
+    public List<ItemDTO> findByGroup(String group) throws NoSuchItemGroupException {
         List<ItemDTO> result = new ArrayList<>();
         List<ItemDTO> all = findAll();
 
@@ -72,7 +72,7 @@ public class ItemService {
         }
 
         if (result.size() == 0) {
-            throw new NoSuchItemGroupExeption("Group " + group + " not found");
+            throw new NoSuchItemGroupException("Group " + group + " not found");
         }
 
         return result;
