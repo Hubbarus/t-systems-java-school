@@ -3,7 +3,6 @@ package project.converter;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import project.dto.CartDTO;
 import project.dto.OrderDTO;
 import project.entity.Cart;
@@ -14,7 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-@Transactional
 public class OrderConverter {
 
     @Autowired
