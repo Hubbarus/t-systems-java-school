@@ -41,12 +41,7 @@ public class PaymentController {
             order.setPaymentStatus(false);
         }
 
-        orderService.createOrderAndSave(order.getAddress().getId(),
-                order.getClient().getId(),
-                order.getItems(),
-                order.getPaymentMethod(),
-                order.getShipmentMethod(),
-                order.isPaymentStatus());
+        orderService.createOrderAndSave(order);
 
         return "redirect:/cart/clearCart";
     }

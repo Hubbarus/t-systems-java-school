@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import project.utils.CartListWrapper;
 
 import java.util.Collection;
-import java.util.HashMap;
+import java.util.HashSet;
 
 import static org.modelmapper.config.Configuration.AccessLevel.PRIVATE;
 
@@ -37,6 +37,6 @@ public class SpringConfig {
 
     private Condition skipCollections() {
         return context -> !(context.getMapping().getSourceType().equals(Collection.class))
-                || !(context.getMapping().getSourceType().equals(HashMap.class));
+                || !(context.getMapping().getSourceType().equals(HashSet.class));
     }
 }

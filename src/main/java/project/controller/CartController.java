@@ -21,7 +21,6 @@ public class CartController {
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String showCart(Model model,
                            @SessionAttribute("items") CartListWrapper wrapper) {
-        System.out.println(wrapper);
         model.addAttribute("items", wrapper);
         return "cart";
     }

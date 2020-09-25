@@ -33,6 +33,7 @@ public class OrderConverter {
         for (CartDTO cartDTO : cartDTOS) {
             Cart cart = cartConverter.convertToEntity(cartDTO);
             cart.setOrder(entity);
+            cart.setItem(itemConverter.convertToEntity(cartDTO.getItem()));
             carts.add(cart);
         }
         entity.setCarts(carts);
@@ -49,6 +50,7 @@ public class OrderConverter {
         for (Cart cart : carts) {
             int quantity = cart.getQuantity();
             CartDTO cartDTO = cartConverter.convertToDTO(cart);
+            cartDTO.setItem(itemConverter.convertToDTO(cart.getItem()));
             cartDTO.setOrder(dto);
             cartDTOS.add(cartDTO);
 

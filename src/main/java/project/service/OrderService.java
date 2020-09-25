@@ -10,12 +10,9 @@ import project.dao.ClientDao;
 import project.dao.ItemDao;
 import project.dao.OrderDao;
 import project.dto.CartDTO;
+import project.dto.ItemDTO;
 import project.dto.OrderDTO;
-import project.entity.Cart;
-import project.entity.Item;
 import project.entity.Order;
-import project.entity.enums.PaymentEnum;
-import project.entity.enums.ShipmentEnum;
 import project.entity.enums.StatusEnum;
 
 import java.util.List;
@@ -29,6 +26,7 @@ public class OrderService {
     @Autowired private final ClientDao clientDao;
     @Autowired private final AddressDao addressDao;
     @Autowired private final ItemDao itemDao;
+    @Autowired private final ItemService itemService;
 
     @Transactional
     public void save(OrderDTO orderDTO) {
@@ -66,30 +64,17 @@ public class OrderService {
         orderDao.deleteAll();
     }
 
-    public void createOrderAndSave(Long addressId, Long clientId, List<CartDTO> items,
-                                   PaymentEnum payMethod, ShipmentEnum shipMethod, boolean payStatus) {
-        Order order = new Order();
-
-        order.setClient(clientDao.findById(clientId));
-        order.setAddress(addressDao.findById(addressId));
-        order.setPaymentMethod(payMethod);
-        order.setPaymentStatus(payStatus);
-        order.setShipmentMethod(shipMethod);
+    public void createOrderAndSave(OrderDTO order) {
         order.setStatus(StatusEnum.NEW);
 
-        for (CartDTO cartDTO : items) {
-            Item item = itemDao.findById(cartDTO.getItem().getId());
+        for (CartDTO cartDTO : order.getItems()) {
+            ItemDTO item = itemService.findById(cartDTO.getItem().getId());
             int quantity = cartDTO.getQuantity();
 
             item.setStock(item.getStock() - quantity);
-            itemDao.update(item);
-
-            Cart cart = new Cart();
-            cart.setQuantity(quantity);
-            item.addCart(cart);
-            order.addCart(cart);
+            itemService.update(item);
         }
 
-        orderDao.save(order);
+        save(order);
     }
 }

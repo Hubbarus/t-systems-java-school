@@ -2,7 +2,9 @@ package project.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import project.entity.enums.RoleEnum;
@@ -24,6 +26,8 @@ public class ClientDTO implements UserDetails {
     private String email;
     private boolean active;
     private RoleEnum role;
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private Set<AddressDTO> addressList;
 
     @Override
