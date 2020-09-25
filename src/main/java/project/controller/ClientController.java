@@ -5,7 +5,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -60,9 +59,9 @@ public class ClientController {
         }
     }
 
-    @RequestMapping(value = "/userInfo/{id}", method = RequestMethod.GET)
-    public String getUserInfo(@PathVariable Long id, Model model) {
-        ClientDTO client = clientService.findById(id);
+    @RequestMapping(value = "/userInfo", method = RequestMethod.GET)
+    public String getUserInfo(Model model, Principal principal) {
+        ClientDTO client = clientService.findByEmail(principal.getName());
         model.addAttribute("client", client);
         return "/userInfo";
     }
@@ -81,15 +80,15 @@ public class ClientController {
         return "redirect:/";
     }
 
-    @RequestMapping(value = "/userInfo/{id}/manage", method=RequestMethod.GET)
-    public String manageAccountInfo(@PathVariable Long id, Model model) {
-        ClientDTO client = clientService.findById(id);
+    @RequestMapping(value = "/userInfo/manage", method=RequestMethod.GET)
+    public String manageAccountInfo(Principal principal, Model model) {
+        ClientDTO client = clientService.findByEmail(principal.getName());
         model.addAttribute("client", client);
         return "userEdit";
     }
 
-    @RequestMapping(value = "/userInfo/{id}/manage", method=RequestMethod.POST)
-    public String editAccountInfo(@PathVariable Long id,
+    @RequestMapping(value = "/userInfo/manage", method=RequestMethod.POST)
+    public String editAccountInfo(Principal principal,
                                   @ModelAttribute ClientDTO client, Model model) {
         try {
             ClientDTO byEmail = clientService.findByEmail(client.getEmail());
@@ -97,23 +96,22 @@ public class ClientController {
                 throw new NoSuchClientException("This is the same client");
             }
             model.addAttribute("errorMsg", "This login already exist!");
-            return manageAccountInfo(id, model);
+            return manageAccountInfo(principal, model);
         } catch (NoSuchClientException e) {
-            ClientDTO old = clientService.findById(id);
+            ClientDTO old = clientService.findByEmail(principal.getName());
             client.setAddressList(old.getAddressList());
 
             clientService.encodePassword(client);
             clientService.update(client);
         }
 
-        return "redirect:/client/userInfo/{id}";
+        return getUserInfo(model, principal);
     }
 
-    @RequestMapping(value = "/userInfo/{id}/manageAddress", method=RequestMethod.GET)
-    public String editAddressInfo(@PathVariable Long id,
-                                    @RequestParam(value = "addressId", required = false) Long addressId,
-                                    @RequestParam(value = "action") String action,
-                                    Model model) {
+    @RequestMapping(value = "/userInfo/manageAddress", method=RequestMethod.GET)
+    public String editAddressInfo(@RequestParam(value = "addressId", required = false) Long addressId,
+                                  @RequestParam(value = "action") String action,
+                                  Model model) {
         AddressDTO address;
         switch (action) {
             case "manage": {
@@ -129,10 +127,10 @@ public class ClientController {
         return "manageAddress";
     }
 
-    @RequestMapping(value = "/userInfo/{id}/manageAddress", method=RequestMethod.POST)
-    public String editAddressInfo(@PathVariable Long id,
+    @RequestMapping(value = "/userInfo/manageAddress", method=RequestMethod.POST)
+    public String editAddressInfo(Principal principal,
                                   @ModelAttribute AddressDTO addressDTO, Model model) {
-        ClientDTO user = clientService.findById(id);
+        ClientDTO user = clientService.findByEmail(principal.getName());
         Set<AddressDTO> addresses = user.getAddressList();
         boolean wasAdded = false;
         for (AddressDTO address : addresses) {
@@ -150,21 +148,22 @@ public class ClientController {
 
         user.setAddressList(addresses);
         clientService.update(user);
-        return getUserInfo(id, model);
+        return getUserInfo(model, principal);
     }
 
-    @RequestMapping(value = "/userInfo/{id}/orders", method = RequestMethod.GET)
-    public String viewAllOrders(@PathVariable Long id, Model model, Principal principal) {
+    @RequestMapping(value = "/userInfo/orders", method = RequestMethod.GET)
+    public String viewAllOrders(Model model, Principal principal) {
         List<OrderDTO> currentClientOrders = new ArrayList<>();
         List<OrderDTO> orders = orderService.findAll();
+        ClientDTO user = clientService.findByEmail(principal.getName());
         for (OrderDTO order : orders) {
             long clientId = order.getClient().getId();
-            if (clientId == id) {
+            if (clientId == user.getId()) {
                 currentClientOrders.add(order);
             }
         }
 
-        model.addAttribute("user", clientService.findByEmail(principal.getName()));
+        model.addAttribute("user", user);
         model.addAttribute("orders", currentClientOrders);
         return "orders";
     }

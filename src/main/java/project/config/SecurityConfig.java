@@ -26,9 +26,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/", "/cart/").permitAll();
         http
                 .formLogin()
-                //.loginPage("/client/login")
-//                .usernameParameter("email")
-//                .passwordParameter("userPass")
                 .defaultSuccessUrl("/")
                 .permitAll();
     }

@@ -74,7 +74,7 @@
     <sec:authorize access="isAuthenticated()">
     <li class="tech-skills-item">
         <div class="container align-content-center">
-            <a href="/client/userInfo/${user.id}" class="text-dark text-md-center h4">My account</a>
+            <a href="/client/userInfo/" class="text-dark text-md-center h4">My account</a>
         </div>
     </li>
 

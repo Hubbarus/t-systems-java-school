@@ -24,15 +24,11 @@
             <td>
                 <table class="table table-bordered">
                     <tr>
-                        <td>Item #</td>
                         <td>Name</td>
                         <td>Quantity</td>
                     </tr>
                         <c:forEach items="${order.items}" begin="0" end="${order.items.size()}" var="item">
                             <tr>
-                                <td>
-                                    <c:out value="${item.item.id}"></c:out>
-                                </td>
                                 <td>
                                     <c:out value="${item.item.itemName}, ${item.item.description}}"></c:out>
                                 </td>
@@ -48,7 +44,7 @@
         </tr>
         </c:forEach>
     </table>
-    <a href="/client/userInfo/${user.id}">Back to My Account</a>
+    <a href="/client/userInfo/">Back to My Account</a>
 </div>
 
 </body>
