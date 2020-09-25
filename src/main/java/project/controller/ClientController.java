@@ -63,6 +63,7 @@ public class ClientController {
     public String getUserInfo(Model model, Principal principal) {
         ClientDTO client = clientService.findByEmail(principal.getName());
         model.addAttribute("client", client);
+        model.addAttribute("address", new AddressDTO());
         return "/userInfo";
     }
 
@@ -90,38 +91,36 @@ public class ClientController {
     @RequestMapping(value = "/userInfo/manage", method=RequestMethod.POST)
     public String editAccountInfo(Principal principal,
                                   @ModelAttribute ClientDTO client, Model model) {
+
+
+        ClientDTO currentClient = clientService.findByEmail(principal.getName());
         try {
             ClientDTO byEmail = clientService.findByEmail(client.getEmail());
-            if (byEmail.getId() == client.getId()) {
+            if (currentClient.getEmail().equals(byEmail.getEmail())) {
                 throw new NoSuchClientException("This is the same client");
             }
             model.addAttribute("errorMsg", "This login already exist!");
             return manageAccountInfo(principal, model);
         } catch (NoSuchClientException e) {
-            ClientDTO old = clientService.findByEmail(principal.getName());
-            client.setAddressList(old.getAddressList());
-
-            clientService.encodePassword(client);
-            clientService.update(client);
+            clientService.updateUserInformation(currentClient, client);
         }
 
         return getUserInfo(model, principal);
     }
 
     @RequestMapping(value = "/userInfo/manageAddress", method=RequestMethod.GET)
-    public String editAddressInfo(@RequestParam(value = "addressId", required = false) Long addressId,
-                                  @RequestParam(value = "action") String action,
+    public String editAddressInfo(@ModelAttribute AddressDTO addressDTO,
+                                  @RequestParam(value = "action", required = false) String action,
                                   Model model) {
         AddressDTO address;
-        switch (action) {
-            case "manage": {
-                address = addressService.findById(addressId);
-            } break;
-            case "add" : {
-                address = new AddressDTO();
-            } break;
-            default: { return "redirect:/"; }
+        if (action == null) {
+            address = addressService.findById(addressDTO.getId());
+        } else if (action.equals("add")) {
+            address = new AddressDTO();
+        } else {
+            return "redirect:/";
         }
+
         model.addAttribute("address", address);
 
         return "manageAddress";

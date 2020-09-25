@@ -86,4 +86,14 @@ public class ClientService {
     public void encodePassword(ClientDTO client) {
         client.setUserPass(passwordEncoder.encode(client.getUserPass()));
     }
+
+    public void updateUserInformation(ClientDTO currentClient, ClientDTO client) {
+        currentClient.setFirstName(client.getFirstName());
+        currentClient.setLastName(client.getLastName());
+        currentClient.setBirthDate(client.getBirthDate());
+        currentClient.setEmail(client.getEmail());
+        currentClient.setUserPass(passwordEncoder.encode(client.getUserPass()));
+
+        update(currentClient);
+    }
 }

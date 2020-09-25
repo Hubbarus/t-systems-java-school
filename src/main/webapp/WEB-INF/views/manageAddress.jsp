@@ -9,7 +9,7 @@
 <body>
 <div class="container-md">
             <table class="table">
-                <form:form method="post" action="" modelAttribute="address">
+                <form:form method="post" action="/client/userInfo/manageAddress" modelAttribute="address">
                     <tr>
                         <td class="text-black-50 h5">Country:</td>
                         <td class="form-group">

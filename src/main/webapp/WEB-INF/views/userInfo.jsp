@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%--
   Created by IntelliJ IDEA.
   User: paulponomarev
@@ -41,13 +42,30 @@
         </tr>
         <tr>
             <td class="text-black-50 h5">Addresses: <br>
-                <a href="/client/userInfo/manageAddress?action=add">Add address</a>
+                <a href="/client/userInfo/manageAddress?action=add" class="btn-light">Add address</a>
             </td>
             <td class="text-black-50 h5">
+                <table class="table-borderless align-content-center">
                 <c:forEach var="i" items="${client.addressList}" begin="0" end="${client.addressList.size()}">
-                    <c:out value="${i}"></c:out>
-                    <a href="/client/userInfo/manageAddress?action=manage&addressId=${i.id}">Manage</a><br>
+                    <tr>
+                    <td>
+                    <c:out value="${i.postcode}, ${i.country}, ${i.city}, ${i.street}, ${i.building}, ${i.apart}"></c:out>
+                    </td>
+                    <td>
+                    <form:form action="/client/userInfo/manageAddress?action=manage/" modelAttribute="address" method="get">
+                        <form:hidden path="id" value="${i.id}"></form:hidden>
+                        <form:hidden path="country" value="${i.country}"></form:hidden>
+                        <form:hidden path="city" value="${i.city}"></form:hidden>
+                        <form:hidden path="postcode" value="${i.postcode}"></form:hidden>
+                        <form:hidden path="street" value="${i.street}"></form:hidden>
+                        <form:hidden path="building" value="${i.building}"></form:hidden>
+                        <form:hidden path="apart" value="${i.apart}"></form:hidden>
+                        <form:button class="btn btn-light">Edit</form:button>
+                    </form:form>
+                    </td>
                 </c:forEach>
+                    </tr>
+                </table>
             </td>
         </tr>
         <tr>

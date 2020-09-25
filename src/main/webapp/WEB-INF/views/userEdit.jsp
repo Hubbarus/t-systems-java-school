@@ -9,7 +9,7 @@
 </head>
 <body>
 <c:if test="${errorMsg != null}">
-    <div class="alert alert-danger align-content-center w-50 h-50" role="alert">
+    <div class="alert alert-danger align-content-center" role="alert">
         <c:out value="${errorMsg}"></c:out>
     </div>
 </c:if>
