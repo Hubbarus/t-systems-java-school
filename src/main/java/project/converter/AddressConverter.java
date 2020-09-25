@@ -28,7 +28,7 @@ public class AddressConverter implements Converter<String, AddressDTO> {
 
     @Override
     public AddressDTO convert(String source) {
-        AddressDTO addressDTO = null;
+        AddressDTO addressDTO = new AddressDTO();
         if (source != null) {
             String[] tokens = source.split(" \\| ");
             long id = Long.parseLong(tokens[0]);
