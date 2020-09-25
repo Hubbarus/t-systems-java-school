@@ -112,15 +112,7 @@ public class ClientController {
     public String editAddressInfo(@ModelAttribute AddressDTO addressDTO,
                                   @RequestParam(value = "action", required = false) String action,
                                   Model model) {
-        AddressDTO address;
-        if (action == null) {
-            address = addressService.findById(addressDTO.getId());
-        } else if (action.equals("add")) {
-            address = new AddressDTO();
-        } else {
-            return "redirect:/";
-        }
-
+        AddressDTO address = addressService.getFormFromAction(addressDTO, action);
         model.addAttribute("address", address);
 
         return "manageAddress";

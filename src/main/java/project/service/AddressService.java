@@ -56,4 +56,10 @@ public class AddressService {
     public void deleteAll() {
         addressDao.deleteAll();
     }
+
+    public AddressDTO getFormFromAction(AddressDTO addressDTO, String action) {
+        if (action == null) {
+            return findById(addressDTO.getId());
+        } else return new AddressDTO();
+    }
 }
