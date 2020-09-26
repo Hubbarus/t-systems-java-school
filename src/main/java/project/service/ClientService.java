@@ -13,6 +13,7 @@ import project.dto.OrderDTO;
 import project.entity.Client;
 import project.entity.enums.RoleEnum;
 import project.exception.NoSuchClientException;
+import project.utils.CartListWrapper;
 
 import java.security.Principal;
 import java.util.ArrayList;
@@ -134,5 +135,13 @@ public class ClientService {
             }
         }
         return currentClientOrders;
+    }
+
+    public OrderDTO collectOrder(CartListWrapper items, Principal principal) {
+        OrderDTO order = new OrderDTO();
+        order.setItems(items.getList());
+        order.setClient(findByEmail(principal.getName()));
+        order.setSubtotal(items.getSubtotal());
+        return order;
     }
 }
