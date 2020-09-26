@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import project.converter.ItemConverter;
 import project.dao.ItemDao;
+import project.dto.CartDTO;
 import project.dto.ItemDTO;
 import project.entity.Item;
 import project.exception.NoSuchItemGroupException;
@@ -99,5 +100,17 @@ public class ItemService {
             result.add(item.getItemGroup());
         }
         return result;
+    }
+
+    public CartDTO getItemById(Long id, String category) {
+        List<ItemDTO> itemByGroup = findByGroup(category);
+        CartDTO cart = new CartDTO();
+        for (ItemDTO item : itemByGroup) {
+            if (item.getId() == id) {
+                cart.setItem(item);
+                break;
+            }
+        }
+        return cart;
     }
 }

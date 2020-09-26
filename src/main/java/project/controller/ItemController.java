@@ -6,12 +6,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import project.dto.CartDTO;
-import project.dto.ItemDTO;
 import project.service.ItemService;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 
 @Controller
@@ -38,14 +35,8 @@ public class ItemController {
     @RequestMapping(value = "/{category}/{id}", method = RequestMethod.GET)
     public String getItem(@PathVariable String category,
                           @PathVariable Long id, Model model) {
-        List<ItemDTO> itemByGroup = itemService.findByGroup(category);
-        for (ItemDTO item : itemByGroup) {
-            if (item.getId() == id) {
-                CartDTO cart = new CartDTO();
-                cart.setItem(item);
-                model.addAttribute("cart", cart);
-            }
-        }
+
+        model.addAttribute("cart", itemService.getItemById(id, category));
         return "itemPage";
     }
 
