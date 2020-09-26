@@ -29,20 +29,20 @@
             <form:form method="POST" modelAttribute="clientForm" action="/client/registration/">
                 <h3 class="card-header">Client Information</h3>
                 <p class="text-dark">Name: </p>
-                <form:input path="client.firstName"></form:input>
+                <form:input path="firstName"></form:input>
 
                 <p class="text-dark">Lastname: </p>
-                <form:input path="client.lastName"></form:input>
+                <form:input path="lastName"></form:input>
 
                 <p class="text-dark">Date of birth: </p>
-                <fmt:formatDate value="${clientForm.client.birthDate}" var="date" pattern="yyyy-MM-dd"></fmt:formatDate>
-                <form:input type="date" path="client.birthDate" value="${date}"></form:input>
+                <fmt:formatDate value="${clientForm.birthDate}" var="date" pattern="yyyy-MM-dd"></fmt:formatDate>
+                <form:input type="date" path="birthDate" value="${date}"></form:input>
 
                 <p class="text-dark">E-mail: </p>
-                <form:input type="email" path="client.email"></form:input>
+                <form:input type="email" path="email"></form:input>
 
                 <p class="text-dark">Password: </p>
-                <form:password path="client.userPass"></form:password>
+                <form:password path="userPass"></form:password>
                 <button type="submit">Do register!</button>
             </form:form>
         </div>

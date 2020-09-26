@@ -5,9 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import project.converter.OrderConverter;
-import project.dao.AddressDao;
-import project.dao.ClientDao;
-import project.dao.ItemDao;
 import project.dao.OrderDao;
 import project.dto.CartDTO;
 import project.dto.ItemDTO;
@@ -23,9 +20,6 @@ import java.util.stream.Collectors;
 public class OrderService {
     @Autowired private final OrderDao orderDao;
     @Autowired private final OrderConverter orderConverter;
-    @Autowired private final ClientDao clientDao;
-    @Autowired private final AddressDao addressDao;
-    @Autowired private final ItemDao itemDao;
     @Autowired private final ItemService itemService;
 
     @Transactional

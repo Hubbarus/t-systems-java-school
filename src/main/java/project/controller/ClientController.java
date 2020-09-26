@@ -18,9 +18,7 @@ import project.service.OrderService;
 import project.service.UserService;
 
 import java.security.Principal;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @Controller
 @RequestMapping("/client")
@@ -33,27 +31,20 @@ public class ClientController {
 
     @RequestMapping(value = "/registration", method = RequestMethod.GET)
     public String registration(Model model) {
-        OrderDTO order = new OrderDTO();
-        order.setClient(new ClientDTO());
-        order.setAddress(new AddressDTO());
 
-        model.addAttribute("clientForm", order);
+        model.addAttribute("clientForm", new ClientDTO());
         return "registration";
     }
 
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
-    public String addClient(@ModelAttribute("userForm") OrderDTO orderDTO,
+    public String addClient(@ModelAttribute("userForm") ClientDTO client,
                             Model model) {
         try {
-            ClientDTO client = orderDTO.getClient();
             clientService.findByEmail(client.getEmail());
             model.addAttribute("userNameError", "This username already exist!");
             return "registration";
         } catch (NoSuchClientException e) {
-            ClientDTO client = orderDTO.getClient();
-            AddressDTO address = orderDTO.getAddress();
-
-            clientService.createUserAndSave(client, address);
+            clientService.createUserAndSave(client, null);
             model.addAttribute("user", new ClientDTO());
             return "login";
         }
@@ -121,38 +112,14 @@ public class ClientController {
     @RequestMapping(value = "/userInfo/manageAddress", method=RequestMethod.POST)
     public String editAddressInfo(Principal principal,
                                   @ModelAttribute AddressDTO addressDTO, Model model) {
-        ClientDTO user = clientService.findByEmail(principal.getName());
-        Set<AddressDTO> addresses = user.getAddressList();
-        boolean wasAdded = false;
-        for (AddressDTO address : addresses) {
-            if (address.getId() == addressDTO.getId()) {
-                addresses.remove(address);
-                addresses.add(addressDTO);
-                wasAdded = true;
-                break;
-            }
-        }
-
-        if (!wasAdded) {
-            addresses.add(addressDTO);
-        }
-
-        user.setAddressList(addresses);
-        clientService.update(user);
+        clientService.updateAddressInformation(principal, addressDTO);
         return getUserInfo(model, principal);
     }
 
     @RequestMapping(value = "/userInfo/orders", method = RequestMethod.GET)
     public String viewAllOrders(Model model, Principal principal) {
-        List<OrderDTO> currentClientOrders = new ArrayList<>();
-        List<OrderDTO> orders = orderService.findAll();
         ClientDTO user = clientService.findByEmail(principal.getName());
-        for (OrderDTO order : orders) {
-            long clientId = order.getClient().getId();
-            if (clientId == user.getId()) {
-                currentClientOrders.add(order);
-            }
-        }
+        List<OrderDTO> currentClientOrders = clientService.getAllClientOrders(user);
 
         model.addAttribute("user", user);
         model.addAttribute("orders", currentClientOrders);

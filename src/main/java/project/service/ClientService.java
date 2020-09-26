@@ -9,10 +9,13 @@ import project.converter.ClientConverter;
 import project.dao.ClientDao;
 import project.dto.AddressDTO;
 import project.dto.ClientDTO;
+import project.dto.OrderDTO;
 import project.entity.Client;
 import project.entity.enums.RoleEnum;
 import project.exception.NoSuchClientException;
 
+import java.security.Principal;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -25,6 +28,7 @@ public class ClientService {
     @Autowired private final ClientDao clientDao;
     @Autowired private final ClientConverter clientConverter;
     @Autowired private final PasswordEncoder passwordEncoder;
+    @Autowired private final OrderService orderService;
 
     @Transactional
     public void save(ClientDTO clientDTO) {
@@ -73,9 +77,11 @@ public class ClientService {
     }
 
     public void createUserAndSave(ClientDTO user, AddressDTO address) {
-        Set<AddressDTO> addresses = new HashSet<>();
-        addresses.add(address);
-        user.setAddressList(addresses);
+        if (address != null) {
+            Set<AddressDTO> addresses = new HashSet<>();
+            addresses.add(address);
+            user.setAddressList(addresses);
+        }
         user.setRole(RoleEnum.USER);
         user.setActive(true);
         user.setUserPass(passwordEncoder.encode(user.getUserPass()));
@@ -95,5 +101,38 @@ public class ClientService {
         currentClient.setUserPass(passwordEncoder.encode(client.getUserPass()));
 
         update(currentClient);
+    }
+
+    public void updateAddressInformation(Principal principal, AddressDTO addressDTO) {
+        ClientDTO user = findByEmail(principal.getName());
+        Set<AddressDTO> addresses = user.getAddressList();
+        boolean wasAdded = false;
+        for (AddressDTO address : addresses) {
+            if (address.getId() == addressDTO.getId()) {
+                addresses.remove(address);
+                addresses.add(addressDTO);
+                wasAdded = true;
+                break;
+            }
+        }
+
+        if (!wasAdded) {
+            addresses.add(addressDTO);
+        }
+
+        user.setAddressList(addresses);
+        update(user);
+    }
+
+    public List<OrderDTO> getAllClientOrders(ClientDTO user) {
+        List<OrderDTO> currentClientOrders = new ArrayList<>();
+        List<OrderDTO> orders = orderService.findAll();
+        for (OrderDTO order : orders) {
+            long clientId = order.getClient().getId();
+            if (clientId == user.getId()) {
+                currentClientOrders.add(order);
+            }
+        }
+        return currentClientOrders;
     }
 }
