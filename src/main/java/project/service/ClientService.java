@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.Model;
 import project.converter.ClientConverter;
 import project.dao.ClientDao;
 import project.dto.AddressDTO;
@@ -143,5 +144,24 @@ public class ClientService {
         order.setClient(findByEmail(principal.getName()));
         order.setSubtotal(items.getSubtotal());
         return order;
+    }
+
+    public String checkIfUserExistsAndCreate(ClientDTO client, Model model) {
+        try {
+            findByEmail(client.getEmail());
+            model.addAttribute("userNameError", "This username already exist!");
+            return "registration";
+        } catch (NoSuchClientException e) {
+            createUserAndSave(client, null);
+            model.addAttribute("user", new ClientDTO());
+            return "redirect:/login";
+        }
+    }
+
+    public boolean checkIfUsernameExist(String email) {
+        ClientDTO byEmail = findByEmail(email);
+        if (email.equals(byEmail.getEmail())) {
+            return true;
+        } else return false;
     }
 }

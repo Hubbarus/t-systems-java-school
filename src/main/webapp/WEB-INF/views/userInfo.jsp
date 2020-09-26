@@ -20,6 +20,13 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 </head>
 <body>
+
+<c:if test="${successMsg != null}">
+    <div class="alert alert-success align-content-center" role="alert">
+        <c:out value="${successMsg}"></c:out>
+    </div>
+</c:if>
+
 <div class="container align-content-center">
     <h1 class="card">Greetings, ${client.firstName}</h1>
     <br>

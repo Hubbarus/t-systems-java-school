@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import project.dto.AddressDTO;
 import project.dto.ClientDTO;
 import project.dto.OrderDTO;
-import project.exception.NoSuchClientException;
 import project.service.AddressService;
 import project.service.ClientService;
 import project.service.OrderService;
@@ -39,15 +38,7 @@ public class ClientController {
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
     public String addClient(@ModelAttribute("userForm") ClientDTO client,
                             Model model) {
-        try {
-            clientService.findByEmail(client.getEmail());
-            model.addAttribute("userNameError", "This username already exist!");
-            return "registration";
-        } catch (NoSuchClientException e) {
-            clientService.createUserAndSave(client, null);
-            model.addAttribute("user", new ClientDTO());
-            return "login";
-        }
+        return clientService.checkIfUserExistsAndCreate(client, model);
     }
 
     @RequestMapping(value = "/userInfo", method = RequestMethod.GET)
@@ -83,20 +74,17 @@ public class ClientController {
     public String editAccountInfo(Principal principal,
                                   @ModelAttribute ClientDTO client, Model model) {
 
-
         ClientDTO currentClient = clientService.findByEmail(principal.getName());
-        try {
-            ClientDTO byEmail = clientService.findByEmail(client.getEmail());
-            if (currentClient.getEmail().equals(byEmail.getEmail())) {
-                throw new NoSuchClientException("This is the same client");
-            }
+
+        if (clientService.checkIfUsernameExist(client.getEmail())
+                && !currentClient.getEmail().equals(client.getEmail())) {
             model.addAttribute("errorMsg", "This login already exist!");
             return manageAccountInfo(principal, model);
-        } catch (NoSuchClientException e) {
+        } else {
+            model.addAttribute("successMsg", "Information has been changed successfully");
             clientService.updateUserInformation(currentClient, client);
+            return getUserInfo(model, principal);
         }
-
-        return getUserInfo(model, principal);
     }
 
     @RequestMapping(value = "/userInfo/manageAddress", method=RequestMethod.GET)
@@ -113,6 +101,7 @@ public class ClientController {
     public String editAddressInfo(Principal principal,
                                   @ModelAttribute AddressDTO addressDTO, Model model) {
         clientService.updateAddressInformation(principal, addressDTO);
+        model.addAttribute("successMsg", "Address information has been changed successfully");
         return getUserInfo(model, principal);
     }
 
