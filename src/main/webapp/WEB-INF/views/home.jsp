@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 
     <style>
-        .tech-skills-item {
+        .ul-li-item {
             color: #924d07;
             font-size: 14px;
             font-weight: 400;
@@ -43,27 +43,28 @@
         <c:out value="Order has been placed successfully"></c:out>
         </div>
     </c:if>
+
 <ul>
-    <li class="tech-skills-item">
+    <li class="ul-li-item">
     <div class="container align-content-center">
         <a href="/shop/" class="text-dark text-md-center h4">View Shop</a>
     </div>
     </li>
 
-    <li class="tech-skills-item">
+    <li class="ul-li-item">
     <div class="container align-content-center">
         <a href="/cart/" class="text-dark text-md-center h4">Cart</a>
     </div>
     </li>
 
     <sec:authorize access="!isAuthenticated()">
-    <li class="tech-skills-item">
+    <li class="ul-li-item">
         <div class="container align-content-center">
             <a href="/client/registration/" class="text-dark text-md-center h4">Registration</a>
         </div>
     </li>
 
-    <li class="tech-skills-item">
+    <li class="ul-li-item">
         <div class="container align-content-center">
             <a href="/login" class="text-dark text-md-center h4">Log In</a><br>
         </div>
@@ -71,18 +72,27 @@
     </sec:authorize>
 
 
-    <sec:authorize access="isAuthenticated()">
-    <li class="tech-skills-item">
-        <div class="container align-content-center">
-            <a href="/client/userInfo/" class="text-dark text-md-center h4">My account</a>
-        </div>
-    </li>
-
-    <li class="tech-skills-item">
+    <sec:authorize access="hasRole('ADMIN') || hasRole('USER')">
+        <sec:authorize access="hasRole('USER')">
+        <li class="ul-li-item">
+            <div class="container align-content-center">
+                <a href="/client/userInfo/" class="text-dark text-md-center h4">My account</a>
+            </div>
+        </li>
+        </sec:authorize>
+        <sec:authorize access="hasRole('ADMIN')">
+            <li class="ul-li-item">
+                <div class="container align-content-center">
+                    <a href="/manage/" class="text-dark text-md-center h4">Manage</a>
+                </div>
+            </li>
+        </sec:authorize>
+    <li class="ul-li-item">
         <div class="container align-content-center">
             <a href="/logout" class="text-dark text-md-center h4">Log Out</a>
         </div>
     </li>
+
     </sec:authorize>
 </ul>
 </div>

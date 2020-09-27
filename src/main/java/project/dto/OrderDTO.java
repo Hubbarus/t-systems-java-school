@@ -3,6 +3,7 @@ package project.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import project.entity.enums.PaymentEnum;
 import project.entity.enums.ShipmentEnum;
 import project.entity.enums.StatusEnum;
@@ -21,6 +22,7 @@ public class OrderDTO {
     private StatusEnum status;
     private ClientDTO client;
     private AddressDTO address;
+    @ToString.Exclude
     private List<CartDTO> items;
     private BigDecimal subtotal;
 }
