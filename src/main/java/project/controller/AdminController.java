@@ -6,11 +6,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import project.dto.CartDTO;
+import project.dto.ClientDTO;
 import project.dto.ItemDTO;
 import project.dto.OrderDTO;
 import project.service.OrderService;
 
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/manage")
@@ -43,7 +46,12 @@ public class AdminController {
 
     @RequestMapping(value = "/statistics", method = RequestMethod.GET)
     public String getStatisticsPage(Model model) {
+        List<CartDTO> topTenItems = orderService.getTopTenItems();
+        List<Map.Entry<ClientDTO, Integer>> topTenClients = orderService.getTopTenClients();
 
+        model.addAttribute("topItems", topTenItems);
+        model.addAttribute("topClients", topTenClients);
+       // model.addAttribute("statDateForm", new StatByDateHolder());
         return "admin/statistics";
     }
 

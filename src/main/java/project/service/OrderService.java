@@ -5,16 +5,22 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import project.utils.TopTenComparator;
 import project.converter.OrderConverter;
 import project.dao.OrderDao;
 import project.dto.CartDTO;
+import project.dto.ClientDTO;
 import project.dto.ItemDTO;
 import project.dto.OrderDTO;
 import project.entity.Order;
 import project.entity.enums.StatusEnum;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -116,5 +122,75 @@ public class OrderService {
         num.append(order.getDate().toLocalDate().getDayOfMonth());
 
         return num.toString();
+    }
+
+    public List<CartDTO> getTopTenItems() {
+        List<OrderDTO> orders = findAll();
+        Map<ItemDTO, Integer> allItemsWithQuantities = getMapOfAllSoldItems(orders);
+
+        List<Map.Entry<ItemDTO, Integer>> listOfEntries = new ArrayList<>(allItemsWithQuantities.entrySet());
+
+        Collections.sort(listOfEntries, new TopTenComparator().reversed());
+
+        List<CartDTO> resultList = new ArrayList<>();
+        for (Map.Entry<ItemDTO, Integer> entry : listOfEntries) {
+            CartDTO cart = new CartDTO();
+            cart.setItem(entry.getKey());
+            cart.setQuantity(entry.getValue());
+            resultList.add(cart);
+        }
+
+        return resultList.size() > 10 ? getFirstTenElements(resultList) : resultList;
+    }
+
+    private <T> List<T> getFirstTenElements(List<T> source) {
+        List<T> tenElements = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            tenElements.add(source.get(i));
+        }
+        return tenElements;
+    }
+
+    private Map<ItemDTO, Integer> getMapOfAllSoldItems(List<OrderDTO> orders) {
+        Map<ItemDTO, Integer> resultMap = new HashMap<>();
+        for (OrderDTO order : orders) {
+            List<CartDTO> items = order.getItems();
+            for (CartDTO cart : items) {
+                ItemDTO item = cart.getItem();
+                if (resultMap.containsKey(item)) {
+                    Integer integer = resultMap.get(item);
+                    resultMap.put(item, integer + cart.getQuantity());
+                } else {
+                    resultMap.put(item, cart.getQuantity());
+                }
+            }
+        }
+
+        return resultMap;
+    }
+
+    public List<Map.Entry<ClientDTO, Integer>> getTopTenClients() {
+        List<OrderDTO> orders = findAll();
+        Map<ClientDTO, Integer> allClientsWithNumOfOrders = getMapOfClientOrders(orders);
+
+        List<Map.Entry<ClientDTO, Integer>> listOfEntries = new ArrayList<>(allClientsWithNumOfOrders.entrySet());
+
+        Collections.sort(listOfEntries, new TopTenComparator().reversed());
+
+        return listOfEntries.size() > 10 ? getFirstTenElements(listOfEntries) : listOfEntries;
+    }
+
+    private Map<ClientDTO, Integer> getMapOfClientOrders(List<OrderDTO> orders) {
+        Map<ClientDTO, Integer> resultMap = new HashMap<>();
+        for (OrderDTO order : orders) {
+            ClientDTO client = order.getClient();
+            if (resultMap.containsKey(client)) {
+                int orderQuan = resultMap.get(client);
+                resultMap.put(client, orderQuan + 1);
+            } else {
+                resultMap.put(client, 1);
+            }
+        }
+        return resultMap;
     }
 }
