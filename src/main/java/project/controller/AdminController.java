@@ -11,6 +11,7 @@ import project.dto.ClientDTO;
 import project.dto.ItemDTO;
 import project.dto.OrderDTO;
 import project.service.OrderService;
+import project.utils.StatByDateHolder;
 
 import java.util.List;
 import java.util.Map;
@@ -45,14 +46,26 @@ public class AdminController {
     }
 
     @RequestMapping(value = "/statistics", method = RequestMethod.GET)
-    public String getStatisticsPage(Model model) {
+    public String getStatisticsPage(Model model, StatByDateHolder holder) {
         List<CartDTO> topTenItems = orderService.getTopTenItems();
         List<Map.Entry<ClientDTO, Integer>> topTenClients = orderService.getTopTenClients();
 
         model.addAttribute("topItems", topTenItems);
         model.addAttribute("topClients", topTenClients);
-       // model.addAttribute("statDateForm", new StatByDateHolder());
+        if (holder == null) {
+            holder = new StatByDateHolder();
+        }
+        model.addAttribute("statDateForm", holder);
         return "admin/statistics";
+    }
+
+    @RequestMapping(value = "/statistics", method = RequestMethod.POST)
+    public String getDatesStats(@ModelAttribute StatByDateHolder holder, Model model) {
+        holder = orderService.getSalesBetweenDates(holder);
+        if (holder.getOrders().size() == 0) {
+            model.addAttribute("err", "No sales in this period");
+        }
+        return getStatisticsPage(model, holder);
     }
 
     @RequestMapping(value = "/items", method = RequestMethod.GET)

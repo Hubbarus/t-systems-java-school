@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import project.utils.StatByDateHolder;
 import project.utils.TopTenComparator;
 import project.converter.OrderConverter;
 import project.dao.OrderDao;
@@ -15,6 +16,7 @@ import project.dto.OrderDTO;
 import project.entity.Order;
 import project.entity.enums.StatusEnum;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -104,7 +106,8 @@ public class OrderService {
         }
 
         Base62 base62 = Base62.createInstance();
-        byte[] arr = String.valueOf(order.getId()).getBytes();
+        int val = findAll().size();
+        byte[] arr = String.valueOf(val).getBytes();
         String str = new String(base62.encode(arr));
         num.append(str);
 
@@ -192,5 +195,27 @@ public class OrderService {
             }
         }
         return resultMap;
+    }
+
+    public StatByDateHolder getSalesBetweenDates(StatByDateHolder holder) {
+        Date from = new Date(holder.getFrom().getTime());
+        Date to = new Date(holder.getTo().getTime());
+
+        BigDecimal total = BigDecimal.ZERO;
+        List<OrderDTO> orders = new ArrayList<>();
+        List<OrderDTO> allOrders = findAll();
+        for (OrderDTO order : allOrders) {
+            Date orderDate = new Date(order.getDate().getTime());
+
+            if (orderDate.before(to) && orderDate.after(from) || orderDate.equals(to) || orderDate.equals(from)) {
+                orders.add(order);
+                total = total.add(order.getSubtotal());
+            }
+        }
+
+        holder.setOrders(orders);
+        holder.setProceeds(total);
+
+        return holder;
     }
 }
