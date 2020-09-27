@@ -8,30 +8,27 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
-import project.dto.CartDTO;
 import project.dto.ClientDTO;
 import project.service.ClientService;
 import project.utils.CartListWrapper;
 
+import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
 import java.util.ArrayList;
 
 @Controller
 @RequestMapping(value = "/", method = RequestMethod.GET)
-@SessionAttributes(value = "items")
+@SessionAttributes(value = {"user", "items"})
 public class MainController {
 
     @Autowired private ClientService clientService;
 
     @GetMapping("/")
-    public String getHome(@ModelAttribute ArrayList<CartDTO> items,
-                          Model model, Principal principal) {
+    public String getHome(Model model, Principal principal, HttpServletRequest request) {
         ClientDTO user;
-        try {
+        if (principal != null) {
             user = clientService.findByEmail(principal.getName());
-            model.addAttribute("user", user);
-        } catch (NullPointerException e) {
-            model.addAttribute("user", "Guest");
+            request.getSession().setAttribute("user", user);
         }
         return "home";
     }

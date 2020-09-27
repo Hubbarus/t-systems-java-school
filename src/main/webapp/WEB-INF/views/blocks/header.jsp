@@ -3,7 +3,7 @@
     <div class="container d-flex flex-column flex-md-row justify-content-between">
         <p class="text-info text-md-center h4 text">Hello,
             <sec:authorize access="isAuthenticated()">${user.firstName}</sec:authorize>
-            <sec:authorize access="!isAuthenticated()">${user}</sec:authorize>!</p>
+            <sec:authorize access="!isAuthenticated()">Guest</sec:authorize>!</p>
 
         <a href="/shop/" class="text-dark text-md-center h4">View Shop</a>
 
