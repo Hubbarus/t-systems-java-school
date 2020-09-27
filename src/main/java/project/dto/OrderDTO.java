@@ -9,6 +9,7 @@ import project.entity.enums.ShipmentEnum;
 import project.entity.enums.StatusEnum;
 
 import java.math.BigDecimal;
+import java.sql.Date;
 import java.util.List;
 
 @Data
@@ -25,4 +26,6 @@ public class OrderDTO {
     @ToString.Exclude
     private List<CartDTO> items;
     private BigDecimal subtotal;
+    private Date date;
+    private String orderNo;
 }

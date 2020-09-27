@@ -41,6 +41,8 @@ public class Item  implements Serializable {
     private double volume;
     @Column(name = "stock", nullable = false)
     private int stock;
+    @Column(name = "image")
+    private String pathToIMG;
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @OnDelete(action = OnDeleteAction.CASCADE)

@@ -1,5 +1,6 @@
 package project.service;
 
+import io.seruco.encoding.base62.Base62;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,6 +13,7 @@ import project.dto.OrderDTO;
 import project.entity.Order;
 import project.entity.enums.StatusEnum;
 
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -61,6 +63,11 @@ public class OrderService {
     public void createOrderAndSave(OrderDTO order) {
         order.setStatus(StatusEnum.NEW);
 
+        Date currentDate = new Date();
+        order.setDate(new java.sql.Date(currentDate.getTime()));
+
+        order.setOrderNo(generateOrderNo(order));
+
         for (CartDTO cartDTO : order.getItems()) {
             ItemDTO item = itemService.findById(cartDTO.getItem().getId());
             int quantity = cartDTO.getQuantity();
@@ -70,5 +77,44 @@ public class OrderService {
         }
 
         save(order);
+    }
+
+    private String generateOrderNo(OrderDTO order) {
+        StringBuilder num = new StringBuilder();
+
+        switch (order.getPaymentMethod()) {
+            case CARD: {
+                num.append("CD");
+                break;
+            }
+            case CASH: {
+                num.append("CS");
+                break;
+            }
+            case REMITTANCE: {
+                num.append("R");
+                break;
+            }
+        }
+
+        Base62 base62 = Base62.createInstance();
+        byte[] arr = String.valueOf(order.getId()).getBytes();
+        String str = new String(base62.encode(arr));
+        num.append(str);
+
+        switch (order.getShipmentMethod()) {
+            case SELF_PICKUP: {
+                num.append("SP");
+                break;
+            }
+            case DOOR_TO_DOOR: {
+                num.append("DTD");
+                break;
+            }
+        }
+
+        num.append(order.getDate().toLocalDate().getDayOfMonth());
+
+        return num.toString();
     }
 }

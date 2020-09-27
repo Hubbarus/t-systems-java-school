@@ -43,6 +43,7 @@ public class AdminController {
 
     @RequestMapping(value = "/statistics", method = RequestMethod.GET)
     public String getStatisticsPage(Model model) {
+
         return "admin/statistics";
     }
 

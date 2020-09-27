@@ -22,6 +22,7 @@ public class ItemDTO {
     private double weight;
     private double volume;
     private int stock;
+    private String pathToIMG;
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     private Set<CartDTO> carts = new HashSet<>();
