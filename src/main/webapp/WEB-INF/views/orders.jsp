@@ -7,6 +7,9 @@
 
 </head>
 <body>
+<header>
+    <jsp:include page="blocks/header.jsp"></jsp:include>
+</header>
 <div class="container align-content-center">
     <p class="text-dark text-md-center h2">${user.firstName}'s orders</p>
 
@@ -47,5 +50,8 @@
     <a href="/client/userInfo/">Back to My Account</a>
 </div>
 
+<footer>
+    <jsp:include page="blocks/footer.jsp"></jsp:include>
+</footer>
 </body>
 </html>

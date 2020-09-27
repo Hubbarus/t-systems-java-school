@@ -1,13 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%--
-  Created by IntelliJ IDEA.
-  User: paulponomarev
-  Date: 2020-09-22
-  Time: 11:40
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
 <html>
 <head>
     <meta charset="utf-8">
@@ -20,6 +14,10 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 </head>
 <body>
+
+<header>
+    <jsp:include page="blocks/header.jsp"></jsp:include>
+</header>
 
 <c:if test="${successMsg != null}">
     <div class="alert alert-success align-content-center" role="alert">
@@ -90,5 +88,9 @@
 
     </table>
 </div>
+
+<footer>
+    <jsp:include page="blocks/footer.jsp"></jsp:include>
+</footer>
 </body>
 </html>

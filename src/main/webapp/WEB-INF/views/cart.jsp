@@ -14,6 +14,9 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 </head>
 <body>
+<header>
+    <jsp:include page="blocks/header.jsp"></jsp:include>
+</header>
 <c:choose>
     <c:when test="${items.list.size() == 0}">
         <span class="ui-state-error-text">
@@ -78,8 +81,9 @@
         <a href="/shop/" class="btn-success h5">Go back to shop</a>
         </c:otherwise>
 </c:choose>
-<%--<a href="/pay/" class="btn-success">Go to payment page</a>--%>
 
-
+<footer>
+    <jsp:include page="blocks/footer.jsp"></jsp:include>
+</footer>
 </body>
 </html>
