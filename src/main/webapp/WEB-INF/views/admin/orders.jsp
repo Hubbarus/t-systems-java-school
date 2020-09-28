@@ -84,8 +84,8 @@
 <script type="text/javascript">
     function x(id) {
         var form = document.forms['orderForm'];
-        var tagList = form.elements["id"];
-        tagList.value = id;
+        var idTag = form.elements["id"];
+        idTag.value = id;
         form.action = '/manage/orders/edit/';
         form.submit();
     }

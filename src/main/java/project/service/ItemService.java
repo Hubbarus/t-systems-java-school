@@ -119,6 +119,7 @@ public class ItemService {
             findById(item.getId());
             update(item);
         } catch (Exception e) {
+            item.setPathToIMG("/img/" + item.getPathToIMG());
             save(item);
         }
     }

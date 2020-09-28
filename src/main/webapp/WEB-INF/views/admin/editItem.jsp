@@ -19,13 +19,20 @@
 <%--            Path to IMG--%>
             <td>
                 <c:if test="${itemToEdit.itemName != null}">
-                    <img src="${itemToEdit.pathToIMG}">
+                    <img src="${itemToEdit.pathToIMG}" height="300">
                 </c:if>
+                <label for="basic-url">Path to image in "img/" folder</label>
                 <div class="input-group mb-3">
-                    <form:input path="pathToIMG" type="text" class="form-control" placeholder="Path to file" aria-label="Filepath" aria-describedby="basic-addon2" value="${itemToEdit.pathToIMG}"/>
-                    <div class="input-group-append">
-                        <span class="input-group-text" id="basic-addon2">Path to file</span>
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon3">/img/</span>
                     </div>
+                    <form:input path="pathToIMG"
+                                placeholde="example.jpg"
+                                type="text"
+                                class="form-control"
+                                id="basic-url"
+                                aria-describedby="basic-addon3"
+                                value="${itemToEdit.pathToIMG}"/>
                 </div>
             </td>
             <td>

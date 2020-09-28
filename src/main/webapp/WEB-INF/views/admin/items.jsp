@@ -7,14 +7,23 @@
 
     <link rel="shortcut icon" href="/img/favicon.ico" type="img/x-icon">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+
+    <style>
+        .td {
+            max-width: 350px;
+        }
+    </style>
+
 </head>
 <body>
 <header>
     <jsp:include page="../blocks/header.jsp"></jsp:include>
 </header>
+<br>
 <div class="container-sm">
     <a href="/manage/editItem" class="btn btn-outline-dark" role="button" aria-pressed="true">Add new</a>
 </div>
+<br>
 <table class="table">
     <tr>
         <td>#</td>
@@ -33,13 +42,13 @@
             <td>${item.id}</td>
             <td>${item.itemName}</td>
             <td>${item.itemGroup}</td>
-            <td>${item.description}</td>
+            <td class="td">${item.description}</td>
             <td>${item.weight}</td>
             <td>${item.volume}</td>
             <td>${item.price}</td>
             <td>${item.stock}</td>
             <td>
-                <img src="${item.pathToIMG}" size="30">
+                <img src="${item.pathToIMG}" height="50">
             </td>
             <td>
                 <form:form action="/manage/editItem" modelAttribute="itemToEdit" method="get">
