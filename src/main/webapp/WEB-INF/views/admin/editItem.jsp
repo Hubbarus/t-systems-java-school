@@ -180,8 +180,10 @@
             selector.append(optionElement);
         }
 
-        var num = groups.length - 1;
-        selector.selected = groups[num].label;
+        if (selector.selected === 'Choose...') {
+            var num = groups.length - 1;
+            selector.options[num].selected = true;
+        }
     }
 
     function setDefaultGroup() {

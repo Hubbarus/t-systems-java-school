@@ -27,64 +27,67 @@
             <td>Change Status</td>
         </tr>
         <c:forEach items="${orders}" var="order" begin="0" end="${orders.size()}">
-        <tr>
-            <td><c:out value="${order.id}"></c:out></td>
-            <td>
-                <table class="table table-bordered">
-                    <tr>
-                        <td>Item</td>
-                        <td>Quantity</td>
-                    </tr>
-                    <c:forEach items="${order.items}" begin="0" end="${order.items.size()}" var="item">
-                    <tr>
-                        <td>
-                            <c:out value="${item.item.itemName}, ${item.item.description}"></c:out>
-                        </td>
-                        <td>
-                            <c:out value="${item.quantity}"></c:out>
-                        </td>
-                    </tr>
-                    </c:forEach>
-                </table>
-            </td>
-            <td><c:out value="${order.client.firstName} ${order.client.lastName}"/></td>
-            <td><c:out value="${order.address}"/></td>
-            <td><c:out value="${order.shipmentMethod.value}"/></td>
-            <td><c:out value="${order.paymentMethod.value}"/></td>
-            <c:choose>
-                <c:when test="${order.paymentStatus == true}">
-                    <td class="alert-success">
-                        <c:out value="Paid"/>
+            <form:form id="orderForm" name="orderForm" modelAttribute="thisOrder" action="/manage/orders/edit/" method="post">
+                <tr>
+                    <td><c:out value="${order.id}"/></td>
+                    <td>
+                        <table class="table table-bordered">
+                            <tr>
+                                <td>Item</td>
+                                <td>Quantity</td>
+                            </tr>
+                            <c:forEach items="${order.items}" begin="0" end="${order.items.size()}" var="item">
+                            <tr>
+                                <td>
+                                    <c:out value="${item.item.itemName}"/>
+                                </td>
+                                <td>
+                                    <c:out value="${item.quantity}"/>
+                                </td>
+                            </tr>
+                            </c:forEach>
+                        </table>
                     </td>
-                </c:when>
-                <c:otherwise>
-                    <td class="alert-warning">
-                        <c:out value="Unpaid"></c:out>
+                    <td><c:out value="${order.client.firstName} ${order.client.lastName}"/></td>
+                    <td><c:out value="${order.address.postcode}, ${order.address.country}, ${order.address.city}, ${order.address.street}, ${order.address.building}, ${order.address.apart}"/></td>
+                    <td><c:out value="${order.shipmentMethod.value}"/></td>
+                    <td><c:out value="${order.paymentMethod.value}"/></td>
+                    <c:choose>
+                        <c:when test="${order.paymentStatus == true}">
+                        <td class="alert-success">
+                            <c:out value="Paid"/>
+                        </td>
+                        </c:when>
+                        <c:otherwise>
+                            <td class="alert-warning">
+                                <c:out value="Unpaid"></c:out>
+                            </td>
+                        </c:otherwise>
+                    </c:choose>
+                    <td><c:out value="${order.subtotal}"/></td>
+                    <td><c:out value="${order.status.toString()}"/></td>
+                    <td>
+                        <form:input path="id" type="hidden" name="id"/>
+                        <form:select path="status" onchange="x(${order.id})">
+                            <form:option value="${order.status}"/>
+                            <c:forEach items="${StatusEnum.values()}" var="statusType">
+                                <form:option value="${statusType}"/>
+                            </c:forEach>
+                        </form:select>
                     </td>
-                </c:otherwise>
-            </c:choose>
-            <td><c:out value="${order.subtotal}"></c:out></td>
-            <td><c:out value="${order.status.toString()}"></c:out></td>
-            <td>
-                <form:form id="orderForm" name="orderForm" modelAttribute="thisOrder" action="/manage/orders/edit/" method="post">
-                    <form:input path="id" type="hidden" value="${order.id}"/>
-                    <form:select path="status" onchange="x()">
-                        <form:option value="${order.status}"/>
-                        <c:forEach items="${StatusEnum.values()}" var="statusType">
-                            <form:option value="${statusType}"/>
-                        </c:forEach>
-                    </form:select>
-                </form:form>
-            </td>
-        </tr>
+                </tr>
+            </form:form>
         </c:forEach>
     </table>
 </div>
 
 <script type="text/javascript">
-    function x() {
-        document.getElementById('orderForm').action = '/manage/orders/edit/';
-        document.getElementById('orderForm').submit();
+    function x(id) {
+        var form = document.forms['orderForm'];
+        var tagList = form.elements["id"];
+        tagList.value = id;
+        form.action = '/manage/orders/edit/';
+        form.submit();
     }
 </script>
 
