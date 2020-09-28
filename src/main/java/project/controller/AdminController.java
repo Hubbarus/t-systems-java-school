@@ -6,23 +6,31 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import project.dto.CartDTO;
 import project.dto.ClientDTO;
 import project.dto.ItemDTO;
 import project.dto.OrderDTO;
+import project.service.ItemService;
 import project.service.OrderService;
 import project.utils.StatByDateHolder;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @Controller
 @RequestMapping("/manage")
+@SessionAttributes("itemGroups")
 public class AdminController {
 
 //    private static final String PATH = "admin/";
     @Autowired
     private OrderService orderService;
+    @Autowired
+    private ItemService itemService;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String showAdminPage(Model model) {
@@ -70,7 +78,30 @@ public class AdminController {
 
     @RequestMapping(value = "/items", method = RequestMethod.GET)
     public String getItemsEditPage(Model model) {
-        model.addAttribute("item", new ItemDTO());
+        List<ItemDTO> allItems = itemService.findAll();
+        model.addAttribute("allItems", allItems);
+        model.addAttribute("itemToEdit", new ItemDTO());
         return "admin/items";
     }
+
+    @RequestMapping(value = "/editItem", method = RequestMethod.GET)
+    public String editOrAddItem(@ModelAttribute ItemDTO item, Model model, HttpServletRequest request) {
+        ItemDTO itemToEdit = new ItemDTO();
+        if (item.getItemName() != null) {
+            itemToEdit = itemService.findById(item.getId());
+        }
+        model.addAttribute("itemToEdit", itemToEdit);
+        Set<String> groupNames = itemService.getGroupNames();
+        //String[] strings = new String[groupNames.size()];
+        //groupNames.toArray(strings);
+        model.addAttribute("itemGroups", new ArrayList<>(groupNames));
+        return "admin/editItem";
+    }
+
+    @RequestMapping(value = "/editItem", method = RequestMethod.POST)
+    public String editItem(@ModelAttribute ItemDTO item, Model model) {
+
+        return getItemsEditPage(model);
+    }
+
 }

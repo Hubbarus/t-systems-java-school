@@ -83,7 +83,7 @@
 </c:choose>
 
 <footer>
-    <jsp:include page="blocks/footer.jsp"></jsp:include>
+    <jsp:include page="blocks/footer.jsp"/>
 </footer>
 </body>
 </html>

@@ -46,14 +46,14 @@
                     </c:forEach>
                 </table>
             </td>
-            <td><c:out value="${order.client.firstName} ${order.client.lastName}"></c:out></td>
-            <td><c:out value="${order.address}"></c:out></td>
-            <td><c:out value="${order.shipmentMethod.value}"></c:out></td>
-            <td><c:out value="${order.paymentMethod.value}"></c:out></td>
+            <td><c:out value="${order.client.firstName} ${order.client.lastName}"/></td>
+            <td><c:out value="${order.address}"/></td>
+            <td><c:out value="${order.shipmentMethod.value}"/></td>
+            <td><c:out value="${order.paymentMethod.value}"/></td>
             <c:choose>
                 <c:when test="${order.paymentStatus == true}">
                     <td class="alert-success">
-                        <c:out value="Paid"></c:out>
+                        <c:out value="Paid"/>
                     </td>
                 </c:when>
                 <c:otherwise>
@@ -66,11 +66,11 @@
             <td><c:out value="${order.status.toString()}"></c:out></td>
             <td>
                 <form:form id="orderForm" name="orderForm" modelAttribute="thisOrder" action="/manage/orders/edit/" method="post">
-                    <form:input path="id" type="hidden" value="${order.id}"></form:input>
+                    <form:input path="id" type="hidden" value="${order.id}"/>
                     <form:select path="status" onchange="x()">
-                        <form:option value="${order.status}"></form:option>
+                        <form:option value="${order.status}"/>
                         <c:forEach items="${StatusEnum.values()}" var="statusType">
-                            <form:option value="${statusType}"></form:option>
+                            <form:option value="${statusType}"/>
                         </c:forEach>
                     </form:select>
                 </form:form>
@@ -87,5 +87,8 @@
     }
 </script>
 
+<footer>
+    <jsp:include page="../blocks/footer.jsp"/>
+</footer>
 </body>
 </html>
