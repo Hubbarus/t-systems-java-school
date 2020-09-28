@@ -18,17 +18,17 @@
 <body>
 
 <header>
-    <jsp:include page="blocks/header.jsp"></jsp:include>
+    <jsp:include page="blocks/header.jsp"/>
 </header>
 
 <c:if test="${successMsg != null}">
-    <div class="alert alert-success align-content-center" role="alert">
-        <c:out value="${successMsg}"></c:out>
+    <div class="alert alert-success align-content-center mt-3 mb-3" role="alert">
+        <c:out value="${successMsg}"/>
     </div>
 </c:if>
 
-<div class="container align-content-center">
-    <h1 class="card">Greetings, ${client.firstName}</h1>
+<div class="container align-content-center mt-3 mb-3">
+    <h1 class="mt-1 mb-1">Greetings, ${client.firstName}!</h1>
     <br>
     <table class="table">
         <tr>
@@ -49,25 +49,25 @@
         </tr>
         <tr>
             <td class="text-black-50 h5">Addresses: <br>
-                <a href="/client/userInfo/manageAddress?action=add" class="btn-light">Add address</a>
+                <a href="/client/userInfo/manageAddress?action=add" class="btn btn-outline-secondary">Add address</a>
             </td>
             <td class="text-black-50 h5">
-                <table class="table-borderless align-content-center">
+                <table class="table-borderless align-content-center text-center">
                 <c:forEach var="i" items="${client.addressList}" begin="0" end="${client.addressList.size()}">
                     <tr>
-                    <td>
-                    <c:out value="${i.postcode}, ${i.country}, ${i.city}, ${i.street}, ${i.building}, ${i.apart}"></c:out>
+                    <td class="text-black-50 h5">
+                    <c:out value="${i.postcode}, ${i.country}, ${i.city}, ${i.street}, ${i.building}, ${i.apart}"/>
                     </td>
-                    <td>
+                    <td class="text-black-50 h5">
                     <form:form action="/client/userInfo/manageAddress?action=manage/" modelAttribute="address" method="get">
-                        <form:hidden path="id" value="${i.id}"></form:hidden>
-                        <form:hidden path="country" value="${i.country}"></form:hidden>
-                        <form:hidden path="city" value="${i.city}"></form:hidden>
-                        <form:hidden path="postcode" value="${i.postcode}"></form:hidden>
-                        <form:hidden path="street" value="${i.street}"></form:hidden>
-                        <form:hidden path="building" value="${i.building}"></form:hidden>
-                        <form:hidden path="apart" value="${i.apart}"></form:hidden>
-                        <form:button class="btn btn-light">Edit</form:button>
+                        <form:hidden path="id" value="${i.id}"/>
+                        <form:hidden path="country" value="${i.country}"/>
+                        <form:hidden path="city" value="${i.city}"/>
+                        <form:hidden path="postcode" value="${i.postcode}"/>
+                        <form:hidden path="street" value="${i.street}"/>
+                        <form:hidden path="building" value="${i.building}"/>
+                        <form:hidden path="apart" value="${i.apart}"/>
+                        <form:button class="btn btn-outline-secondary">Edit</form:button>
                     </form:form>
                     </td>
                 </c:forEach>
@@ -78,12 +78,12 @@
         <tr>
             <td class="text-black-50 h5">Orders:</td>
             <td class="text-black-50 h5">
-                <a href="/client/userInfo/orders">See all orders</a>
+                <a href="/client/userInfo/orders" class="btn btn-outline-success">See all orders</a>
             </td>
         </tr>
         <tr>
             <td class="text-black-50 h5">
-            <a href="/client/userInfo/manage">Edit account</a>
+            <a href="/client/userInfo/manage" class="btn btn-outline-secondary">Edit account</a>
             </td>
             <td></td>
         </tr>
@@ -92,7 +92,7 @@
 </div>
 
 <footer>
-    <jsp:include page="blocks/footer.jsp"></jsp:include>
+    <jsp:include page="blocks/footer.jsp"/>
 </footer>
 </body>
 </html>

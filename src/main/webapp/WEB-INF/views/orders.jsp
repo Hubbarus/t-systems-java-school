@@ -9,7 +9,7 @@
 </head>
 <body>
 <header>
-    <jsp:include page="blocks/header.jsp"></jsp:include>
+    <jsp:include page="blocks/header.jsp"/>
 </header>
 <div class="container align-content-center">
     <p class="text-dark text-md-center h2">${user.firstName}'s orders</p>
@@ -23,7 +23,7 @@
         <c:forEach items="${orders}" var="order" begin="0" end="${orders.size()}">
         <tr>
             <td>
-                <c:out value="${order.id}"></c:out>
+                <c:out value="${order.orderNo}"/>
             </td>
             <td>
                 <table class="table table-bordered">
@@ -34,25 +34,25 @@
                         <c:forEach items="${order.items}" begin="0" end="${order.items.size()}" var="item">
                             <tr>
                                 <td>
-                                    <c:out value="${item.item.itemName}, ${item.item.description}}"></c:out>
+                                    <c:out value="${item.item.itemName}"/>
                                 </td>
                                 <td>
-                                    <c:out value="${item.quantity}"></c:out>
+                                    <c:out value="${item.quantity}"/>
                                 </td>
                             </tr>
                         </c:forEach>
                     </table>
                 </td>
-                <td><c:out value="${order.status}"></c:out></td>
+                <td><c:out value="${order.status}"/></td>
                 </td>
         </tr>
         </c:forEach>
     </table>
-    <a href="/client/userInfo/">Back to My Account</a>
+    <a href="/client/userInfo/" class="btn btn-outline-success">Back to My Account</a>
 </div>
 
 <footer>
-    <jsp:include page="blocks/footer.jsp"></jsp:include>
+    <jsp:include page="blocks/footer.jsp"/>
 </footer>
 </body>
 </html>
