@@ -20,14 +20,31 @@
 <header>
     <jsp:include page="blocks/header.jsp"/>
 </header>
-
-<div class="container-md">
+<%--Success order--%>
+<div class="container-md mt-3 mb-3">
     <c:if test="${param.get('success').equals('yes')}">
         <div class="alert alert-success">
-        <c:out value="Order has been placed successfully"/>
+            <c:out value="Order has been placed successfully"/>
         </div>
     </c:if>
 </div>
+<%--Main Container--%>
+<div class="container mt-5">
+    <table>
+        <tr>
+            <td>
+                <h1 class="mb-5 text-lg-center">WELCOME TO OUR SHOP!</h1>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <jsp:include page="blocks/top10.jsp"/>
+            </td>
+        </tr>
+    </table>
+</div>
+
+
 
 <footer>
     <jsp:include page="blocks/footer.jsp"/>

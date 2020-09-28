@@ -15,23 +15,69 @@
 </head>
 <body>
 <header>
-    <jsp:include page="blocks/header.jsp"></jsp:include>
+    <jsp:include page="blocks/header.jsp"/>
 </header>
-<c:if test="${categories == null}">
-    <c:forEach begin="0" end="${items.size()}" var="i" items="${items}">
-        <a href="/shop/${i.itemGroup}/${i.id}"><br>
-                <c:out value="${i.itemName}"/>
-        </a>
-    </c:forEach>
-</c:if>
-<c:forEach begin="0" end="${categories.size()}" var="j" items="${categories}">
-    <a href="/shop/${j}">
-        <c:out value="${j}"/><br>
-    </a>
-</c:forEach>
+<table class="table">
+    <tr>
+        <td>
+<%--            Side menu with categories--%>
+            <div class="container">
+                <c:forEach begin="0" end="${categories.size()}" var="j" items="${categories}">
+                    <a href="/shop/${j}" class="btn btn-outline-dark">
+                        <c:out value="${j}"/>
+                    </a>
+                    <br>
+                    <br>
+                </c:forEach>
+            </div>
+        </td>
+<%--        Container with items--%>
+        <td>
+            <div class="container">
+                <c:choose>
+<%--                    For top 10 items--%>
+                    <c:when test="${itemsCat == null}">
+                        <jsp:include page="blocks/top10.jsp"/>
+                    </c:when>
+<%--                    For Items by Categories--%>
+                    <c:when test="${items != null}">
+                    <div class="row">
+                        <c:forEach begin="0" end="${itemsCat.size()}" var="i" items="${itemsCat}">
+                            <div class="col-md-4">
+                                <div class="card mb-4 shadow-sm">
+                                    <img src="${i.pathToIMG}" class="img-fluid w-100">
+                                    <title>${i.itemName}</title>
+                                    <text>${i.itemName}</text></img>
+                                    <div class="card-body">
+                                        <p class="card-text">${i.description}</p>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div class="btn-group">
+                                                <a href="/shop/${i.itemGroup}/${i.id}" type="button" class="btn btn-sm btn-outline-secondary">View</a>
+                                                <button type="button" class="btn btn-sm btn-outline-secondary">Add to Cart</button>
+                                            </div>
+                                            <small class="text-muted">${i.price}$</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </c:forEach>
+                    </div>
+                    </c:when>
+                </c:choose>
+            </div>
+        </td>
+    </tr>
+</table>
+<aside>
+
+</aside>
+
+<div>
+
+</div>
 
 <footer>
-    <jsp:include page="blocks/footer.jsp"></jsp:include>
+    <jsp:include page="blocks/footer.jsp"/>
 </footer>
 </body>
 </html>

@@ -8,20 +8,27 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import project.dto.CartDTO;
 import project.dto.ClientDTO;
 import project.service.ClientService;
+import project.service.ItemService;
+import project.service.OrderService;
 import project.utils.CartListWrapper;
 
 import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 @Controller
 @RequestMapping(value = "/", method = RequestMethod.GET)
-@SessionAttributes(value = {"user", "items"})
+@SessionAttributes(value = {"user", "items", "categories", "topTenItems"})
 public class MainController {
 
     @Autowired private ClientService clientService;
+    @Autowired private OrderService orderService;
+    @Autowired private ItemService itemService;
 
     @GetMapping("/")
     public String getHome(Model model, Principal principal, HttpServletRequest request) {
@@ -38,6 +45,17 @@ public class MainController {
         CartListWrapper wrapper = new CartListWrapper();
         wrapper.setList(new ArrayList<>());
         return wrapper;
+    }
+
+    @ModelAttribute("categories")
+    public List<String> getCategories() {
+        Set<String> set = itemService.getGroupNames();
+        return new ArrayList<>(set);
+    }
+
+    @ModelAttribute("topTenItems")
+    public List<CartDTO> getTopTen() {
+        return orderService.getTopTenItems();
     }
 
 

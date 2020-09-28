@@ -34,7 +34,9 @@
                     <option value="" selected></option>
                     <c:forEach items="${order.client.addressList}" var="address">
                         <option value="${address}">
-                                <c:out value="${address}"></c:out>
+                                <c:out value="${address.postcode},
+                                ${address.country}, ${address.city}, ${address.street},
+                                ${address.building}, ${address.apart}"/>
                         </option>
                     </c:forEach>
                 </select>
@@ -45,7 +47,7 @@
             <select class="form-control" name="paymentMethod" required="true">
                 <option value=""></option>
                 <c:forEach items="${PaymentEnum.values()}" var="payment">
-                    <option>${payment}</option>
+                    <option value="${payment}"><c:out value="${payment.toString()}"/></option>
                 </c:forEach>
             </select>
         </td>
@@ -55,7 +57,9 @@
             <select class="form-control" name="shipmentMethod" required="true">
                 <option value="" selected placeholder="Choose shipment"></option>
                 <c:forEach items="${ShipmentEnum.values()}" var="shipment">
-                    <option>${shipment}</option>
+                    <option value="${shipment}">
+                        <c:out value="${shipment.toString()}"/>
+                    </option>
                 </c:forEach>
             </select>
         </td>
@@ -73,20 +77,20 @@
                     <c:forEach items="${items.list}" var="item" begin="0" end="${items.list.size()}">
                         <tr>
                             <td>
-                                <c:out value="${item.item.itemName} + ${item.item.description}"></c:out>
+                                <c:out value="${item.item.itemName} + ${item.item.description}"/>
                             </td>
                             <td>
-                                <c:out value="${item.item.price}"></c:out>
+                                <c:out value="${item.item.price}"/>
                             </td>
                             <td>
-                                <c:out value="${item.quantity}"></c:out>
+                                <c:out value="${item.quantity}"/>
                             </td>
                             <td>
-                                <c:set value="${item.quantity}" var="quan"></c:set>
-                                <c:set value="${item.item.price}" var="price"></c:set>
-                                <c:set value="${quan * price}" var="amount" scope="page"></c:set>
-                                <c:out value="${amount}"></c:out>
-                                <c:set value="${total + amount}" var="total"></c:set>
+                                <c:set value="${item.quantity}" var="quan"/>
+                                <c:set value="${item.item.price}" var="price"/>
+                                <c:set value="${quan * price}" var="amount" scope="page"/>
+                                <c:out value="${amount}"/>
+                                <c:set value="${total + amount}" var="total"/>
                             </td>
                         </tr>
 

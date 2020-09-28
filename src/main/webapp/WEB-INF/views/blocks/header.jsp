@@ -1,4 +1,5 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <style>
     .background {
         background-color: rgba(144, 173, 15, 0.77);
@@ -29,6 +30,7 @@
         <div>
             <a href="/cart/" class="text-dark text-md-center h4">Cart
             <img src="/img/cart_icon.png" width="20" height="20" type="image/png"></a>
+                <span class="badge badge-light">${items.list.size()}</span>
         </div>
     </div>
 </nav>
