@@ -13,7 +13,7 @@
     <jsp:include page="../blocks/header.jsp"></jsp:include>
 </header>
 <div class="container-sm">
-    <a href="/manage/editItem" class="btn-info" size="50">Add new</a>
+    <a href="/manage/editItem" class="btn btn-outline-dark" role="button" aria-pressed="true">Add new</a>
 </div>
 <table class="table">
     <tr>
@@ -42,10 +42,10 @@
                 <img src="${item.pathToIMG}" size="30">
             </td>
             <td>
-                <form:form action="/manage/editItem" modelAttribute="itemToEdit" method="post">
-                    <form:input path="id" type="hidden"/>
-                    <form:input path="itemName" type="hidden"/>
-                    <button class="btn-light" type="submit">Edit</button>
+                <form:form action="/manage/editItem" modelAttribute="itemToEdit" method="get">
+                    <form:input path="id" type="hidden" value="${item.id}"/>
+                    <form:input path="itemName" type="hidden" value="${item.itemName}"/>
+                    <form:button type="submit" class="btn btn-outline-dark">Edit</form:button>
                 </form:form>
             </td>
         </tr>

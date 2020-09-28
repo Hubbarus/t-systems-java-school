@@ -92,15 +92,13 @@ public class AdminController {
         }
         model.addAttribute("itemToEdit", itemToEdit);
         Set<String> groupNames = itemService.getGroupNames();
-        //String[] strings = new String[groupNames.size()];
-        //groupNames.toArray(strings);
         model.addAttribute("itemGroups", new ArrayList<>(groupNames));
         return "admin/editItem";
     }
 
     @RequestMapping(value = "/editItem", method = RequestMethod.POST)
     public String editItem(@ModelAttribute ItemDTO item, Model model) {
-
+        itemService.saveOrUpdate(item);
         return getItemsEditPage(model);
     }
 

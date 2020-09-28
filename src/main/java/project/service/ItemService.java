@@ -113,4 +113,13 @@ public class ItemService {
         }
         return cart;
     }
+
+    public void saveOrUpdate(ItemDTO item) {
+        try {
+            findById(item.getId());
+            update(item);
+        } catch (Exception e) {
+            save(item);
+        }
+    }
 }

@@ -9,10 +9,10 @@
 </head>
 <body>
 <header>
-    <jsp:include page="../blocks/header.jsp"></jsp:include>
+    <jsp:include page="../blocks/header.jsp"/>
 </header>
 
-<form:form method="post" modelAttribute="itemToEdit" action="manage/editItem">
+<form:form method="post" modelAttribute="itemToEdit" action="/manage/editItem">
     <form:input path="id" type="hidden"/>
     <table class="table">
         <tr>
@@ -22,12 +22,9 @@
                     <img src="${itemToEdit.pathToIMG}">
                 </c:if>
                 <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
-                    </div>
-                    <div class="custom-file">
-                        <form:input path="pathToIMG" type="file" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01" required="false"/>
-                        <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                    <form:input path="pathToIMG" type="text" class="form-control" placeholder="Path to file" aria-label="Filepath" aria-describedby="basic-addon2" value="${itemToEdit.pathToIMG}"/>
+                    <div class="input-group-append">
+                        <span class="input-group-text" id="basic-addon2">Path to file</span>
                     </div>
                 </div>
             </td>
@@ -40,7 +37,7 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="basic-addon1">Item Name</span>
                                 </div>
-                                <form:input value="${itemToEdit.itemName}" path="itemName" type="text" class="form-control" placeholder="Item Name" aria-label="Имя пользователя" aria-describedby="basic-addon1"/>
+                                <form:input value="${itemToEdit.itemName}" path="itemName" type="text" class="form-control" aria-label="Item name" aria-describedby="basic-addon1" placeholder="Item Name" required="true"/>
                             </div>
                         </td>
                     </tr>
@@ -56,9 +53,78 @@
                             </div>
                         </td>
                     </tr>
-<%--                    --%>
+<%--                    Item Price--%>
                     <tr>
-
+                        <td>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Price</span>
+                                </div>
+                                <form:input value="${itemToEdit.price}" path="price" class="form-control" aria-label="Price" placeholder="Item price" required="true"/>
+                                <div class="input-group-append">
+                                    <span class="input-group-text">$</span>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+<%--                    Item Description--%>
+                    <tr>
+                        <td>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Description</span>
+                                </div>
+                                <form:textarea value="${itemToEdit.description} " path="description" class="form-control" aria-label="Description" placeholder="Description" required="true"/>
+                            </div>
+                        </td>
+                    </tr>
+<%--                    Weight--%>
+                    <tr>
+                        <td>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Weight</span>
+                                </div>
+                                <form:input value="${itemToEdit.weight}" path="weight" class="form-control" aria-label="Weight" placeholder="Weight" required="true"/>
+                                <div class="input-group-append">
+                                    <span class="input-group-text">kg</span>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+<%--                    Volume--%>
+                    <tr>
+                        <td>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Volume</span>
+                                </div>
+                                <form:input value="${itemToEdit.volume}" path="volume" class="form-control" aria-label="Volume" placeholder="Volume" required="true"/>
+                                <div class="input-group-append">
+                                    <span class="input-group-text">m³</span>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+<%--                    Stock--%>
+                    <tr>
+                        <td>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Stock</span>
+                                </div>
+                                <form:input value="${itemToEdit.stock}" path="stock" class="form-control" aria-label="Stock" placeholder="Quantity in stock" required="true"/>
+                                <div class="input-group-append">
+                                    <span class="input-group-text">pcs</span>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+<%--                    Button submit--%>
+                    <tr>
+                        <td>
+                            <form:button type="submit" class="btn btn-outline-dark">Submit changes</form:button>
+                        </td>
                     </tr>
                 </table>
             </td>
@@ -93,7 +159,7 @@
 
             var newGroup = {
                 label: userInput,
-                value: userInput.toLowerCase(),
+                value: userInput,
             };
 
             groups.push(newGroup);
@@ -113,10 +179,31 @@
 
             selector.append(optionElement);
         }
+
+        var num = groups.length - 1;
+        selector.selected = groups[num].label;
+    }
+
+    function setDefaultGroup() {
+        var select = document.querySelector('#inputGroupSelect01').getElementsByTagName('option');
+
+        selector.selected = null;
+
+        for (let i = 0; i < select.length; i++) {
+            if (select[i].value === '${itemToEdit.itemGroup}') {
+                select[i].selected = true;
+                break;
+            }
+        }
+
+        if (selector.selected == null) {
+            selector.selected = 'Choose...';
+        }
     }
 
     // Initial render
     render();
+    setDefaultGroup();
 </script>
 
 <footer>
