@@ -41,7 +41,7 @@
             <c:forEach items="${items.list}" var="i" begin="0" end="${items.list.size()}">
             <tr>
 <%--    Name--%>
-                <td class="text-center">
+                <td>
                     <c:out value="${i.item.itemName},"/>
                     <c:out value="${i.item.itemGroup}"/>
                 </td>
@@ -59,8 +59,8 @@
                 </td>
 <%--    Remove button--%>
                 <td>
-                    <div class="btn btn-outline-danger">
-                        <a href="/cart/removeItem?itemId=${i.item.id}">X</a>
+                    <div>
+                        <a href="/cart/removeItem?itemId=${i.item.id}" class="btn btn-outline-danger">Remove</a>
                     </div>
                 </td>
             </tr>

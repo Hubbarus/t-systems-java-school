@@ -1,5 +1,6 @@
 package project.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -8,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import project.dto.CartDTO;
+import project.dto.ItemDTO;
+import project.service.ItemService;
 import project.utils.CartListWrapper;
 
 import java.util.ArrayList;
@@ -17,6 +20,8 @@ import java.util.List;
 @RequestMapping("/cart")
 
 public class CartController {
+
+    @Autowired private ItemService itemService;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String showCart(Model model,
@@ -30,6 +35,19 @@ public class CartController {
                             @SessionAttribute("items") CartListWrapper wrapper,
                             Model model) {
         List<CartDTO> cartDTOList = wrapper.getList();
+        cartDTOList.add(cart);
+        wrapper.setList(cartDTOList);
+        return showCart(model, wrapper);
+    }
+
+    @RequestMapping(value = "/add")
+    public String addOneToCart(@RequestParam("itemId") Long itemId,
+                               @SessionAttribute("items") CartListWrapper wrapper, Model model) {
+        List<CartDTO> cartDTOList = wrapper.getList();
+        ItemDTO item = itemService.findById(itemId);
+        CartDTO cart = new CartDTO();
+        cart.setItem(item);
+        cart.setQuantity(1);
         cartDTOList.add(cart);
         wrapper.setList(cartDTOList);
         return showCart(model, wrapper);

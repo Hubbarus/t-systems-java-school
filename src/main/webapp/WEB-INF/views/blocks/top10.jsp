@@ -15,7 +15,7 @@
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="btn-group">
                             <a href="/shop/${cart.item.itemGroup}/${cart.item.id}" type="button" class="btn btn-sm btn-outline-secondary">View</a>
-                            <button type="button" class="btn btn-sm btn-outline-secondary">Add to Cart</button>
+                            <a href="/cart/add?itemId=${cart.item.id}" type="button" class="btn btn-sm btn-outline-secondary">Buy in one click</a>
                         </div>
                         <small class="text-muted">stock: ${cart.item.stock}pcs, ${cart.item.price}$</small>
                     </div>
