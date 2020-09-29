@@ -9,59 +9,122 @@
 </head>
 <body>
 <header>
-    <jsp:include page="blocks/header.jsp"></jsp:include>
+    <jsp:include page="blocks/header.jsp"/>
 </header>
-<div class="container-md">
-            <table class="table">
-                <form:form method="post" action="/client/userInfo/manageAddress" modelAttribute="address">
-                    <tr>
-                        <td class="text-black-50 h5">Country:</td>
-                        <td class="form-group">
-                            <form:input class="form-control" path="country" placeholder="${address.country}"></form:input>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="text-black-50 h5">City:</td>
-                        <td class="form-group">
-                            <form:input class="form-control" path="city" placeholder="${address.city}"></form:input>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="text-black-50 h5">Postcode:</td>
-                        <td class="form-group">
-                            <form:input class="form-control" path="postcode" placeholder="${address.postcode}"></form:input>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="text-black-50 h5">Street:</td>
-                        <td class="form-group">
-                            <form:input class="form-control" path="street" placeholder="${address.street}"></form:input>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="text-black-50 h5">Building:</td>
-                        <td class="form-group">
-                            <form:input class="form-control" path="building" placeholder="${address.building}"></form:input>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="text-black-50 h5">Apart:</td>
-                        <td class="form-group">
-                            <form:input class="form-control" path="apart" placeholder="${address.apart}"></form:input>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <form:hidden path="id" value="${address.id}"></form:hidden>
-                            <button class="btn-success" type="submit" value="Confirm changes">Confirm changes</button>
-                        </td>
-                    </tr>
-                </form:form>
-            </table>
+<div class="container mt-3 mb-3">
+    <c:if test="${address.country != null}">
+        <c:set var="greet" value="Edit address" scope="page"/>
+    </c:if>
+    <c:if test="${address.country == null}">
+        <c:set var="greet" value="Add new address" scope="page"/>
+    </c:if>
+    <div class="container text-center">
+        <h2><c:out value="${greet}"/></h2>
+    </div>
+    <div class="container align-content-center">
+        <table class="table text-center align-content-center mt-3 mb-3">
+            <form:form method="post" action="/client/userInfo/manageAddress" modelAttribute="address">
+<%--                Country--%>
+                <tr>
+                    <td>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1">Country: </span>
+                            </div>
+                            <form:input path="country" placeholder="${address.country}"
+                                        type="text" class="form-control"
+                                        aria-label="Имя пользователя"
+                                        aria-describedby="basic-addon1"/>
+                        </div>
+                    </td>
+                </tr>
+<%--                City--%>
+                <tr>
+                    <td>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon2">City: </span>
+                            </div>
+                            <form:input path="city" placeholder="${address.city}"
+                                        type="text" class="form-control"
+                                        aria-label="Имя пользователя"
+                                        aria-describedby="basic-addon2"/>
+                        </div>
+                    </td>
+                </tr>
+<%--                Postcode--%>
+                <tr>
+                    <td>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon3">Postcode: </span>
+                            </div>
+                            <form:input  path="postcode" placeholder="${address.postcode}"
+                                         type="text"
+                                         class="form-control"
+                                         aria-label="Имя пользователя"
+                                         aria-describedby="basic-addon3"/>
+                        </div>
+                    </td>
+                </tr>
+<%--                Street--%>
+                <tr>
+                    <td>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon4">Street: </span>
+                            </div>
+                            <form:input type="text" path="street" placeholder="${address.street}"
+                                   class="form-control"
+                                   aria-label="Имя пользователя"
+                                   aria-describedby="basic-addon4"/>
+                        </div>
+                    </td>
+                </tr>
+<%--                Building--%>
+                <tr>
+                    <td>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon5">Building: </span>
+                            </div>
+                            <form:input path="building" placeholder="${address.building}"
+                                        type="text"
+                                        class="form-control"
+                                        aria-label="Имя пользователя"
+                                        aria-describedby="basic-addon5"/>
+                        </div>
+                    </td>
+
+                </tr>
+<%--                Apart--%>
+                <tr>
+                    <td>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon6">Apart: </span>
+                            </div>
+                            <form:input path="apart" placeholder="${address.apart}"
+                                        type="text" class="form-control"
+                                        aria-label="Имя пользователя"
+                                        aria-describedby="basic-addon6"/>
+                        </div>
+                    </td>
+                </tr>
+<%--                Button--%>
+                <tr>
+                    <td>
+                        <form:hidden path="id" value="${address.id}"/>
+                        <button class="btn btn-outline-success" type="submit" value="Confirm changes">Confirm changes</button>
+                    </td>
+                </tr>
+            </form:form>
+        </table>
+    </div>
 </div>
 
 <footer>
-    <jsp:include page="blocks/footer.jsp"></jsp:include>
+    <jsp:include page="blocks/footer.jsp"/>
 </footer>
 </body>
 </html>
