@@ -19,7 +19,7 @@
 <%--            Path to IMG--%>
             <td>
                 <c:if test="${itemToEdit.itemName != null}">
-                    <img src="${itemToEdit.pathToIMG}" height="300">
+                    <img src="${itemToEdit.pathToIMG}" height="300"><br>
                 </c:if>
                 <label for="basic-url">Path to image in "img/" folder</label>
                 <div class="input-group mb-3">

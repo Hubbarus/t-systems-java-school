@@ -57,17 +57,6 @@ public class OrderService {
                 .collect(Collectors.toList());
     }
 
-    @Transactional
-    public void delete(OrderDTO orderDTO) {
-        Order order = orderConverter.convertToEntity(orderDTO);
-        orderDao.delete(order);
-    }
-
-    @Transactional
-    public void deleteAll() {
-        orderDao.deleteAll();
-    }
-
     public void createOrderAndSave(OrderDTO order) {
         order.setStatus(StatusEnum.NEW);
 

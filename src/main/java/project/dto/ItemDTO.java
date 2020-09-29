@@ -26,14 +26,4 @@ public class ItemDTO {
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     private Set<CartDTO> carts = new HashSet<>();
-
-    public void addCart(CartDTO cart) {
-        carts.add(cart);
-        cart.setItem(this);
-    }
-
-    public void removeCart(CartDTO cart) {
-        cart.setItem(null);
-        carts.remove(cart);
-    }
 }

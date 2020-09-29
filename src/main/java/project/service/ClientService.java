@@ -57,17 +57,6 @@ public class ClientService {
                 .collect(Collectors.toList());
     }
 
-    @Transactional
-    public void delete(ClientDTO clientDTO) {
-        Client client = clientConverter.convertToEntity(clientDTO);
-        clientDao.delete(client);
-    }
-
-    @Transactional
-    public void deleteAll() {
-        clientDao.deleteAll();
-    }
-
     public ClientDTO findByEmail(String email) {
         List<ClientDTO> clients = findAll();
         for (ClientDTO client : clients) {
@@ -89,10 +78,6 @@ public class ClientService {
         user.setUserPass(passwordEncoder.encode(user.getUserPass()));
 
         save(user);
-    }
-
-    public void encodePassword(ClientDTO client) {
-        client.setUserPass(passwordEncoder.encode(client.getUserPass()));
     }
 
     public void updateUserInformation(ClientDTO currentClient, ClientDTO client) {

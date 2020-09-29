@@ -11,8 +11,6 @@ public class ItemConverter {
 
     @Autowired
     private ModelMapper mapper;
-    @Autowired
-    private CartConverter cartConverter;
 
     public Item convertToEntity(ItemDTO product) {
         Item entity = mapper.map(product, Item.class);

@@ -43,17 +43,6 @@ public class ItemService {
         return itemConverter.convertToDTO(item);
     }
 
-    @Transactional
-    public void delete(ItemDTO itemDTO) {
-        Item item = itemConverter.convertToEntity(itemDTO);
-        itemDao.delete(item);
-    }
-
-    @Transactional
-    public void deleteAll() {
-        itemDao.deleteAll();
-    }
-
     public List<ItemDTO> findAll() {
         List<Item> item = itemDao.findAll();
         return item
@@ -89,7 +78,6 @@ public class ItemService {
                 result.add(item);
             }
         }
-
         return result;
     }
 

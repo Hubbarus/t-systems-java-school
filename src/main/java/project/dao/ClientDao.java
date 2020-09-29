@@ -33,15 +33,4 @@ public class ClientDao extends AbstractDao {
         TypedQuery<Client> allQuery = getSession().createQuery(all);
         return allQuery.getResultList();
     }
-
-    public void delete(Client entity) {
-        getSession().delete(entity);
-    }
-
-    public void deleteAll() {
-        List<Client> client = findAll();
-        for (Client c : client) {
-            delete(c);
-        }
-    }
 }

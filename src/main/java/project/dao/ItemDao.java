@@ -33,15 +33,4 @@ public class ItemDao extends AbstractDao {
         TypedQuery<Item> allQuery = getSession().createQuery(all);
         return allQuery.getResultList();
     }
-
-    public void delete(Item entity) {
-        getSession().delete(entity);
-    }
-
-    public void deleteAll() {
-        List<Item> all = findAll();
-        for (Item p : all) {
-            delete(p);
-        }
-    }
 }

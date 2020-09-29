@@ -1,8 +1,10 @@
 package project.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.convert.converter.Converter;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -12,7 +14,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
-import project.converter.AddressConverter;
+import project.dto.AddressDTO;
+import project.service.AddressService;
 
 
 @Configuration
@@ -20,9 +23,23 @@ import project.converter.AddressConverter;
 @ComponentScan("project.controller")
 public class DispatcherConfig extends WebMvcConfigurerAdapter implements WebMvcConfigurer {
 
+    @Autowired private AddressService addressService;
+
     @Bean
-    public AddressConverter getAddressConverter() {
-        return new AddressConverter();
+    public Converter<String, AddressDTO> getAddressConverter() {
+
+        return new Converter<String, AddressDTO>() {
+            @Override
+            public AddressDTO convert(String source) {
+            AddressDTO addressDTO = new AddressDTO();
+            if (source != null) {
+                String[] tokens = source.split(" \\| ");
+                long id = Long.parseLong(tokens[0]);
+                addressDTO = addressService.findById(id);
+            }
+            return addressDTO;
+            }
+        };
     }
 
     @Override

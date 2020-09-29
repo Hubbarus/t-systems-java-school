@@ -26,7 +26,6 @@ public class ClientController {
     @Autowired private ClientService clientService;
     @Autowired private UserService userService;
     @Autowired private AddressService addressService;
-    @Autowired private OrderService orderService;
 
     @RequestMapping(value = "/registration", method = RequestMethod.GET)
     public String registration(Model model) {

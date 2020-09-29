@@ -33,15 +33,4 @@ public class OrderDao extends AbstractDao {
         TypedQuery<Order> allQuery = getSession().createQuery(all);
         return allQuery.getResultList();
     }
-
-    public void delete(Order entity) {
-        getSession().delete(entity);
-    }
-
-    public void deleteAll() {
-        List<Order> order = findAll();
-        for (Order o : order) {
-            delete(o);
-        }
-    }
 }

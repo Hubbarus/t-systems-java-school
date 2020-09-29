@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import project.dto.OrderDTO;
-import project.service.AddressService;
 import project.service.ClientService;
 import project.service.OrderService;
 import project.utils.CartListWrapper;
@@ -20,7 +19,6 @@ public class PaymentController {
 
     @Autowired private OrderService orderService;
     @Autowired private ClientService clientService;
-    @Autowired private AddressService addressService;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String chooseExtraDetails(@ModelAttribute("items") CartListWrapper items, Model model, Principal principal) {

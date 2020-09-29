@@ -11,8 +11,6 @@ public class ClientConverter {
 
     @Autowired
     private ModelMapper mapper;
-    @Autowired
-    private AddressConverter addressConverter;
 
     public Client convertToEntity(ClientDTO client) {
         Client entity = mapper.map(client, Client.class);
