@@ -21,7 +21,7 @@
     <jsp:include page="blocks/header.jsp"/>
 </header>
 <%--Success order--%>
-<div class="container-md mt-3 mb-3">
+<div class="container-md mt-3 mb-3 text-center">
     <c:if test="${param.get('success').equals('yes')}">
         <div class="alert alert-success">
             <c:out value="Order has been placed successfully"/>

@@ -17,37 +17,92 @@
 </head>
 <body>
 <header>
-    <jsp:include page="blocks/header.jsp"></jsp:include>
+    <jsp:include page="blocks/header.jsp"/>
 </header>
-<div class="container card">
+
+<div class="container mt-5 w-50 text-center">
 <h2>Registration</h2>
 </div>
-<div class="container">
+
+<div class="container w-50 align-content-center">
 <c:choose>
     <c:when test="${userNameError != null}">
-        <div class="alert alert-danger"><c:out value="${userNameError}"></c:out></div>
-        <a href="/client/registration/" class="btn-success">Go back</a>
+        <div class="alert alert-danger text-center">
+            <c:out value="${userNameError}"/>
+            <a href="/client/registration/" class="btn btn-outline-success">Go back</a>
+        </div>
     </c:when>
+
     <c:otherwise>
-        <div class="table">
+        <div class="table text-center align-content-center">
             <form:form method="POST" modelAttribute="clientForm" action="/client/registration/">
-                <h3 class="card-header">Client Information</h3>
-                <p class="text-dark">Name: </p>
-                <form:input path="firstName"></form:input>
-
-                <p class="text-dark">Lastname: </p>
-                <form:input path="lastName"></form:input>
-
-                <p class="text-dark">Date of birth: </p>
-                <fmt:formatDate value="${clientForm.birthDate}" var="date" pattern="yyyy-MM-dd"></fmt:formatDate>
-                <form:input type="date" path="birthDate" value="${date}"></form:input>
-
-                <p class="text-dark">E-mail: </p>
-                <form:input type="email" path="email"></form:input>
-
-                <p class="text-dark">Password: </p>
-                <form:password path="userPass"></form:password>
-                <button type="submit">Do register!</button>
+                <h3 class="text-center">Client Information</h3>
+<%--                First name--%>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1">First Name</span>
+                    </div>
+                    <form:input path="firstName"
+                                type="text"
+                                class="form-control"
+                                placeholder="First Name"
+                                aria-label="First Name"
+                                aria-describedby="basic-addon1"
+                                required="true"/>
+                </div>
+<%--                Last name--%>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon2">Last Name</span>
+                    </div>
+                    <form:input path="lastName"
+                                type="text"
+                                class="form-control"
+                                placeholder="Last Name"
+                                aria-label="Last Name"
+                                aria-describedby="basic-addon2"
+                                required="true"/>
+                </div>
+<%--                Date of birth--%>
+                <fmt:formatDate value="${clientForm.birthDate}" var="date" pattern="yyyy-MM-dd"/>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon3">Birth date</span>
+                    </div>
+                    <form:input value="${date}"
+                                path="birthDate"
+                                type='date'
+                                class="form-control"
+                                aria-describedby="basic-addon3"
+                                required="true"/>
+                </div>
+<%--                Email--%>
+                <div class="input-group mb-3">
+                    <form:input path="email"
+                                type="email"
+                                class="form-control"
+                                placeholder="example@gmail.com"
+                                aria-label="E-mail"
+                                aria-describedby="basic-addon5"
+                                required="true"/>
+                    <div class="input-group-append">
+                        <span class="input-group-text" id="basic-addon5">E-mail</span>
+                    </div>
+                </div>
+<%--                Password--%>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon6">Password</span>
+                    </div>
+                    <form:password path="userPass"
+                                   class="form-control"
+                                   placeholder="Password"
+                                   aria-label="Password"
+                                   aria-describedby="basic-addon6"
+                                   required="true"/>
+                </div>
+<%--                Button--%>
+                <button type="submit" class="btn btn-outline-success">Do register!</button>
             </form:form>
         </div>
     </c:otherwise>
@@ -55,7 +110,7 @@
 </div>
 
 <footer>
-    <jsp:include page="blocks/footer.jsp"></jsp:include>
+    <jsp:include page="blocks/footer.jsp"/>
 </footer>
 </body>
 </html>
