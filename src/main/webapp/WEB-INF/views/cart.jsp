@@ -16,17 +16,22 @@
 </head>
 <body>
 <header>
-    <jsp:include page="blocks/header.jsp"></jsp:include>
+    <jsp:include page="blocks/header.jsp"/>
 </header>
+<div class="container mt-5 w-75">
 <c:choose>
     <c:when test="${items.list.size() == 0}">
-        <span class="ui-state-error-text">
+        <div class="alert alert-info text-center">
             No items in cart
-        </span>
-        <a href="/shop/" class="btn-dark">Go shopping</a>
+        </div>
+        <br>
+        <div class="container text-center">
+            <a href="/shop/" class="btn btn-outline-success">Visit shop</a>
+        </div>
     </c:when>
     <c:otherwise>
-        <table class="table-bordered">
+        <div class="container align-content-center">
+        <table class="table">
             <tr>
                 <td>Item</td>
                 <td>Quantity</td>
@@ -35,53 +40,62 @@
             </tr>
             <c:forEach items="${items.list}" var="i" begin="0" end="${items.list.size()}">
             <tr>
-                    <td>
-                        <c:out value="${i.item.itemName},"></c:out>
-                        <c:out value="${i.item.itemGroup},"> </c:out>
-                        <c:out value="${i.item.description}"></c:out>
-                    </td>
-                    <td>
-                        <c:out value="${i.quantity}"></c:out>
-                    </td>
-                    <td>
-                        <c:set value="${i.quantity}" var="quan"></c:set>
-                        <c:set value="${i.item.price}" var="price"></c:set>
-                        <c:set value="${quan * price}" var="amount" scope="page"></c:set>
-                        <c:out value="${amount}"></c:out>
-                        <c:set value="${total + amount}" var="total"></c:set>
-                    </td>
-                    <td>
-                        <a href="/cart/removeItem?itemId=${i.item.id}" class="btn alert-danger">X</a>
-                    </td>
+<%--    Name--%>
+                <td class="text-center">
+                    <c:out value="${i.item.itemName},"/>
+                    <c:out value="${i.item.itemGroup}"/>
+                </td>
+<%--    Quantity--%>
+                <td>
+                    <c:out value="${i.quantity}"/>
+                </td>
+<%--    Total--%>
+                <td>
+                    <c:set value="${i.quantity}" var="quan"/>
+                    <c:set value="${i.item.price}" var="price"/>
+                    <c:set value="${quan * price}" var="amount" scope="page"/>
+                    <c:out value="${amount}"/>
+                    <c:set value="${total + amount}" var="total"/>
+                </td>
+<%--    Remove button--%>
+                <td>
+                    <div class="btn btn-outline-danger">
+                        <a href="/cart/removeItem?itemId=${i.item.id}">X</a>
+                    </div>
+                </td>
             </tr>
             </c:forEach>
             <tr>
+                <td></td>
+                <td>Total:</td>
+                <td>
+                <c:out value="${total}"/>
+                </td>
                 <td>
                     <form:form action="/pay/" method="get" modelAttribute="items">
                         <c:forEach items="${items.list}" varStatus="vs">
-                            <form:hidden path="list[${vs.index}].item.id"></form:hidden>
-                            <form:hidden path="list[${vs.index}].item.itemName"></form:hidden>
-                            <form:hidden path="list[${vs.index}].item.itemGroup"></form:hidden>
-                            <form:hidden path="list[${vs.index}].item.description"></form:hidden>
-                            <form:hidden path="list[${vs.index}].item.price"></form:hidden>
-                            <form:hidden path="list[${vs.index}].item.weight"></form:hidden>
-                            <form:hidden path="list[${vs.index}].item.volume"></form:hidden>
-                            <form:hidden path="list[${vs.index}].item.stock"></form:hidden>
-                            <form:hidden path="list[${vs.index}].quantity"></form:hidden>
-                            <form:hidden path="subtotal" value="${total}"></form:hidden>
+                            <form:hidden path="list[${vs.index}].item.id"/>
+                            <form:hidden path="list[${vs.index}].item.itemName"/>
+                            <form:hidden path="list[${vs.index}].item.itemGroup"/>
+                            <form:hidden path="list[${vs.index}].item.description"/>
+                            <form:hidden path="list[${vs.index}].item.price"/>
+                            <form:hidden path="list[${vs.index}].item.weight"/>
+                            <form:hidden path="list[${vs.index}].item.volume"/>
+                            <form:hidden path="list[${vs.index}].item.stock"/>
+                            <form:hidden path="list[${vs.index}].quantity"/>
+                            <form:hidden path="subtotal" value="${total}"/>
                         </c:forEach>
-                        <button type="submit" class="btn-success">Go pay</button>
+                        <button type="submit" class="btn btn-outline-success">Go to payment page</button>
                     </form:form>
-                </td>
-                <td>Total:</td>
-                <td>
-                <c:out value="${total}"></c:out>
                 </td>
             </tr>
         </table>
-        <a href="/shop/" class="btn-success h5">Go back to shop</a>
+        </div>
+        <br>
+        <a href="/shop/" class="btn btn-outline-success">Back to shop</a>
         </c:otherwise>
 </c:choose>
+</div>
 
 <footer>
     <jsp:include page="blocks/footer.jsp"/>
