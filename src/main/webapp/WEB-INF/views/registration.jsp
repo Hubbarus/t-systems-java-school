@@ -28,7 +28,7 @@
 <c:choose>
     <c:when test="${userNameError != null}">
         <div class="alert alert-danger text-center">
-            <c:out value="${userNameError}"/>
+            <c:out value="${userNameError}"/><br>
             <a href="/client/registration/" class="btn btn-outline-success">Go back</a>
         </div>
     </c:when>

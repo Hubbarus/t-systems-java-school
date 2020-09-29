@@ -21,13 +21,15 @@
     <jsp:include page="blocks/header.jsp"/>
 </header>
 
-<c:if test="${successMsg != null}">
-    <div class="alert alert-success align-content-center mt-3 mb-3" role="alert">
-        <c:out value="${successMsg}"/>
-    </div>
-</c:if>
+
 
 <div class="container align-content-center mt-3 mb-3">
+    <c:if test="${successMsg != null}">
+        <div class="alert alert-success text-center mt-3 mb-3" role="alert">
+            <c:out value="${successMsg}"/>
+        </div>
+    </c:if>
+
     <h1 class="mt-1 mb-1">Greetings, ${client.firstName}!</h1>
     <br>
     <table class="table">
@@ -36,7 +38,7 @@
             <td class="text-black-50 h5">${client.firstName}</td>
         </tr>
         <tr>
-            <td class="text-black-50 h5">Lastname:</td>
+            <td class="text-black-50 h5">Last Name:</td>
             <td class="text-black-50 h5">${client.lastName}</td>
         </tr>
         <tr>
@@ -48,7 +50,9 @@
             <td class="text-black-50 h5">${client.birthDate}</td>
         </tr>
         <tr>
-            <td class="text-black-50 h5">Addresses: <br>
+            <td class="text-black-50 h5">Addresses:
+                <br>
+                <br>
                 <a href="/client/userInfo/manageAddress?action=add" class="btn btn-outline-secondary">Add address</a>
             </td>
             <td class="text-black-50 h5">
