@@ -13,101 +13,129 @@
     <jsp:include page="../blocks/header.jsp"/>
 </header>
 
-<table class="table align-middle">
-    <tr>
-<%--        Top Items--%>
+<table class="table text-center">
+    <%--    Proceeds--%>
+    <tr class="mt-3 mb-3">
         <td>
-            <table class="table-bordered border-light">
-                <tr>
-                    <td>Item Name</td>
-                    <td>Total Quantity</td>
-                </tr>
-                <c:forEach items="${topItems}" var="item" begin="0" end="${topItems.size()}">
-                    <tr>
-                        <td>
-                            <c:out value="${item.item.itemName}, ${item.item.itemGroup}"/>
-                        </td>
-                        <td>
-                            <c:out value="${item.quantity}"/>
-                        </td>
-                    </tr>
-                </c:forEach>
-            </table>
-        </td>
-<%--        Top Clients--%>
-        <td>
-            <table class="table-bordered border-light">
-                <tr>
-                    <td>Client Name</td>
-                    <td>Total Quantity of Orders</td>
-                </tr>
-                <c:forEach items="${topClients}" var="client" begin="0" end="${topClients.size()}">
-                    <tr>
-                        <td>
-                            <c:out value="${client.key.firstName} ${client.key.lastName}"/>
-                        </td>
-                        <td>
-                            <c:out value="${client.value}"/>
-                        </td>
-                    </tr>
-                </c:forEach>
-            </table>
-        </td>
-<%--    Proceeds--%>
-        <td>
-            <c:if test="${err != null}">
-                <div class="alert alert-danger">
-                    <c:out value="${err}"/>
+            <div class="card">
+                <div class="card-header">
+                    Proceeds in period
                 </div>
-            </c:if>
-
-            <form:form method="post" modelAttribute="statDateForm" action="">
-                <table class="table table-bordered border-light">
-                    <tr>
-                        <td>
-                            <p>Enter From Date</p>
-                            <form:input type="date" path="from" required="true"/>
-                        </td>
-                        <td>
-                            <p>Enter From Date</p>
-                            <form:input path="to" type="date" required="true"/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <button type="submit" class="btn-success">Submit</button>
-                        </td>
-                    </tr>
-                </table>
-            </form:form>
-
-            <br>
-
-            <c:if test="${statDateForm.orders.size() != 0}">
-                <table class="table table-bordered border-light">
-                    <tr>
-                        <h2 class="alert alert-info">Total procceeds: ${statDateForm.proceeds}</h2>
-                    </tr>
-                    <tr>
-                        <td>Date</td>
-                        <td>Order #</td>
-                        <td>Subtotal</td>
-                    </tr>
-                    <c:forEach var="order" items="${statDateForm.orders}">
-                        <tr>
-                            <td>
-                                <c:out value="${order.date}"/>
-                            </td>
-                            <td>
-                                <c:out value="${order.orderNo}"/>
-                            </td>
-                            <td>
-                                <c:out value="${order.subtotal}"/>
-                            </td>
-                        </tr>
-                    </c:forEach>
-                </table>
-            </c:if>
+                <div class="card-body">
+                    <c:if test="${err != null}">
+                        <div class="alert alert-danger">
+                            <c:out value="${err}"/>
+                        </div>
+                    </c:if>
+                    <blockquote class="blockquote mb-0">
+                        <form:form method="post" modelAttribute="statDateForm" action="">
+                            <table class="table table-bordered border-light">
+                                <tr>
+                                    <td>
+                                        <p>Enter From Date</p>
+                                        <form:input type="date" path="from" required="true"/>
+                                    </td>
+                                    <td>
+                                        <p>Enter From Date</p>
+                                        <form:input path="to" type="date" required="true"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <button type="submit" class="btn btn-outline-success">Show</button>
+                                    </td>
+                                    <td></td>
+                                </tr>
+                            </table>
+                        </form:form>
+                        <c:if test="${statDateForm.orders.size() != 0}">
+                            <table class="table table-bordered border-light">
+                                <tr>
+                                    <h2 class="alert alert-info">Total procceeds: ${statDateForm.proceeds}</h2>
+                                </tr>
+                                <tr>
+                                    <td>Date</td>
+                                    <td>Order #</td>
+                                    <td>Subtotal</td>
+                                </tr>
+                                <c:forEach var="order" items="${statDateForm.orders}">
+                                    <tr>
+                                        <td>
+                                            <c:out value="${order.date}"/>
+                                        </td>
+                                        <td>
+                                            <c:out value="${order.orderNo}"/>
+                                        </td>
+                                        <td>
+                                            <c:out value="${order.subtotal}"/>
+                                        </td>
+                                    </tr>
+                                </c:forEach>
+                            </table>
+                        </c:if>
+                    </blockquote>
+                </div>
+            </div>
+        </td>
+    </tr>
+<%--        Top Items--%>
+    <tr class="mt-3 mb-3">
+        <td>
+            <div class="card">
+                <div class="card-header">
+                    Top 10 Items
+                </div>
+                <div class="card-body">
+                    <blockquote class="blockquote mb-0">
+                        <table class="table-bordered border-light">
+                            <tr>
+                                <td>Item Name</td>
+                                <td>Total Quantity</td>
+                            </tr>
+                            <c:forEach items="${topItems}" var="item" begin="0" end="${topItems.size()}">
+                                <tr>
+                                    <td>
+                                        <c:out value="${item.item.itemName}, ${item.item.itemGroup}"/>
+                                    </td>
+                                    <td>
+                                        <c:out value="${item.quantity}"/>
+                                    </td>
+                                </tr>
+                            </c:forEach>
+                        </table>
+                    </blockquote>
+                </div>
+            </div>
+        </td>
+    </tr>
+    <%--        Top Clients--%>
+    <tr class="mt-3 mb-3">
+        <td>
+            <div class="card">
+                <div class="card-header">
+                    Top 10 Clients
+                </div>
+                <div class="card-body">
+                    <blockquote class="blockquote mb-0">
+                        <table class="table-bordered border-light">
+                            <tr>
+                                <td>Client Name</td>
+                                <td>Total Quantity of Orders</td>
+                            </tr>
+                            <c:forEach items="${topClients}" var="client" begin="0" end="${topClients.size()}">
+                                <tr>
+                                    <td>
+                                        <c:out value="${client.key.firstName} ${client.key.lastName}"/>
+                                    </td>
+                                    <td>
+                                        <c:out value="${client.value}"/>
+                                    </td>
+                                </tr>
+                            </c:forEach>
+                        </table>
+                    </blockquote>
+                </div>
+            </div>
         </td>
     </tr>
 </table>

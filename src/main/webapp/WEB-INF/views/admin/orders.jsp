@@ -12,7 +12,7 @@
 <header>
     <jsp:include page="../blocks/header.jsp"/>
 </header>
-<div class="container align-content-center">
+<div class="container align-content-center mt-5">
     <table class="table">
         <tr>
             <td>Order #</td>
@@ -29,7 +29,7 @@
         <c:forEach items="${orders}" var="order" begin="0" end="${orders.size()}">
             <form:form id="orderForm" name="orderForm" modelAttribute="thisOrder" action="/manage/orders/edit/" method="post">
                 <tr>
-                    <td><c:out value="${order.id}"/></td>
+                    <td><c:out value="${order.orderNo}"/></td>
                     <td>
                         <table class="table table-bordered">
                             <tr>
@@ -68,7 +68,7 @@
                     <td><c:out value="${order.status.toString()}"/></td>
                     <td>
                         <form:input path="id" type="hidden" name="id"/>
-                        <form:select path="status" onchange="x(${order.id})">
+                        <form:select path="status" onchange="submitOrderForm(${order.id})">
                             <form:option value="${order.status}"/>
                             <c:forEach items="${StatusEnum.values()}" var="statusType">
                                 <form:option value="${statusType}"/>
@@ -82,7 +82,7 @@
 </div>
 
 <script type="text/javascript">
-    function x(id) {
+    function submitOrderForm(id) {
         var form = document.forms['orderForm'];
         var idTag = form.elements["id"];
         idTag.value = id;

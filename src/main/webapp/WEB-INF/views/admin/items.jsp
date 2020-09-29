@@ -10,7 +10,7 @@
 
     <style>
         .td {
-            max-width: 350px;
+            max-width: 200px;
         }
     </style>
 
@@ -20,11 +20,11 @@
     <jsp:include page="../blocks/header.jsp"/>
 </header>
 <br>
-<div class="container-sm">
+<div class="container-sm text-center">
     <a href="/manage/editItem" class="btn btn-outline-dark" role="button" aria-pressed="true">Add new</a>
 </div>
 <br>
-<table class="table">
+<table class="table text-center">
     <tr>
         <td>#</td>
         <td>Name</td>
