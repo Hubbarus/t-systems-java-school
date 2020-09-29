@@ -17,7 +17,7 @@
 </head>
 <body>
 <header>
-    <jsp:include page="../blocks/header.jsp"></jsp:include>
+    <jsp:include page="../blocks/header.jsp"/>
 </header>
 <br>
 <div class="container-sm">

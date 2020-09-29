@@ -10,7 +10,7 @@
 </head>
 <body>
 <header>
-    <jsp:include page="../blocks/header.jsp"></jsp:include>
+    <jsp:include page="../blocks/header.jsp"/>
 </header>
 <div class="container align-content-center">
     <table class="table">
@@ -60,7 +60,7 @@
                         </c:when>
                         <c:otherwise>
                             <td class="alert-warning">
-                                <c:out value="Unpaid"></c:out>
+                                <c:out value="Unpaid"/>
                             </td>
                         </c:otherwise>
                     </c:choose>

@@ -162,7 +162,7 @@
 
     function onSelectChange(event) {
         if (event.target.value === "add new") {
-            var userInput = prompt('Type new group name: ')
+            var userInput = prompt('Type new group name: ');
 
             var newGroup = {
                 label: userInput,

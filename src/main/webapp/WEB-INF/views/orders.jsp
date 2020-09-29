@@ -11,8 +11,8 @@
 <header>
     <jsp:include page="blocks/header.jsp"/>
 </header>
-<div class="container align-content-center">
-    <p class="text-dark text-md-center h2">${user.firstName}'s orders</p>
+<div class="container align-content-center mt-1 w-75">
+    <p class="text-dark text-md-center h2 mt-3 mb-2">${user.firstName}'s orders</p>
 
     <table class="table">
         <tr>
@@ -28,7 +28,7 @@
             <td>
                 <table class="table table-bordered">
                     <tr>
-                        <td>Name</td>
+                        <td>Item</td>
                         <td>Quantity</td>
                     </tr>
                         <c:forEach items="${order.items}" begin="0" end="${order.items.size()}" var="item">
