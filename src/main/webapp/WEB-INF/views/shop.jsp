@@ -44,8 +44,10 @@
                     <div class="row">
                         <c:forEach begin="0" end="${itemsCat.size()}" var="i" items="${itemsCat}">
                             <div class="col-md-4">
-                                <div class="card mb-4 shadow-sm">
-                                    <img src="${i.pathToIMG}" class="img-fluid w-100">
+                                <div class="card mb-4 shadow-sm text-center">
+                                    <a href="/shop/${i.itemGroup}/${i.id}">
+                                        <img src="${i.pathToIMG}" class="img-fluid w-100">
+                                    </a>
                                     <title>${i.itemName}</title>
                                     <text>${i.itemName}</text></img>
                                     <div class="card-body">
@@ -55,7 +57,7 @@
                                                 <a href="/shop/${i.itemGroup}/${i.id}" type="button" class="btn btn-sm btn-outline-secondary">View</a>
                                                 <button type="button" class="btn btn-sm btn-outline-secondary">Add to Cart</button>
                                             </div>
-                                            <small class="text-muted">${i.price}$</small>
+                                            <small class="text-muted">stock: ${i.stock}pcs, ${i.price}$</small>
                                         </div>
                                     </div>
                                 </div>

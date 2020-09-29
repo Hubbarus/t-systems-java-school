@@ -22,7 +22,12 @@
 <header>
     <jsp:include page="blocks/header.jsp"/>
 </header>
-<div class="container mt-5 ml-5 mr-5">
+<div class="container mt-5 ml-5 mr-5 align-content-center">
+    <c:if test="${cart.item.stock == 0}">
+        <div class="alert alert-danger w-50 text-center align-content-center">
+            <c:out value="Sorry, this item out of stock now!"/>
+        </div>
+    </c:if>
     <table class="table">
         <tr>
             <td class="align-content-center w-50">

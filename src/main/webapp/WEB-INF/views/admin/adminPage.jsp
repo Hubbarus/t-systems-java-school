@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -9,24 +10,43 @@
 <header>
     <jsp:include page="../blocks/header.jsp"/>
 </header>
-<div class="container">
-    <table class="table">
-        <tr>
-            <td>
-                <a href="/manage/orders">See all orders</a>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <a href="/manage/statistics">Statistics</a>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <a href="/manage/items">Manage Items</a>
-            </td>
-        </tr>
-    </table>
+<div class="container text-center align-content-center mt-5 mb-3 w-50">
+    <div class="container mt-1 mb-2 text-center h2">
+        <c:out value="Manager page"/>
+    </div>
+    <div class="container mt-2 text-center align-content-center">
+        <table class="table align-content-center text-center">
+            <tr>
+                <td class="text-center align-content-md-center ml-2 mr-2">
+                    <div class="card" style="width: 18rem;">
+                        <img src="/img/admin_order_icon.png" class="card-img-top">
+                        <div class="card-body">
+                            <p class="card-text">Here you can see all orders and manage its status.</p>
+                            <a href="/manage/orders" class="btn btn-outline-success">See all orders</a>
+                        </div>
+                    </div>
+                </td>
+                <td class="text-center align-content-md-center ml-2 mr-2">
+                    <div class="card" style="width: 18rem;">
+                        <img src="/img/admin_stat_icon.png" class="card-img-top">
+                        <div class="card-body">
+                            <p class="card-text">Take a look at proceeds and top 10 items in shop. Also you can figure out who is buing a lot.</p>
+                            <a href="/manage/statistics" class="btn btn-outline-success">Statistics</a>
+                        </div>
+                    </div>
+                </td>
+                <td class="text-center align-content-md-center ml-2 mr-2">
+                    <div class="card" style="width: 18rem;">
+                        <img src="/img/admin_item_icon.png" class="card-img-top">
+                        <div class="card-body">
+                            <p class="card-text">Edit all items and add new - all in one page!</p>
+                            <a href="/manage/items" class="btn btn-outline-success">Manage Items</a>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
 </div>
 
 <footer>
