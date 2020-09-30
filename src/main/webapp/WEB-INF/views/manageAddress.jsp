@@ -11,7 +11,7 @@
 <header>
     <jsp:include page="blocks/header.jsp"/>
 </header>
-<div class="container mt-3 mb-3">
+<div class="container mt-3 mb-3 w-50">
     <c:if test="${address.country != null}">
         <c:set var="greet" value="Edit address" scope="page"/>
     </c:if>
@@ -33,7 +33,7 @@
                             </div>
                             <form:input path="country" placeholder="${address.country}"
                                         type="text" class="form-control"
-                                        aria-label="Имя пользователя"
+                                        aria-label="Country"
                                         aria-describedby="basic-addon1"/>
                         </div>
                     </td>
@@ -47,7 +47,7 @@
                             </div>
                             <form:input path="city" placeholder="${address.city}"
                                         type="text" class="form-control"
-                                        aria-label="Имя пользователя"
+                                        aria-label="City"
                                         aria-describedby="basic-addon2"/>
                         </div>
                     </td>
@@ -62,7 +62,7 @@
                             <form:input  path="postcode" placeholder="${address.postcode}"
                                          type="text"
                                          class="form-control"
-                                         aria-label="Имя пользователя"
+                                         aria-label="Postcode"
                                          aria-describedby="basic-addon3"/>
                         </div>
                     </td>
@@ -76,7 +76,7 @@
                             </div>
                             <form:input type="text" path="street" placeholder="${address.street}"
                                    class="form-control"
-                                   aria-label="Имя пользователя"
+                                   aria-label="Street"
                                    aria-describedby="basic-addon4"/>
                         </div>
                     </td>
@@ -91,7 +91,7 @@
                             <form:input path="building" placeholder="${address.building}"
                                         type="text"
                                         class="form-control"
-                                        aria-label="Имя пользователя"
+                                        aria-label="Building"
                                         aria-describedby="basic-addon5"/>
                         </div>
                     </td>
@@ -106,7 +106,7 @@
                             </div>
                             <form:input path="apart" placeholder="${address.apart}"
                                         type="text" class="form-control"
-                                        aria-label="Имя пользователя"
+                                        aria-label="Apart"
                                         aria-describedby="basic-addon6"/>
                         </div>
                     </td>

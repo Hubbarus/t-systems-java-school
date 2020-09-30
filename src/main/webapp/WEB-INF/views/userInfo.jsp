@@ -63,7 +63,8 @@
                     <c:out value="${i.postcode}, ${i.country}, ${i.city}, ${i.street}, ${i.building}, ${i.apart}"/>
                     </td>
                     <td class="text-black-50 h5">
-                    <form:form action="/client/userInfo/manageAddress?action=manage/" modelAttribute="address" method="get">
+                    <form:form action="/client/userInfo/manageAddress/" modelAttribute="address" method="get">
+                        <input name="action" id="action" value="edit" type="hidden">
                         <form:hidden path="id" value="${i.id}"/>
                         <form:hidden path="country" value="${i.country}"/>
                         <form:hidden path="city" value="${i.city}"/>

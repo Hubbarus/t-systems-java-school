@@ -19,6 +19,10 @@ public class ClientDao extends AbstractDao {
         getSession().update(entity);
     }
 
+    public void delete(Client entity) {
+        getSession().delete(entity);
+    }
+
     public Client findById(Long id) {
         return getSession().get(Client.class, id);
     }

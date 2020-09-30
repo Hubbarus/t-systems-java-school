@@ -18,7 +18,6 @@ import project.utils.CartListWrapper;
 
 import java.security.Principal;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -44,12 +43,18 @@ public class ClientService {
         clientDao.update(client);
     }
 
+    @Transactional
+    public void delete(ClientDTO clientDTO) {
+        Client client = mapper.map(clientDTO, Client.class);
+        clientDao.delete(client);
+    }
+
     public ClientDTO findById(Long id) {
         Client client = clientDao.findById(id);
         return mapper.map(client, ClientDTO.class);
     }
 
-    public List<ClientDTO> findAll() {
+    private List<ClientDTO> findAll() {
         List<Client> clients = clientDao.findAll();
         return clients
                 .stream()
@@ -67,12 +72,7 @@ public class ClientService {
         throw new NoSuchClientException("Client with email " + email + " not found!");
     }
 
-    public void createUserAndSave(ClientDTO user, AddressDTO address) {
-        if (address != null) {
-            Set<AddressDTO> addresses = new HashSet<>();
-            addresses.add(address);
-            user.setAddressList(addresses);
-        }
+    private void createUserAndSave(ClientDTO user) {
         user.setRole(RoleEnum.USER);
         user.setActive(true);
         user.setUserPass(passwordEncoder.encode(user.getUserPass()));
@@ -81,6 +81,9 @@ public class ClientService {
     }
 
     public void updateUserInformation(ClientDTO currentClient, ClientDTO client) {
+        if (currentClient == null || client == null) {
+            throw new IllegalArgumentException();
+        }
         currentClient.setFirstName(client.getFirstName());
         currentClient.setLastName(client.getLastName());
         currentClient.setBirthDate(client.getBirthDate());
@@ -137,7 +140,7 @@ public class ClientService {
             model.addAttribute("userNameError", "This username already exist!");
             return "registration";
         } catch (NoSuchClientException e) {
-            createUserAndSave(client, null);
+            createUserAndSave(client);
             model.addAttribute("user", new ClientDTO());
             return "redirect:/login";
         }
