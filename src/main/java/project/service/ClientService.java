@@ -1,12 +1,12 @@
 package project.service;
 
 import lombok.AllArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
-import project.converter.ClientConverter;
 import project.dao.ClientDao;
 import project.dto.AddressDTO;
 import project.dto.ClientDTO;
@@ -28,32 +28,32 @@ import java.util.stream.Collectors;
 public class ClientService {
 
     @Autowired private final ClientDao clientDao;
-    @Autowired private final ClientConverter clientConverter;
     @Autowired private final PasswordEncoder passwordEncoder;
     @Autowired private final OrderService orderService;
+    @Autowired private final ModelMapper mapper;
 
     @Transactional
     public void save(ClientDTO clientDTO) {
-        Client client = clientConverter.convertToEntity(clientDTO);
+        Client client = mapper.map(clientDTO, Client.class);
         clientDao.save(client);
     }
 
     @Transactional
     public void update(ClientDTO clientDTO) {
-        Client client = clientConverter.convertToEntity(clientDTO);
+        Client client = mapper.map(clientDTO, Client.class);
         clientDao.update(client);
     }
 
     public ClientDTO findById(Long id) {
         Client client = clientDao.findById(id);
-        return clientConverter.convertToDTO(client);
+        return mapper.map(client, ClientDTO.class);
     }
 
     public List<ClientDTO> findAll() {
-        List<Client> client = clientDao.findAll();
-        return client
+        List<Client> clients = clientDao.findAll();
+        return clients
                 .stream()
-                .map(clientConverter::convertToDTO)
+                .map(cl -> mapper.map(cl, ClientDTO.class))
                 .collect(Collectors.toList());
     }
 
@@ -147,6 +147,8 @@ public class ClientService {
         ClientDTO byEmail = findByEmail(email);
         if (email.equals(byEmail.getEmail())) {
             return true;
-        } else return false;
+        } else {
+            return false;
+        }
     }
 }

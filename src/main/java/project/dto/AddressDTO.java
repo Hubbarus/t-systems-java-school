@@ -25,6 +25,5 @@ public class AddressDTO {
                 + StringUtils.capitalize(street) + ", "
                 + building + ", "
                 + apart + ", ";
-
     }
 }

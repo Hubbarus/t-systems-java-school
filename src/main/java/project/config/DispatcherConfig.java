@@ -17,7 +17,6 @@ import org.springframework.web.servlet.view.JstlView;
 import project.dto.AddressDTO;
 import project.service.AddressService;
 
-
 @Configuration
 @EnableWebMvc
 @ComponentScan("project.controller")
@@ -59,7 +58,7 @@ public class DispatcherConfig extends WebMvcConfigurerAdapter implements WebMvcC
 
     @Override
     public void configureViewResolvers(ViewResolverRegistry registry) {
-        registry.jsp("/WEB-INF/views/", ".jsp");
+        registry.viewResolver(viewResolver());
     }
 
     @Override

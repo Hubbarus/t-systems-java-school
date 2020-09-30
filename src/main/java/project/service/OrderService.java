@@ -5,8 +5,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import project.utils.StatByDateHolder;
-import project.utils.TopTenComparator;
 import project.converter.OrderConverter;
 import project.dao.OrderDao;
 import project.dto.CartDTO;
@@ -15,10 +13,11 @@ import project.dto.ItemDTO;
 import project.dto.OrderDTO;
 import project.entity.Order;
 import project.entity.enums.StatusEnum;
+import project.utils.StatByDateHolder;
+import project.utils.TopTenComparator;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -28,6 +27,7 @@ import java.util.stream.Collectors;
 @Service
 @AllArgsConstructor
 public class OrderService {
+
     @Autowired private final OrderDao orderDao;
     @Autowired private final OrderConverter orderConverter;
     @Autowired private final ItemService itemService;
@@ -122,7 +122,7 @@ public class OrderService {
 
         List<Map.Entry<ItemDTO, Integer>> listOfEntries = new ArrayList<>(allItemsWithQuantities.entrySet());
 
-        Collections.sort(listOfEntries, new TopTenComparator().reversed());
+        listOfEntries.sort(new TopTenComparator<ItemDTO>().reversed());
 
         List<CartDTO> resultList = new ArrayList<>();
         for (Map.Entry<ItemDTO, Integer> entry : listOfEntries) {
@@ -167,7 +167,7 @@ public class OrderService {
 
         List<Map.Entry<ClientDTO, Integer>> listOfEntries = new ArrayList<>(allClientsWithNumOfOrders.entrySet());
 
-        Collections.sort(listOfEntries, new TopTenComparator().reversed());
+        listOfEntries.sort(new TopTenComparator<ClientDTO>().reversed());
 
         return listOfEntries.size() > 10 ? getFirstTenElements(listOfEntries) : listOfEntries;
     }
@@ -196,7 +196,10 @@ public class OrderService {
         for (OrderDTO order : allOrders) {
             Date orderDate = new Date(order.getDate().getTime());
 
-            if (orderDate.before(to) && orderDate.after(from) || orderDate.equals(to) || orderDate.equals(from)) {
+            if (orderDate.before(to)
+                    && orderDate.after(from)
+                    || orderDate.equals(to)
+                    || orderDate.equals(from)) {
                 orders.add(order);
                 total = total.add(order.getSubtotal());
             }

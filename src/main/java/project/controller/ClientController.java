@@ -13,7 +13,6 @@ import project.dto.ClientDTO;
 import project.dto.OrderDTO;
 import project.service.AddressService;
 import project.service.ClientService;
-import project.service.OrderService;
 import project.service.UserService;
 
 import java.security.Principal;
@@ -58,18 +57,17 @@ public class ClientController {
     public String doLogin(@ModelAttribute ClientDTO user,
                           Model model) {
         UserDetails userDetails = userService.loadUserByUsername(user.getEmail());
-        System.out.println(userDetails);
         return "redirect:/";
     }
 
-    @RequestMapping(value = "/userInfo/manage", method=RequestMethod.GET)
+    @RequestMapping(value = "/userInfo/manage", method = RequestMethod.GET)
     public String manageAccountInfo(Principal principal, Model model) {
         ClientDTO client = clientService.findByEmail(principal.getName());
         model.addAttribute("client", client);
         return "userEdit";
     }
 
-    @RequestMapping(value = "/userInfo/manage", method=RequestMethod.POST)
+    @RequestMapping(value = "/userInfo/manage", method = RequestMethod.POST)
     public String editAccountInfo(Principal principal,
                                   @ModelAttribute ClientDTO client, Model model) {
 
@@ -86,7 +84,7 @@ public class ClientController {
         }
     }
 
-    @RequestMapping(value = "/userInfo/manageAddress", method=RequestMethod.GET)
+    @RequestMapping(value = "/userInfo/manageAddress", method = RequestMethod.GET)
     public String editAddressInfo(@ModelAttribute AddressDTO addressDTO,
                                   @RequestParam(value = "action", required = false) String action,
                                   Model model) {
@@ -96,7 +94,7 @@ public class ClientController {
         return "manageAddress";
     }
 
-    @RequestMapping(value = "/userInfo/manageAddress", method=RequestMethod.POST)
+    @RequestMapping(value = "/userInfo/manageAddress", method = RequestMethod.POST)
     public String editAddressInfo(Principal principal,
                                   @ModelAttribute AddressDTO addressDTO, Model model) {
         clientService.updateAddressInformation(principal, addressDTO);

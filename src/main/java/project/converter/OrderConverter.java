@@ -4,8 +4,10 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import project.dto.CartDTO;
+import project.dto.ItemDTO;
 import project.dto.OrderDTO;
 import project.entity.Cart;
+import project.entity.Item;
 import project.entity.Order;
 
 import java.math.BigDecimal;
@@ -15,13 +17,8 @@ import java.util.List;
 @Service
 public class OrderConverter {
 
-    @Autowired
-    private ModelMapper mapper;
-
-    @Autowired
-    private ItemConverter itemConverter;
-    @Autowired
-    private CartConverter cartConverter;
+    @Autowired private ModelMapper mapper;
+    @Autowired private CartConverter cartConverter;
 
     public Order convertToEntity(OrderDTO order) {
         Order entity = mapper.map(order, Order.class);
@@ -31,7 +28,7 @@ public class OrderConverter {
         for (CartDTO cartDTO : cartDTOS) {
             Cart cart = cartConverter.convertToEntity(cartDTO);
             cart.setOrder(entity);
-            cart.setItem(itemConverter.convertToEntity(cartDTO.getItem()));
+            cart.setItem(mapper.map(cartDTO.getItem(), Item.class));
             carts.add(cart);
         }
         entity.setCarts(carts);
@@ -48,7 +45,7 @@ public class OrderConverter {
         for (Cart cart : carts) {
             int quantity = cart.getQuantity();
             CartDTO cartDTO = cartConverter.convertToDTO(cart);
-            cartDTO.setItem(itemConverter.convertToDTO(cart.getItem()));
+            cartDTO.setItem(mapper.map(cart.getItem(), ItemDTO.class));
             cartDTO.setOrder(dto);
             cartDTOS.add(cartDTO);
 

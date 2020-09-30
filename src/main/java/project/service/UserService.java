@@ -15,7 +15,8 @@ import java.util.List;
 @Service
 public class UserService implements UserDetailsService {
 
-    @Autowired ClientService clientService;
+    @Autowired private ClientService clientService;
+
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         ClientDTO user = clientService.findByEmail(s);
@@ -24,9 +25,13 @@ public class UserService implements UserDetailsService {
         return buildUserForAuthentication(user, authorities);
     }
 
-    private User buildUserForAuthentication(ClientDTO user,
-                                            List<GrantedAuthority> authorities) {
-        return new User(user.getUsername(), user.getPassword(),
-                user.isEnabled(), true, true, true, authorities);
+    private User buildUserForAuthentication(ClientDTO user, List<GrantedAuthority> authorities) {
+        return new User(user.getUsername(),
+                user.getPassword(),
+                user.isEnabled(),
+                true,
+                true,
+                true,
+                authorities);
     }
 }

@@ -10,8 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public abstract class AbstractDao {
 
-    @Autowired
-    SessionFactory sessionFactory;
+    @Autowired private SessionFactory sessionFactory;
 
     public Session getSession() {
         return sessionFactory.getCurrentSession();

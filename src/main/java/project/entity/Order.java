@@ -56,14 +56,4 @@ public class Order implements Serializable {
     @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     private List<Cart> carts = new ArrayList<>();
-
-    public void addCart(Cart cart) {
-        carts.add(cart);
-        cart.setOrder(this);
-    }
-
-    public void removeCart(Cart cart) {
-        cart.setOrder(null);
-        carts.remove(cart);
-    }
 }

@@ -21,7 +21,6 @@ public class HibernateConfig {
     private static final String PASSWORD = "0000";
     private static final String SCHEMA = "mms_schema";
     private static final String DIALECT = "org.hibernate.dialect.PostgresPlusDialect";
-
     private static final String PACKAGE = "project.entity";
 
 

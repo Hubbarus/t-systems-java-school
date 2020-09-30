@@ -1,17 +1,16 @@
 package project.service;
 
 import lombok.AllArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import project.converter.ItemConverter;
 import project.dao.ItemDao;
 import project.dto.CartDTO;
 import project.dto.ItemDTO;
 import project.entity.Item;
 import project.exception.NoSuchItemGroupException;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -21,33 +20,32 @@ import java.util.stream.Collectors;
 @Service
 @AllArgsConstructor
 public class ItemService {
-    @Autowired
-    private final ItemDao itemDao;
-    @Autowired
-    private final ItemConverter itemConverter;
+
+    @Autowired private final ItemDao itemDao;
+    @Autowired private final ModelMapper mapper;
 
     @Transactional
     public void save(ItemDTO itemDTO) {
-        Item item = itemConverter.convertToEntity(itemDTO);
+        Item item = mapper.map(itemDTO, Item.class);
         itemDao.save(item);
     }
 
     @Transactional
     public void update(ItemDTO itemDTO) {
-        Item item = itemConverter.convertToEntity(itemDTO);
+        Item item = mapper.map(itemDTO, Item.class);
         itemDao.update(item);
     }
 
     public ItemDTO findById(Long id) {
         Item item = itemDao.findById(id);
-        return itemConverter.convertToDTO(item);
+        return mapper.map(item, ItemDTO.class);
     }
 
     public List<ItemDTO> findAll() {
-        List<Item> item = itemDao.findAll();
-        return item
+        List<Item> items = itemDao.findAll();
+        return items
                 .stream()
-                .map(itemConverter::convertToDTO)
+                .map(it -> mapper.map(it, ItemDTO.class))
                 .collect(Collectors.toList());
     }
 
@@ -65,19 +63,6 @@ public class ItemService {
             throw new NoSuchItemGroupException("Group " + group + " not found");
         }
 
-        return result;
-    }
-
-    public List<ItemDTO> findByPriceGap(BigDecimal from, BigDecimal to) {
-        List<ItemDTO> result = new ArrayList<>();
-        List<ItemDTO> all = findAll();
-
-        for (ItemDTO item : all) {
-            BigDecimal currentPrice = item.getPrice();
-            if (currentPrice.compareTo(from) >= 0 &&  currentPrice.compareTo(to) <= 0) {
-                result.add(item);
-            }
-        }
         return result;
     }
 
