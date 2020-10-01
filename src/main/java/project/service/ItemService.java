@@ -75,7 +75,7 @@ public class ItemService {
         return result;
     }
 
-    public CartDTO getItemById(Long id, String category) {
+    public CartDTO getItemInCategoryById(Long id, String category) {
         List<ItemDTO> itemByGroup = findByGroup(category);
         CartDTO cart = new CartDTO();
         for (ItemDTO item : itemByGroup) {

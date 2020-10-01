@@ -152,7 +152,7 @@
         },
     ];
 
-    <c:forEach items="${itemGroups}" var="group">
+    <c:forEach items="${categories}" var="group">
         var group = {
             label : '${group}',
             value : '${group}',

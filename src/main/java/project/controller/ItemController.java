@@ -29,7 +29,7 @@ public class ItemController {
     @RequestMapping(value = "/{category}/{id}", method = RequestMethod.GET)
     public String getItem(@PathVariable String category,
                           @PathVariable Long id, Model model) {
-        model.addAttribute("cart", itemService.getItemById(id, category));
+        model.addAttribute("cart", itemService.getItemInCategoryById(id, category));
         return "itemPage";
     }
 

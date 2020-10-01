@@ -15,11 +15,8 @@ import project.service.ItemService;
 import project.service.OrderService;
 import project.utils.StatByDateHolder;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 @Controller
 @RequestMapping("/manage")
@@ -49,6 +46,7 @@ public class AdminController {
     public String editOrder(@ModelAttribute OrderDTO order, Model model) {
         OrderDTO updtOrder = orderService.findById(order.getId());
         updtOrder.setStatus(order.getStatus());
+        updtOrder.setPaymentStatus(order.isPaymentStatus());
         orderService.update(updtOrder);
         return getAllOrders(model);
     }
@@ -85,14 +83,12 @@ public class AdminController {
     }
 
     @RequestMapping(value = "/editItem", method = RequestMethod.GET)
-    public String editOrAddItem(@ModelAttribute ItemDTO item, Model model, HttpServletRequest request) {
+    public String editOrAddItem(@ModelAttribute ItemDTO item, Model model) {
         ItemDTO itemToEdit = new ItemDTO();
         if (item.getItemName() != null) {
             itemToEdit = itemService.findById(item.getId());
         }
         model.addAttribute("itemToEdit", itemToEdit);
-        Set<String> groupNames = itemService.getGroupNames();
-        model.addAttribute("itemGroups", new ArrayList<>(groupNames));
         return "admin/editItem";
     }
 

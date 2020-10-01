@@ -12,7 +12,7 @@
 <header>
     <jsp:include page="../blocks/header.jsp"/>
 </header>
-<div class="container align-content-center mt-5">
+<div class="container align-content-center mt-5 w-100">
     <table class="table">
         <tr>
             <td>Order #</td>
@@ -24,12 +24,14 @@
             <td>Payment Status</td>
             <td>Total</td>
             <td>Status</td>
-            <td>Change Status</td>
+            <td></td>
         </tr>
         <c:forEach items="${orders}" var="order" begin="0" end="${orders.size()}">
             <form:form id="orderForm" name="orderForm" modelAttribute="thisOrder" action="/manage/orders/edit/" method="post">
                 <tr>
+<%--                    Order #--%>
                     <td><c:out value="${order.orderNo}"/></td>
+<%--                    Order Details--%>
                     <td>
                         <table class="table table-bordered">
                             <tr>
@@ -48,32 +50,58 @@
                             </c:forEach>
                         </table>
                     </td>
+<%--                    Client--%>
                     <td><c:out value="${order.client.firstName} ${order.client.lastName}"/></td>
+<%--                    Address--%>
                     <td><c:out value="${order.address.postcode}, ${order.address.country}, ${order.address.city}, ${order.address.street}, ${order.address.building}, ${order.address.apart}"/></td>
+<%--                    Shipment--%>
                     <td><c:out value="${order.shipmentMethod.value}"/></td>
+<%--                    Payment Method--%>
                     <td><c:out value="${order.paymentMethod.value}"/></td>
+<%--                    Payment Status--%>
                     <c:choose>
                         <c:when test="${order.paymentStatus == true}">
-                        <td class="alert-success">
-                            <c:out value="Paid"/>
-                        </td>
+                            <td class="alert-success text-center">
+                                <div class="form-check">
+                                    <form:checkbox path="paymentStatus"
+                                                class="form-check-input position-static"
+                                                id="blankCheckbox"
+                                                value="${order.paymentMethod}"
+                                                aria-label="..." checked="true"/>
+                                </div>
+                            </td>
                         </c:when>
                         <c:otherwise>
-                            <td class="alert-warning">
-                                <c:out value="Unpaid"/>
+                            <td class="alert-warning text-center">
+                                <div class="form-check">
+                                    <form:checkbox path="paymentStatus"
+                                                class="form-check-input position-static"
+                                                id="blankCheckbox"
+                                                value="${order.paymentStatus}"
+                                                aria-label="..."/>
+                                </div>
                             </td>
                         </c:otherwise>
                     </c:choose>
+<%--                    Subtotal--%>
                     <td><c:out value="${order.subtotal}"/></td>
-                    <td><c:out value="${order.status.toString()}"/></td>
+<%--                    Status--%>
                     <td>
-                        <form:input path="id" type="hidden" name="id"/>
-                        <form:select path="status" onchange="submitOrderForm(${order.id})">
-                            <form:option value="${order.status}"/>
-                            <c:forEach items="${StatusEnum.values()}" var="statusType">
-                                <form:option value="${statusType}"/>
-                            </c:forEach>
-                        </form:select>
+                        <form:input path="id" type="hidden" name="id" value="${order.id}"/>
+                        <div class="input-group mb-3">
+                            <form:select path="status" class="btn btn-secondary btn-sm dropdown-toggle">
+                                <option selected>${order.status}</option>
+                                <c:forEach items="${StatusEnum.values()}" var="statusType">
+                                    <option value="${statusType}">
+                                        <c:out value="${statusType.toString()}"/>
+                                    </option>
+                                </c:forEach>
+                            </form:select>
+                        </div>
+                    </td>
+<%--                    Submit button--%>
+                    <td>
+                        <button type="submit" class="btn btn-outline-secondary">Submit</button>
                     </td>
                 </tr>
             </form:form>
@@ -82,7 +110,7 @@
 </div>
 
 <script type="text/javascript">
-    function submitOrderForm(id) {
+    function submitOrderForm(id, status) {
         var form = document.forms['orderForm'];
         var idTag = form.elements["id"];
         idTag.value = id;
