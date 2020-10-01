@@ -23,7 +23,7 @@
 
 
 
-<div class="container align-content-center mt-3 mb-3">
+<div class="container align-content-center mt-3 mb-3 w-50">
     <c:if test="${successMsg != null}">
         <div class="alert alert-success text-center mt-3 mb-3" role="alert">
             <c:out value="${successMsg}"/>

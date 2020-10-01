@@ -73,15 +73,9 @@ public class ClientController {
 
         ClientDTO currentClient = clientService.findByEmail(principal.getName());
 
-        if (clientService.checkIfUsernameExist(client.getEmail())
-                && !currentClient.getEmail().equals(client.getEmail())) {
-            model.addAttribute("errorMsg", "This login already exist!");
-            return manageAccountInfo(principal, model);
-        } else {
-            model.addAttribute("successMsg", "Information has been changed successfully");
-            clientService.updateUserInformation(currentClient, client);
-            return getUserInfo(model, principal);
-        }
+        model.addAttribute("successMsg", "Information has been changed successfully");
+        clientService.updateUserInformation(currentClient, client);
+        return getUserInfo(model, principal);
     }
 
     @RequestMapping(value = "/userInfo/manageAddress", method = RequestMethod.GET)

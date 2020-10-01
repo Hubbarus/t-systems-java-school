@@ -23,7 +23,10 @@
         </div>
     </c:if>
 
-    <div class="container-sm">
+    <div class="container-sm text-center">
+        <div class="container">
+            <h2><b>Username :</b> ${client.email}</h2>
+        </div>
         <table class="table">
             <form:form method="post" modelAttribute="client" action="">
 <%--                F name--%>
@@ -78,24 +81,6 @@
                         </div>
                     </td>
                 </tr>
-<%--                Email--%>
-                <tr>
-                    <td>
-                        <div class="input-group mb-3">
-                            <form:input path="email"
-                                        type="email"
-                                        class="form-control"
-                                        value="${client.email}"
-                                        placeholder="${client.email}"
-                                        aria-label="E-mail"
-                                        aria-describedby="basic-addon5"
-                                        required="true"/>
-                            <div class="input-group-append">
-                                <span class="input-group-text" id="basic-addon5">E-mail</span>
-                            </div>
-                        </div>
-                    </td>
-                </tr>
 <%--                Pass--%>
                 <tr>
                     <td>
@@ -117,6 +102,7 @@
                     <td>
                         <form:hidden path="active" value="${client.active}"/>
                         <form:hidden path="role" value="${client.role}"/>
+                        <form:hidden path="email" value="${client.email}"/>
                         <button class="btn btn-outline-success" type="submit" value="Confirm changes">Confirm changes</button>
                     </td>
                 </tr>

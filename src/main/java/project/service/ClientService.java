@@ -87,7 +87,6 @@ public class ClientService {
         currentClient.setFirstName(client.getFirstName());
         currentClient.setLastName(client.getLastName());
         currentClient.setBirthDate(client.getBirthDate());
-        currentClient.setEmail(client.getEmail());
         currentClient.setUserPass(passwordEncoder.encode(client.getUserPass()));
 
         update(currentClient);
@@ -135,22 +134,21 @@ public class ClientService {
     }
 
     public String checkIfUserExistsAndCreate(ClientDTO client, Model model) {
-        try {
-            findByEmail(client.getEmail());
+        if (checkIfUsernameExist(client.getEmail())) {
             model.addAttribute("userNameError", "This username already exist!");
             return "registration";
-        } catch (NoSuchClientException e) {
+        } else {
             createUserAndSave(client);
             model.addAttribute("user", new ClientDTO());
             return "redirect:/login";
         }
     }
 
-    public boolean checkIfUsernameExist(String email) {
-        ClientDTO byEmail = findByEmail(email);
-        if (email.equals(byEmail.getEmail())) {
+    private boolean checkIfUsernameExist(String email) {
+        try {
+            findByEmail(email);
             return true;
-        } else {
+        } catch (Exception e) {
             return false;
         }
     }

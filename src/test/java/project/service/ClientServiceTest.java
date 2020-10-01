@@ -120,16 +120,4 @@ public class ClientServiceTest {
     @Test
     public void collectOrder() {
     }
-
-
-    @Test
-    public void checkIfUsernameExistTrue() {
-        assertTrue("User exists", clientService.checkIfUsernameExist("expected@test.com"));
-    }
-
-    @Test(expected = NoSuchClientException.class)
-    public void checkIfUsernameExistFalse() {
-        clientService.checkIfUsernameExist("notExist@gmail.com");
-    }
-
 }
