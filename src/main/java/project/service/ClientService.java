@@ -1,6 +1,5 @@
 package project.service;
 
-import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -23,13 +22,12 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
-@AllArgsConstructor
 public class ClientService {
 
-    @Autowired private final ClientDao clientDao;
-    @Autowired private final PasswordEncoder passwordEncoder;
-    @Autowired private final OrderService orderService;
-    @Autowired private final ModelMapper mapper;
+    @Autowired private ClientDao clientDao;
+    @Autowired private PasswordEncoder passwordEncoder;
+    @Autowired private OrderService orderService;
+    @Autowired private ModelMapper mapper;
 
     @Transactional
     public void save(ClientDTO clientDTO) {
@@ -41,17 +39,6 @@ public class ClientService {
     public void update(ClientDTO clientDTO) {
         Client client = mapper.map(clientDTO, Client.class);
         clientDao.update(client);
-    }
-
-    @Transactional
-    public void delete(ClientDTO clientDTO) {
-        Client client = mapper.map(clientDTO, Client.class);
-        clientDao.delete(client);
-    }
-
-    public ClientDTO findById(Long id) {
-        Client client = clientDao.findById(id);
-        return mapper.map(client, ClientDTO.class);
     }
 
     private List<ClientDTO> findAll() {

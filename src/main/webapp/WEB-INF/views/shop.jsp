@@ -23,11 +23,12 @@
 <%--            Side menu with categories--%>
             <div class="container">
                 <c:forEach begin="0" end="${categories.size()}" var="j" items="${categories}">
-                    <a href="/shop/${j}" class="btn btn-outline-dark">
-                        <c:out value="${j}"/>
-                    </a>
-                    <br>
-                    <br>
+                    <c:if test="${!j.equalsIgnoreCase('default')}">
+                        <a href="/shop/${j}" class="btn btn-outline-dark mt-2 mb-2">
+                            <c:out value="${j}"/>
+                        </a>
+                        <br>
+                    </c:if>
                 </c:forEach>
             </div>
         </td>

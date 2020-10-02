@@ -46,6 +46,10 @@
             <td class="text-black-50 h5">${client.email}</td>
         </tr>
         <tr>
+            <td class="text-black-50 h5">Password</td>
+            <td class="text-black-50 h5">********</td>
+        </tr>
+        <tr>
             <td class="text-black-50 h5">Date of Birth:</td>
             <td class="text-black-50 h5">${client.birthDate}</td>
         </tr>

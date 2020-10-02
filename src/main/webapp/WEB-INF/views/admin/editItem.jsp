@@ -32,7 +32,7 @@
                                 class="form-control"
                                 id="basic-url"
                                 aria-describedby="basic-addon3"
-                                value="${itemToEdit.pathToIMG}"/>
+                                value="${itemToEdit.pathToIMG}" required="true"/>
                 </div>
             </td>
             <td>
@@ -44,7 +44,13 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="basic-addon1">Item Name</span>
                                 </div>
-                                <form:input value="${itemToEdit.itemName}" path="itemName" type="text" class="form-control" aria-label="Item name" aria-describedby="basic-addon1" placeholder="Item Name" required="true"/>
+                                <form:input value="${itemToEdit.itemName}"
+                                            path="itemName"
+                                            type="text"
+                                            class="form-control"
+                                            aria-label="Item name"
+                                            aria-describedby="basic-addon1"
+                                            placeholder="Item Name" required="true"/>
                             </div>
                         </td>
                     </tr>
@@ -55,7 +61,11 @@
                                 <div class="input-group-prepend">
                                     <label class="input-group-text" for="inputGroupSelect01">Group</label>
                                 </div>
-                                <form:select path="itemGroup" id="inputGroupSelect01" onchange="onSelectChange(event)" class="custom-select">
+                                <form:select path="itemGroup"
+                                             id="inputGroupSelect01"
+                                             onchange="onSelectChange(event)"
+                                             class="custom-select"
+                                             required="true">
                                 </form:select>
                             </div>
                         </td>
@@ -67,7 +77,12 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">Price</span>
                                 </div>
-                                <form:input value="${itemToEdit.price}" path="price" class="form-control" aria-label="Price" placeholder="Item price" required="true"/>
+                                <form:input value="${itemToEdit.price}"
+                                            path="price"
+                                            class="form-control"
+                                            aria-label="Price"
+                                            placeholder="Item price"
+                                            required="true"/>
                                 <div class="input-group-append">
                                     <span class="input-group-text">$</span>
                                 </div>
@@ -81,7 +96,12 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">Description</span>
                                 </div>
-                                <form:textarea value="${itemToEdit.description} " path="description" class="form-control" aria-label="Description" placeholder="Description" required="true"/>
+                                <form:textarea value="${itemToEdit.description} "
+                                               path="description"
+                                               class="form-control"
+                                               aria-label="Description"
+                                               placeholder="Description"
+                                               required="true"/>
                             </div>
                         </td>
                     </tr>
@@ -92,7 +112,12 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">Weight</span>
                                 </div>
-                                <form:input value="${itemToEdit.weight}" path="weight" class="form-control" aria-label="Weight" placeholder="Weight" required="true"/>
+                                <form:input value="${itemToEdit.weight}"
+                                            path="weight"
+                                            class="form-control"
+                                            aria-label="Weight"
+                                            placeholder="Weight"
+                                            required="true"/>
                                 <div class="input-group-append">
                                     <span class="input-group-text">kg</span>
                                 </div>
@@ -106,7 +131,12 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">Volume</span>
                                 </div>
-                                <form:input value="${itemToEdit.volume}" path="volume" class="form-control" aria-label="Volume" placeholder="Volume" required="true"/>
+                                <form:input value="${itemToEdit.volume}"
+                                            path="volume"
+                                            class="form-control"
+                                            aria-label="Volume"
+                                            placeholder="Volume"
+                                            required="true"/>
                                 <div class="input-group-append">
                                     <span class="input-group-text">m³</span>
                                 </div>
@@ -120,7 +150,12 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">Stock</span>
                                 </div>
-                                <form:input value="${itemToEdit.stock}" path="stock" class="form-control" aria-label="Stock" placeholder="Quantity in stock" required="true"/>
+                                <form:input value="${itemToEdit.stock}"
+                                            path="stock"
+                                            class="form-control"
+                                            aria-label="Stock"
+                                            placeholder="Quantity in stock"
+                                            required="true"/>
                                 <div class="input-group-append">
                                     <span class="input-group-text">pcs</span>
                                 </div>

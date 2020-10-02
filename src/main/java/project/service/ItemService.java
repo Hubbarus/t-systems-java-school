@@ -96,4 +96,24 @@ public class ItemService {
             save(item);
         }
     }
+
+    public void renameGroup(String oldName, String newName) {
+        List<ItemDTO> all = findAll();
+        for (ItemDTO item : all) {
+            if (item.getItemGroup().equals(oldName)) {
+                item.setItemGroup(newName);
+                update(item);
+            }
+        }
+    }
+
+    public void deleteGroup(String cat) {
+        List<ItemDTO> all = findAll();
+        for (ItemDTO item : all) {
+            if (item.getItemGroup().equalsIgnoreCase(cat)) {
+                item.setItemGroup("DEFAULT");
+                update(item);
+            }
+        }
+    }
 }

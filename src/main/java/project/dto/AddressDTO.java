@@ -1,6 +1,7 @@
 package project.dto;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.util.StringUtils;
@@ -8,6 +9,7 @@ import org.springframework.util.StringUtils;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class AddressDTO {
     private long id;
     private String country;
