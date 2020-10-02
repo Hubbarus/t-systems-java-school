@@ -16,6 +16,7 @@ import project.dto.ItemDTO;
 import project.dto.OrderDTO;
 import project.service.ItemService;
 import project.service.OrderService;
+import project.utils.PagingUtil;
 import project.utils.StatByDateHolder;
 
 import javax.servlet.http.HttpServletRequest;
@@ -32,6 +33,8 @@ public class AdminController {
     private OrderService orderService;
     @Autowired
     private ItemService itemService;
+    @Autowired
+    private PagingUtil pagingUtil;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String showAdminPage(Model model) {
@@ -39,8 +42,17 @@ public class AdminController {
     }
 
     @RequestMapping(value = "/orders", method = RequestMethod.GET)
-    public String getAllOrders(Model model) {
-        List<OrderDTO> all = orderService.findAll();
+    public String getAllOrders(@RequestParam(value = "page", required = false) Integer page,
+                               Model model) {
+        if (page == null) {
+            page = 1;
+        }
+
+        int numOfPages = pagingUtil.getNumOfPages(orderService.findAll().size());
+        List<OrderDTO> all = pagingUtil.getOrdersForPage(page);
+
+        model.addAttribute("currentPage", page);
+        model.addAttribute("numOfPages", numOfPages);
         model.addAttribute("orders", all);
         model.addAttribute("thisOrder", new OrderDTO());
         return "admin/orders";
@@ -52,7 +64,7 @@ public class AdminController {
         updtOrder.setStatus(order.getStatus());
         updtOrder.setPaymentStatus(order.isPaymentStatus());
         orderService.update(updtOrder);
-        return getAllOrders(model);
+        return getAllOrders(1, model);
     }
 
     @RequestMapping(value = "/statistics", method = RequestMethod.GET)
@@ -79,8 +91,16 @@ public class AdminController {
     }
 
     @RequestMapping(value = "/items", method = RequestMethod.GET)
-    public String getItemsEditPage(Model model) {
-        List<ItemDTO> allItems = itemService.findAll();
+    public String getItemsEditPage(@RequestParam(value = "page", required = false) Integer page, Model model) {
+        if (page == null) {
+            page = 1;
+        }
+
+        int numOfPages = pagingUtil.getNumOfPages(itemService.findAll().size());
+        List<ItemDTO> allItems = pagingUtil.getItemsForPage(page);
+
+        model.addAttribute("currentPage", page);
+        model.addAttribute("numOfPages", numOfPages);
         model.addAttribute("allItems", allItems);
         model.addAttribute("itemToEdit", new ItemDTO());
         return "admin/items";
@@ -99,7 +119,7 @@ public class AdminController {
     @RequestMapping(value = "/editItem", method = RequestMethod.POST)
     public String editItem(@ModelAttribute ItemDTO item, Model model) {
         itemService.saveOrUpdate(item);
-        return getItemsEditPage(model);
+        return getItemsEditPage(1, model);
     }
 
     @RequestMapping(value = "/categories", method = RequestMethod.GET)
@@ -139,6 +159,6 @@ public class AdminController {
                          HttpServletRequest request) {
         itemService.deleteGroup(cat);
         request.getSession().setAttribute("categories", itemService.getGroupNames());
-        return getItemsEditPage(model);
+        return getItemsEditPage(1, model);
     }
 }

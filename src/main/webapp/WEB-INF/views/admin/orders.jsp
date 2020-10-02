@@ -8,11 +8,12 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     <link rel="shortcut icon" href="/img/favicon.ico" type="img/x-icon">
 </head>
+
 <body>
 <header>
     <jsp:include page="../blocks/header.jsp"/>
 </header>
-<div class="container align-content-center mt-5 w-100">
+<div class="container align-content-center mt-5 w-100 text-center">
     <table class="table">
         <tr>
             <td>Order #</td>
@@ -107,17 +108,11 @@
             </form:form>
         </c:forEach>
     </table>
+    <%--        Navigation--%>
+    <div class="container-fluid mt-2 mb-2 text-center align-content-center">
+        <jsp:include page="../blocks/orderPaging.jsp"/>
+    </div>
 </div>
-
-<script type="text/javascript">
-    function submitOrderForm(id, status) {
-        var form = document.forms['orderForm'];
-        var idTag = form.elements["id"];
-        idTag.value = id;
-        form.action = '/manage/orders/edit/';
-        form.submit();
-    }
-</script>
 
 <footer>
     <jsp:include page="../blocks/footer.jsp"/>

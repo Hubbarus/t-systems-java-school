@@ -3,7 +3,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Orders</title>
+    <title>Items</title>
 
     <link rel="shortcut icon" href="/img/favicon.ico" type="img/x-icon">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
@@ -60,6 +60,10 @@
         </tr>
     </c:forEach>
 </table>
+<%--        Navigation--%>
+<div class="container-fluid mt-2 mb-2 text-center align-content-center">
+    <jsp:include page="../blocks/itemPaging.jsp"/>
+</div>
 
 <footer>
     <jsp:include page="../blocks/footer.jsp"/>

@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import project.utils.CartListWrapper;
+import project.utils.PagingUtil;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -16,6 +17,11 @@ import static org.modelmapper.config.Configuration.AccessLevel.PRIVATE;
 @Configuration
 @ComponentScan("project")
 public class SpringConfig {
+
+    @Bean
+    public PagingUtil getPagingUtil() {
+        return new PagingUtil();
+    }
 
     @Bean
     public CartListWrapper getCartListWrapper() {
