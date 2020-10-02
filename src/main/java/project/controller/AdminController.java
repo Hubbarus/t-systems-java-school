@@ -141,9 +141,4 @@ public class AdminController {
         request.getSession().setAttribute("categories", itemService.getGroupNames());
         return getItemsEditPage(model);
     }
-
-    @RequestMapping(value = "/categories", method = RequestMethod.POST)
-    public String getAllCategoriesEdit(Model model) {
-        return getAllCategories(model);
-    }
 }
