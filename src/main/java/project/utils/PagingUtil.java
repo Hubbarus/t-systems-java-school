@@ -15,7 +15,7 @@ public class PagingUtil {
 
     @Autowired private OrderService orderService;
     @Autowired private ItemService itemService;
-    private final int RECORD_PER_PAGE = 6;
+    private static final int RECORD_PER_PAGE = 6;
 
     public List<OrderDTO> getOrdersForPage(Integer page) {
         List<OrderDTO> all = orderService.findAll();
@@ -35,7 +35,7 @@ public class PagingUtil {
 
     public List<ItemDTO> getItemsForPage(Integer page) {
         List<ItemDTO> all = itemService.findAll();
-        Collections.sort(all, Comparator.comparingLong(ItemDTO::getId));
+        all.sort(Comparator.comparingLong(ItemDTO::getId));
         List<ItemDTO> result = new ArrayList<>();
         int upperLimit = getUpperLimit(page, all.size());
         for (int i = (page - 1) * RECORD_PER_PAGE; i < upperLimit; i++) {

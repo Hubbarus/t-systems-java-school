@@ -1,46 +1,38 @@
 package project.service;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Spy;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import project.config.DispatcherConfig;
-import project.config.SpringConfig;
-import project.config.WebAppInitializer;
+import org.springframework.ui.Model;
 import project.dao.ClientDao;
+import project.dto.ClientDTO;
 import project.entity.Client;
 import project.exception.NoSuchClientException;
 import project.service.utils.EntityFactory;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.when;
+import static org.junit.Assert.assertNotEquals;
+import static org.mockito.Mockito.*;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {SpringConfig.class, WebAppInitializer.class, DispatcherConfig.class})
+@RunWith(MockitoJUnitRunner.class)
 public class ClientServiceTest {
 
-    @Autowired ClientService clientService;
-    @MockBean ClientDao clientDao;
-    @MockBean BCryptPasswordEncoder passwordEncoder;
-    @MockBean OrderService orderService;
-    @Autowired ModelMapper mapper;
+    @InjectMocks ClientService clientService;
+    @Mock ClientDao clientDao;
+    @Mock BCryptPasswordEncoder passwordEncoder;
+    @Spy ModelMapper mapper;
+    @Mock Model model;
 
     @Before
     public void setUp() throws Exception {
         when(clientDao.findAll()).thenReturn(EntityFactory.getAllClients());
         doNothing().when(clientDao).update(any(Client.class));
-    }
-
-    @After
-    public void tearDown() throws Exception {
     }
 
     @Test
@@ -54,34 +46,42 @@ public class ClientServiceTest {
         clientService.findByEmail("notexisting@email.com");
     }
 
-//    @Test(expected = IllegalArgumentException.class)
-//    public void updateUserInformationWithNullFirstArgument() {
-//        clientService.updateUserInformation(null, mapper.map(DtoFactory.getClient1(), ClientDTO.class));
-//    }
-//
-//    @Test(expected = IllegalArgumentException.class)
-//    public void updateUserInformationWithNullSecondArgument() {
-//        clientService.updateUserInformation(mapper.map(DtoFactory.getClient1(), ClientDTO.class), null);
-//    }
+    @Test(expected = IllegalArgumentException.class)
+    public void updateUserInformationWithNullFirstArgument() {
+        clientService.updateUserInformation(null, mapper.map(EntityFactory.getClient1(), ClientDTO.class));
+    }
 
-    @Test
-    public void updateUserInformationWithNullProperArguments() {
-
+    @Test(expected = IllegalArgumentException.class)
+    public void updateUserInformationWithNullSecondArgument() {
+        clientService.updateUserInformation(mapper.map(EntityFactory.getClient1(), ClientDTO.class), null);
     }
 
     @Test
-    public void updateAddressInformation() {
-    }
+    public void updateUserInformationWithProperArguments() {
+        ClientDTO clientToBeUpdated = mapper.map(EntityFactory.getClient1(), ClientDTO.class);
+        ClientDTO newClient = mapper.map(EntityFactory.getClient2(), ClientDTO.class);
 
-    @Test
-    public void getAllClientOrders() {
-    }
+        assertNotEquals(clientToBeUpdated.getFirstName(), newClient.getFirstName());
+        assertNotEquals(clientToBeUpdated.getLastName(), newClient.getLastName());
+        assertNotEquals(clientToBeUpdated.getBirthDate(), newClient.getBirthDate());
 
-    @Test
-    public void collectOrder() {
+        clientService.updateUserInformation(clientToBeUpdated, newClient);
+
+        assertEquals(clientToBeUpdated.getFirstName(), newClient.getFirstName());
+        assertEquals(clientToBeUpdated.getLastName(), newClient.getLastName());
+        assertEquals(clientToBeUpdated.getBirthDate(), newClient.getBirthDate());
     }
 
     @Test
     public void checkIfUserExistsAndCreate() {
+        ClientDTO client = mapper.map(EntityFactory.getClient1(), ClientDTO.class);
+        String s = clientService.checkIfUserExistsAndCreate(client, model);
+
+        assertEquals(s, "registration");
+
+        client.setEmail("notExists@text.com");
+
+        String s1 = clientService.checkIfUserExistsAndCreate(client, model);
+        assertEquals(s1, "redirect:/login");
     }
 }
