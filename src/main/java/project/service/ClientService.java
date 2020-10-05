@@ -77,17 +77,16 @@ public class ClientService {
     public void updateAddressInformation(Principal principal, AddressDTO addressDTO) {
         ClientDTO user = findByEmail(principal.getName());
         Set<AddressDTO> addresses = user.getAddressList();
-        boolean wasAdded = false;
-        for (AddressDTO address : addresses) {
-            if (address.getId() == addressDTO.getId()) {
-                addresses.remove(address);
-                addresses.add(addressDTO);
-                wasAdded = true;
-                break;
-            }
-        }
 
-        if (!wasAdded) {
+        if (addresses.contains(addressDTO)) {
+            for (AddressDTO address : addresses) {
+                if (address.getId() == addressDTO.getId()) {
+                    addresses.remove(address);
+                    addresses.add(addressDTO);
+                    break;
+                }
+            }
+        } else {
             addresses.add(addressDTO);
         }
 
