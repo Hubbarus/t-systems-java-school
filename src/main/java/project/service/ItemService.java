@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import project.dao.ItemDao;
 import project.dto.CartDTO;
 import project.dto.ItemDTO;
@@ -24,13 +23,11 @@ public class ItemService {
     @Autowired private final ItemDao itemDao;
     @Autowired private final ModelMapper mapper;
 
-    @Transactional
     public void save(ItemDTO itemDTO) {
         Item item = mapper.map(itemDTO, Item.class);
         itemDao.save(item);
     }
 
-    @Transactional
     public void update(ItemDTO itemDTO) {
         Item item = mapper.map(itemDTO, Item.class);
         itemDao.update(item);

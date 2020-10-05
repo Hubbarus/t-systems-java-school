@@ -4,7 +4,6 @@ import io.seruco.encoding.base62.Base62;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import project.converter.OrderConverter;
 import project.dao.OrderDao;
 import project.dto.CartDTO;
@@ -33,13 +32,11 @@ public class OrderService {
     @Autowired private final OrderConverter orderConverter;
     @Autowired private final ItemService itemService;
 
-    @Transactional
     public void save(OrderDTO orderDTO) {
         Order order = orderConverter.convertToEntity(orderDTO);
         orderDao.save(order);
     }
 
-    @Transactional
     public void update(OrderDTO orderDTO) {
         Order order = orderConverter.convertToEntity(orderDTO);
         orderDao.update(order);

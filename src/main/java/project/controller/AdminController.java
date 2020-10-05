@@ -25,7 +25,7 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/manage")
-@SessionAttributes("itemGroups")
+@SessionAttributes({"itemGroups", "categories"})
 public class AdminController {
 
 //    private static final String PATH = "admin/";
@@ -155,10 +155,12 @@ public class AdminController {
 
     @RequestMapping(value = "/categoriesDel", method = RequestMethod.GET)
     public String delCat(@RequestParam("c") String cat,
+                         @SessionAttribute("categories") List<String> categories,
                          Model model,
                          HttpServletRequest request) {
         itemService.deleteGroup(cat);
-        request.getSession().setAttribute("categories", itemService.getGroupNames());
+        categories.remove(cat);
+        request.getSession().setAttribute("categories", categories);
         return getItemsEditPage(1, model);
     }
 }

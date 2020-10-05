@@ -1,6 +1,7 @@
 package project.dao;
 
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import project.entity.Client;
 
 import javax.persistence.TypedQuery;
@@ -10,11 +11,12 @@ import java.util.List;
 
 @Repository
 public class ClientDao extends AbstractDao {
-
+    @Transactional
     public void save(Client entity) {
         getSession().persist(entity);
     }
 
+    @Transactional
     public void update(Client entity) {
         getSession().update(entity);
     }
@@ -22,11 +24,11 @@ public class ClientDao extends AbstractDao {
     public void delete(Client entity) {
         getSession().delete(entity);
     }
-
+    @Transactional
     public Client findById(Long id) {
         return getSession().get(Client.class, id);
     }
-
+    @Transactional
     public List<Client> findAll() {
         CriteriaQuery<Client> cq = getSession()
                 .getCriteriaBuilder()

@@ -4,7 +4,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import project.dao.ClientDao;
 import project.dto.AddressDTO;
 import project.dto.ClientDTO;
@@ -27,13 +26,11 @@ public class ClientService {
     @Autowired private OrderService orderService;
     @Autowired private ModelMapper mapper;
 
-    @Transactional
     public void save(ClientDTO clientDTO) {
         Client client = mapper.map(clientDTO, Client.class);
         clientDao.save(client);
     }
 
-    @Transactional
     public void update(ClientDTO clientDTO) {
         Client client = mapper.map(clientDTO, Client.class);
         clientDao.update(client);
