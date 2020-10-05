@@ -19,6 +19,7 @@ import project.entity.enums.StatusEnum;
 
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -169,7 +170,7 @@ public class TestHelper {
         order1.setId(1);
         order1.setOrderNo("no1");
         order1.setPaymentStatus(true);
-        order1.setDate(new Date(new java.util.Date().getTime()));
+        order1.setDate(Date.valueOf(LocalDate.of(2020, 1, 2)));
         order1.setStatus(StatusEnum.NEW);
         order1.setPaymentMethod(PaymentEnum.CARD);
         order1.setClient(getClient1());
@@ -184,7 +185,7 @@ public class TestHelper {
         order2.setId(2);
         order2.setOrderNo("no2");
         order2.setPaymentStatus(true);
-        order2.setDate(new Date(new java.util.Date().getTime()));
+        order1.setDate(Date.valueOf(LocalDate.of(2020, 1, 2)));
         order2.setStatus(StatusEnum.NEW);
         order2.setPaymentMethod(PaymentEnum.CARD);
         order2.setAddress(getAddress2());

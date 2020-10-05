@@ -15,6 +15,7 @@ import project.service.utils.TestHelper;
 import project.utils.StatByDateHolder;
 
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
@@ -51,24 +52,21 @@ public class OrderServiceTest {
 
     @Test
     public void getSalesBetweenDates() {
-        java.util.Date tomorrow = new java.util.Date();
-        tomorrow.setDate(tomorrow.getDate() + 1);
-
-        java.util.Date yesterday = new java.util.Date();
-        yesterday.setDate(yesterday.getDate() - 1);
+        LocalDate to = LocalDate.of(2020, 1, 3);
+        LocalDate from = LocalDate.of(2020, 1, 1);
 
         StatByDateHolder holder = new StatByDateHolder();
-        holder.setFrom(new Date(yesterday.getTime()));
-        holder.setTo(new Date(tomorrow.getTime()));
+        holder.setFrom(Date.valueOf(from));
+        holder.setTo(Date.valueOf(to));
 
         StatByDateHolder salesBetweenDates = orderService.getSalesBetweenDates(holder);
 
         assertEquals(2, salesBetweenDates.getOrders().size());
 
-        tomorrow.setDate(tomorrow.getDate() - 2);
-        yesterday.setDate(yesterday.getDate() - 2);
-        holder.setTo(new Date(tomorrow.getTime()));
-        holder.setFrom(new Date(yesterday.getTime()));
+        to = LocalDate.of(2020, 1, 3);
+        from = LocalDate.of(2020, 1, 5);
+        holder.setTo(Date.valueOf(to));
+        holder.setFrom(Date.valueOf(from));
 
         StatByDateHolder salesBetweenDates1 = orderService.getSalesBetweenDates(holder);
 

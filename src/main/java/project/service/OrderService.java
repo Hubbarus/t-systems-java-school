@@ -188,16 +188,13 @@ public class OrderService {
     }
 
     public StatByDateHolder getSalesBetweenDates(StatByDateHolder holder) {
-        //Date from = new Date(holder.getFrom().getTime());
-        //Date to = new Date(.getTime());
-
         LocalDate from = holder.getFrom().toLocalDate();
         LocalDate to = holder.getTo().toLocalDate();
+
         BigDecimal total = BigDecimal.ZERO;
         List<OrderDTO> orders = new ArrayList<>();
         List<OrderDTO> allOrders = findAll();
         for (OrderDTO order : allOrders) {
-            //Date orderDate = new Date(order.getDate().getTime());
             LocalDate orderDate = order.getDate().toLocalDate();
 
             if (orderDate.isBefore(to)
