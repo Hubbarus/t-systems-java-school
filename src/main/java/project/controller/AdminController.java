@@ -60,10 +60,7 @@ public class AdminController {
 
     @RequestMapping(value = "/orders/edit", method = RequestMethod.POST)
     public String editOrder(@ModelAttribute OrderDTO order, Model model) {
-        OrderDTO updtOrder = orderService.findById(order.getId());
-        updtOrder.setStatus(order.getStatus());
-        updtOrder.setPaymentStatus(order.isPaymentStatus());
-        orderService.update(updtOrder);
+        orderService.updateOrderInformation(order);
         return getAllOrders(1, model);
     }
 

@@ -33,11 +33,6 @@ public class OrderService {
     @Autowired private final ItemService itemService;
     @Autowired private final OrderNumberGenerator generator;
 
-    public void update(OrderDTO orderDTO) {
-        Order order = orderConverter.convertToEntity(orderDTO);
-        orderDao.update(order);
-    }
-
     public OrderDTO findById(Long id) {
         Order order = orderDao.findById(id);
         return orderConverter.convertToDTO(order);
@@ -164,5 +159,14 @@ public class OrderService {
         holder.setProceeds(total);
 
         return holder;
+    }
+
+    public void updateOrderInformation(OrderDTO order) {
+        OrderDTO updtOrder = findById(order.getId());
+        updtOrder.setStatus(order.getStatus());
+        updtOrder.setPaymentStatus(order.isPaymentStatus());
+
+        Order orderToUpdate = orderConverter.convertToEntity(updtOrder);
+        orderDao.update(orderToUpdate);
     }
 }
