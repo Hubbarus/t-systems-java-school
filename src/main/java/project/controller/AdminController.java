@@ -42,12 +42,8 @@ public class AdminController {
     }
 
     @RequestMapping(value = "/orders", method = RequestMethod.GET)
-    public String getAllOrders(@RequestParam(value = "page", required = false) Integer page,
+    public String getAllOrders(@RequestParam(value = "page") Integer page,
                                Model model) {
-        if (page == null) {
-            page = 1;
-        }
-
         int numOfPages = pagingUtil.getNumOfPages(orderService.findAll().size());
         List<OrderDTO> all = pagingUtil.getOrdersForPage(page);
 
@@ -88,11 +84,7 @@ public class AdminController {
     }
 
     @RequestMapping(value = "/items", method = RequestMethod.GET)
-    public String getItemsEditPage(@RequestParam(value = "page", required = false) Integer page, Model model) {
-        if (page == null) {
-            page = 1;
-        }
-
+    public String getItemsEditPage(@RequestParam(value = "page") Integer page, Model model) {
         int numOfPages = pagingUtil.getNumOfPages(itemService.findAll().size());
         List<ItemDTO> allItems = pagingUtil.getItemsForPage(page);
 

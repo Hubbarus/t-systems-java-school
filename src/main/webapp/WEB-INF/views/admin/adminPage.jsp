@@ -23,7 +23,7 @@
                         <div class="card-body">
                             <img src="/img/admin_order_icon.png" class="card-img-top" width="75"/>
                             <p class="card-text">Here you can see all orders and manage its status.</p><br>
-                            <a href="/manage/orders" class="btn btn-outline-success">See all orders</a>
+                            <a href="/manage/orders?page=1" class="btn btn-outline-success">See all orders</a>
                         </div>
                     </div>
                 </td>
@@ -41,7 +41,7 @@
                         <div class="card-body">
                             <img src="/img/admin_item_icon.png" class="card-img-top" width="75"/>
                             <p class="card-text">Edit all items and add new - all in one page!</p><br>
-                            <a href="/manage/items" class="btn btn-outline-success">Manage Items</a>
+                            <a href="/manage/items?page=1" class="btn btn-outline-success">Manage Items</a>
                         </div>
                     </div>
                 </td>

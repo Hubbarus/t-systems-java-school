@@ -46,6 +46,14 @@ public class OrderService {
                 .collect(Collectors.toList());
     }
 
+    public List<OrderDTO> getOrders(int from, int quantity) {
+        List<Order> orders = orderDao.getOrders(from, quantity);
+        return orders
+                .stream()
+                .map(orderConverter::convertToDTO)
+                .collect(Collectors.toList());
+    }
+
     public void createOrderAndSave(OrderDTO order) {
         order.setStatus(StatusEnum.NEW);
 

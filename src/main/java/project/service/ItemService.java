@@ -58,6 +58,14 @@ public class ItemService {
         return result;
     }
 
+    public List<ItemDTO> getItems(int from, int quantity) {
+        List<Item> items = itemDao.getItems(from, quantity);
+        return items
+                .stream()
+                .map(it -> mapper.map(it, ItemDTO.class))
+                .collect(Collectors.toList());
+    }
+
     public Set<String> getGroupNames() {
         Set<String> result = new HashSet<>();
         List<ItemDTO> list = findAll();
