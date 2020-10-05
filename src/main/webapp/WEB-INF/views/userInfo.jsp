@@ -57,7 +57,7 @@
             <td class="text-black-50 h5">Addresses:
                 <br>
                 <br>
-                <a href="/client/userInfo/manageAddress?action=add" class="btn btn-outline-secondary">Add address</a>
+                <a href="/client/userInfo/addAddress" class="btn btn-outline-secondary">Add address</a>
             </td>
             <td class="text-black-50 h5">
                 <table class="table-borderless align-content-center text-center">
@@ -67,7 +67,7 @@
                     <c:out value="${i.postcode}, ${i.country}, ${i.city}, ${i.street}, ${i.building}, ${i.apart}"/>
                     </td>
                     <td class="text-black-50 h5">
-                    <form:form action="/client/userInfo/manageAddress/" modelAttribute="address" method="get">
+                    <form:form action="/client/userInfo/editAddress" modelAttribute="address" method="get">
                         <input name="action" id="action" value="edit" type="hidden">
                         <form:hidden path="id" value="${i.id}"/>
                         <form:hidden path="country" value="${i.country}"/>

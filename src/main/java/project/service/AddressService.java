@@ -8,7 +8,6 @@ import project.dao.AddressDao;
 import project.dto.AddressDTO;
 import project.entity.Address;
 import project.exception.NoSuchAddressException;
-import project.exception.NotSupportedActionException;
 
 @Service
 @AllArgsConstructor
@@ -23,15 +22,5 @@ public class AddressService {
             throw new NoSuchAddressException("No address with " + id + " id");
         }
         return mapper.map(address, AddressDTO.class);
-    }
-
-    public AddressDTO getFormFromAction(AddressDTO addressDTO, String action) {
-        if (action.equals("edit")) {
-            return findById(addressDTO.getId());
-        } else if (action.equals("add")) {
-            return new AddressDTO();
-        } else {
-            throw new NotSupportedActionException(action + "is not supported.");
-        }
     }
 }

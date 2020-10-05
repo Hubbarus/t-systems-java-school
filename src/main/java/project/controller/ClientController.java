@@ -7,7 +7,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import project.dto.AddressDTO;
 import project.dto.ClientDTO;
 import project.dto.OrderDTO;
@@ -84,13 +83,18 @@ public class ClientController {
         return getUserInfo(model, principal);
     }
 
-    @RequestMapping(value = "/userInfo/manageAddress", method = RequestMethod.GET)
-    public String editAddressInfo(@ModelAttribute AddressDTO addressDTO,
-                                  @RequestParam(value = "action", required = false) String action,
+    @RequestMapping(value = "/userInfo/addAddress", method = RequestMethod.GET)
+    public String addAddressInfo(@ModelAttribute AddressDTO addressDTO,
                                   Model model) {
-        AddressDTO address = addressService.getFormFromAction(addressDTO, action);
-        model.addAttribute("address", address);
+        model.addAttribute("address", new AddressDTO());
+        return "manageAddress";
+    }
 
+    @RequestMapping(value = "/userInfo/editAddress", method = RequestMethod.GET)
+    public String editAddressInfo(@ModelAttribute AddressDTO addressDTO,
+                                  Model model) {
+        AddressDTO address = addressService.findById(addressDTO.getId());
+        model.addAttribute("address", address);
         return "manageAddress";
     }
 
