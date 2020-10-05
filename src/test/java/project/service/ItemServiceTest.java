@@ -33,6 +33,11 @@ public class ItemServiceTest {
 
     @Before
     public void setUp() throws Exception {
+        TestHelper.initAddresses();
+        TestHelper.initItems();
+        TestHelper.initClients();
+        TestHelper.initCarts();
+        TestHelper.initOrders();
         when(dao.findAll()).thenReturn(TestHelper.getAllItems());
     }
 

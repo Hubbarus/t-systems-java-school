@@ -31,18 +31,25 @@ public class AddressServiceTest {
 
     @Before
     public void setUp() throws Exception {
-        when(dao.findById(anyLong())).thenReturn(TestHelper.getAddress1());
+        TestHelper.initAddresses();
+        TestHelper.initItems();
+        TestHelper.initClients();
+        TestHelper.initCarts();
+        TestHelper.initOrders();
+
+        TestHelper.setAddress1ID(1);
+        when(dao.findById(anyLong())).thenReturn(TestHelper.address1);
     }
 
     @Test(expected = NotSupportedActionException.class)
     public void getFormFromActionEx() {
-        AddressDTO address = mapper.map(TestHelper.getAddress1(), AddressDTO.class);
+        AddressDTO address = mapper.map(TestHelper.address1, AddressDTO.class);
         addressService.getFormFromAction(address, "not supported action");
     }
 
     @Test
     public void getFormFromAction() {
-        AddressDTO address = mapper.map(TestHelper.getAddress1(), AddressDTO.class);
+        AddressDTO address = mapper.map(TestHelper.address1, AddressDTO.class);
         AddressDTO add = addressService.getFormFromAction(address, "add");
 
         assertEquals(add.getId(), 0);

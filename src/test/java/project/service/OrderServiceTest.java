@@ -31,6 +31,11 @@ public class OrderServiceTest {
 
     @Before
     public void setUp() throws Exception {
+        TestHelper.initAddresses();
+        TestHelper.initItems();
+        TestHelper.initClients();
+        TestHelper.initCarts();
+        TestHelper.initOrders();
         when(dao.findAll()).thenReturn(TestHelper.getAllOrders());
         Order order1 = TestHelper.getOrder1();
         when(converter.convertToDTO(any())).thenReturn(TestHelper.convertToDTO(order1));

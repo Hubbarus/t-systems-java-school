@@ -30,6 +30,11 @@ public class ClientServiceTest {
 
     @Before
     public void setUp() throws Exception {
+        TestHelper.initAddresses();
+        TestHelper.initItems();
+        TestHelper.initClients();
+        TestHelper.initCarts();
+        TestHelper.initOrders();
         when(clientDao.findAll()).thenReturn(TestHelper.getAllClients());
         doNothing().when(clientDao).update(any(Client.class));
     }
@@ -67,7 +72,6 @@ public class ClientServiceTest {
 
         assertEquals(clientToBeUpdated.getFirstName(), newClient.getFirstName());
         assertEquals(clientToBeUpdated.getLastName(), newClient.getLastName());
-        assertEquals(clientToBeUpdated.getBirthDate(), newClient.getBirthDate());
     }
 
     @Test
