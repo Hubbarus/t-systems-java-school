@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-public class EntityFactory {
+public class TestHelper {
 
     private static PasswordEncoder encoder = new BCryptPasswordEncoder();
     private static ModelMapper mapper = new ModelMapper();
@@ -32,18 +32,18 @@ public class EntityFactory {
     private static Order order2;
 
     public static List<Client> getAllClients() {
-        Address address1 = EntityFactory.getAddress1();
-        Address address2 = EntityFactory.getAddress2();
-        Address address3 = EntityFactory.getAddress3();
-        Address address4 = EntityFactory.getAddress4();
+        Address address1 = TestHelper.getAddress1();
+        Address address2 = TestHelper.getAddress2();
+        Address address3 = TestHelper.getAddress3();
+        Address address4 = TestHelper.getAddress4();
 
         Set<Address> addresses1 = Set.of(address1, address2);
         Set<Address> addresses2 = Set.of(address3, address4);
 
-        Client client1 = EntityFactory.getClient1();
+        Client client1 = TestHelper.getClient1();
         client1.setAddressList(addresses1);
 
-        Client client2 = EntityFactory.getClient2();
+        Client client2 = TestHelper.getClient2();
         client2.setAddressList(addresses2);
 
         return List.of(client1, client2);

@@ -1,6 +1,5 @@
 package project.service;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,7 +14,7 @@ import project.config.SpringConfig;
 import project.dao.AddressDao;
 import project.dto.AddressDTO;
 import project.exception.NotSupportedActionException;
-import project.service.utils.EntityFactory;
+import project.service.utils.TestHelper;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -32,18 +31,18 @@ public class AddressServiceTest {
 
     @Before
     public void setUp() throws Exception {
-        when(dao.findById(anyLong())).thenReturn(EntityFactory.getAddress1());
+        when(dao.findById(anyLong())).thenReturn(TestHelper.getAddress1());
     }
 
     @Test(expected = NotSupportedActionException.class)
     public void getFormFromActionEx() {
-        AddressDTO address = mapper.map(EntityFactory.getAddress1(), AddressDTO.class);
+        AddressDTO address = mapper.map(TestHelper.getAddress1(), AddressDTO.class);
         addressService.getFormFromAction(address, "not supported action");
     }
 
     @Test
     public void getFormFromAction() {
-        AddressDTO address = mapper.map(EntityFactory.getAddress1(), AddressDTO.class);
+        AddressDTO address = mapper.map(TestHelper.getAddress1(), AddressDTO.class);
         AddressDTO add = addressService.getFormFromAction(address, "add");
 
         assertEquals(add.getId(), 0);

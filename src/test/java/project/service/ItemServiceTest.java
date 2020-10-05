@@ -14,7 +14,7 @@ import project.dto.ItemDTO;
 import project.entity.Cart;
 import project.entity.Item;
 import project.exception.NoSuchItemGroupException;
-import project.service.utils.EntityFactory;
+import project.service.utils.TestHelper;
 
 import java.util.HashSet;
 import java.util.List;
@@ -33,7 +33,7 @@ public class ItemServiceTest {
 
     @Before
     public void setUp() throws Exception {
-        when(dao.findAll()).thenReturn(EntityFactory.getAllItems());
+        when(dao.findAll()).thenReturn(TestHelper.getAllItems());
     }
 
     @Test(expected = NoSuchItemGroupException.class)
@@ -43,28 +43,30 @@ public class ItemServiceTest {
 
     @Test
     public void findByGroup() {
-        Item item = EntityFactory.getItem1();
+        Item item = TestHelper.getItem1();
+        ItemDTO target = mapper.map(item, ItemDTO.class);
 
         List<ItemDTO> targetList = itemService.findByGroup(item.getItemGroup());
 
-        assertTrue(targetList.contains(mapper.map(item, ItemDTO.class)));
+        assertTrue(targetList.contains(target));
     }
 
     @Test
     public void getGroupNames() {
-        List<Item> allItems = EntityFactory.getAllItems();
-        Set<String> target = new HashSet<>();
+        List<Item> allItems = TestHelper.getAllItems();
+        Set<String> expected = new HashSet<>();
         for (Item item : allItems) {
-            target.add(item.getItemGroup());
+            expected.add(item.getItemGroup());
         }
 
-        assertEquals(target, itemService.getGroupNames());
+        Set<String> actual = itemService.getGroupNames();
+        assertEquals(expected, actual);
     }
 
     @Test
     public void getItemInCategoryById() {
         Cart expected = new Cart();
-        Item expectedItem = EntityFactory.getItem1();
+        Item expectedItem = TestHelper.getItem1();
         expected.setItem(expectedItem);
 
         CartDTO target = itemService.getItemInCategoryById(expectedItem.getId(), expectedItem.getItemGroup());

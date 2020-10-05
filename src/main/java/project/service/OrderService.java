@@ -17,6 +17,7 @@ import project.utils.StatByDateHolder;
 import project.utils.TopTenComparator;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -187,17 +188,20 @@ public class OrderService {
     }
 
     public StatByDateHolder getSalesBetweenDates(StatByDateHolder holder) {
-        Date from = new Date(holder.getFrom().getTime());
-        Date to = new Date(holder.getTo().getTime());
+        //Date from = new Date(holder.getFrom().getTime());
+        //Date to = new Date(.getTime());
 
+        LocalDate from = holder.getFrom().toLocalDate();
+        LocalDate to = holder.getTo().toLocalDate();
         BigDecimal total = BigDecimal.ZERO;
         List<OrderDTO> orders = new ArrayList<>();
         List<OrderDTO> allOrders = findAll();
         for (OrderDTO order : allOrders) {
-            Date orderDate = new Date(order.getDate().getTime());
+            //Date orderDate = new Date(order.getDate().getTime());
+            LocalDate orderDate = order.getDate().toLocalDate();
 
-            if (orderDate.before(to)
-                    && orderDate.after(from)
+            if (orderDate.isBefore(to)
+                    && orderDate.isAfter(from)
                     || orderDate.equals(to)
                     || orderDate.equals(from)) {
                 orders.add(order);

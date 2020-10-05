@@ -24,7 +24,7 @@ import java.util.Set;
 @Controller
 @RequestMapping(value = "/", method = RequestMethod.GET)
 @SessionAttributes(value = {"user", "items", "categories", "topTenItems"})
-public class MainController {
+public class MainPageController {
 
     @Autowired private ClientService clientService;
     @Autowired private OrderService orderService;

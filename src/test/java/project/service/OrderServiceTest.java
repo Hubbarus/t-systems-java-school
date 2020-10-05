@@ -11,7 +11,7 @@ import project.dao.OrderDao;
 import project.dto.CartDTO;
 import project.dto.ClientDTO;
 import project.entity.Order;
-import project.service.utils.EntityFactory;
+import project.service.utils.TestHelper;
 import project.utils.StatByDateHolder;
 
 import java.sql.Date;
@@ -30,9 +30,9 @@ public class OrderServiceTest {
 
     @Before
     public void setUp() throws Exception {
-        when(dao.findAll()).thenReturn(EntityFactory.getAllOrders());
-        Order order1 = EntityFactory.getOrder1();
-        when(converter.convertToDTO(any())).thenReturn(EntityFactory.convertToDTO(order1));
+        when(dao.findAll()).thenReturn(TestHelper.getAllOrders());
+        Order order1 = TestHelper.getOrder1();
+        when(converter.convertToDTO(any())).thenReturn(TestHelper.convertToDTO(order1));
 
     }
 
