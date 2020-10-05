@@ -33,11 +33,6 @@ public class OrderService {
     @Autowired private final ItemService itemService;
     @Autowired private final OrderNumberGenerator generator;
 
-    public void save(OrderDTO orderDTO) {
-        Order order = orderConverter.convertToEntity(orderDTO);
-        orderDao.save(order);
-    }
-
     public void update(OrderDTO orderDTO) {
         Order order = orderConverter.convertToEntity(orderDTO);
         orderDao.update(order);
@@ -72,7 +67,8 @@ public class OrderService {
             itemService.update(item);
         }
 
-        save(order);
+        Order orderToSave = orderConverter.convertToEntity(order);
+        orderDao.save(orderToSave);
     }
 
     public List<CartDTO> getTopTenItems() {

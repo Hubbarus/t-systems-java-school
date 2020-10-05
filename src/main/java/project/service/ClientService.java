@@ -26,16 +26,6 @@ public class ClientService {
     @Autowired private OrderService orderService;
     @Autowired private ModelMapper mapper;
 
-    public void save(ClientDTO clientDTO) {
-        Client client = mapper.map(clientDTO, Client.class);
-        clientDao.save(client);
-    }
-
-    public void update(ClientDTO clientDTO) {
-        Client client = mapper.map(clientDTO, Client.class);
-        clientDao.update(client);
-    }
-
     private List<ClientDTO> findAll() {
         List<Client> clients = clientDao.findAll();
         return clients
@@ -59,7 +49,8 @@ public class ClientService {
         user.setActive(true);
         user.setUserPass(passwordEncoder.encode(user.getUserPass()));
 
-        save(user);
+        Client userToSave = mapper.map(user, Client.class);
+        clientDao.save(userToSave);
     }
 
     public void updateUserInformation(ClientDTO currentClient, ClientDTO client) {
@@ -71,7 +62,8 @@ public class ClientService {
         currentClient.setBirthDate(client.getBirthDate());
         currentClient.setUserPass(passwordEncoder.encode(client.getUserPass()));
 
-        update(currentClient);
+        Client clientToUpdate = mapper.map(currentClient, Client.class);
+        clientDao.update(clientToUpdate);
     }
 
     public void updateAddressInformation(Principal principal, AddressDTO addressDTO) {
@@ -91,7 +83,8 @@ public class ClientService {
         }
 
         user.setAddressList(addresses);
-        update(user);
+        Client userToUpdate = mapper.map(user, Client.class);
+        clientDao.update(userToUpdate);
     }
 
     public List<OrderDTO> getAllClientOrders(ClientDTO user) {

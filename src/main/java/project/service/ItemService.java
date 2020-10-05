@@ -23,11 +23,6 @@ public class ItemService {
     @Autowired private final ItemDao itemDao;
     @Autowired private final ModelMapper mapper;
 
-    public void save(ItemDTO itemDTO) {
-        Item item = mapper.map(itemDTO, Item.class);
-        itemDao.save(item);
-    }
-
     public void update(ItemDTO itemDTO) {
         Item item = mapper.map(itemDTO, Item.class);
         itemDao.update(item);
@@ -90,7 +85,8 @@ public class ItemService {
             update(item);
         } catch (Exception e) {
             item.setPathToIMG("/img/" + item.getPathToIMG());
-            save(item);
+            Item itemToSave = mapper.map(item, Item.class);
+            itemDao.save(itemToSave);
         }
     }
 
