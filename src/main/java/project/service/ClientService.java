@@ -5,14 +5,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.ui.Model;
 import project.dao.ClientDao;
 import project.dto.AddressDTO;
 import project.dto.ClientDTO;
 import project.dto.OrderDTO;
 import project.entity.Client;
 import project.entity.enums.RoleEnum;
-import project.exception.NoSuchClientException;
 import project.utils.CartListWrapper;
 
 import java.security.Principal;
@@ -56,7 +54,7 @@ public class ClientService {
                 return client;
             }
         }
-        throw new NoSuchClientException("Client with email " + email + " not found!");
+        return new ClientDTO();
     }
 
     private void createUserAndSave(ClientDTO user) {
@@ -120,23 +118,21 @@ public class ClientService {
         return order;
     }
 
-    public String checkIfUserExistsAndCreate(ClientDTO client, Model model) {
+    public boolean checkIfUserExistsAndCreate(ClientDTO client) {
         if (checkIfUsernameExist(client.getEmail())) {
-            model.addAttribute("userNameError", "This username already exist!");
-            return "registration";
+            return true;
         } else {
             createUserAndSave(client);
-            model.addAttribute("user", new ClientDTO());
-            return "redirect:/login";
+            return false;
         }
     }
 
     private boolean checkIfUsernameExist(String email) {
-        try {
-            findByEmail(email);
-            return true;
-        } catch (Exception e) {
+        ClientDTO client = findByEmail(email);
+        if (client.getEmail() == null) {
             return false;
         }
+        return true;
+
     }
 }

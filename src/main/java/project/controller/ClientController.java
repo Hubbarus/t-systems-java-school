@@ -36,7 +36,13 @@ public class ClientController {
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
     public String addClient(@ModelAttribute("userForm") ClientDTO client,
                             Model model) {
-        return clientService.checkIfUserExistsAndCreate(client, model);
+        if (clientService.checkIfUserExistsAndCreate(client)) {
+            model.addAttribute("userNameError", "This username already exist!");
+            return "registration";
+        } else {
+            model.addAttribute("user", new ClientDTO());
+            return "redirect:/login";
+        }
     }
 
     @RequestMapping(value = "/userInfo", method = RequestMethod.GET)

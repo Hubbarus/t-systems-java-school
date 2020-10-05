@@ -38,6 +38,7 @@ public class ItemServiceTest {
         TestHelper.initClients();
         TestHelper.initCarts();
         TestHelper.initOrders();
+
         when(dao.findAll()).thenReturn(TestHelper.getAllItems());
     }
 

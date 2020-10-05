@@ -120,12 +120,14 @@ public class TestHelper {
         client1.setActive(true);
         client1.setUserPass(encoder.encode("password"));
         client1.setRole(RoleEnum.USER);
+        client1.setEmail("test1@email.com");
 
         client2 = new Client();
         client2.setBirthDate(new Date(new java.util.Date().getTime()));
         client2.setActive(true);
         client2.setUserPass(encoder.encode("password"));
         client2.setRole(RoleEnum.USER);
+        client2.setEmail("test2@email.com");
     }
 
     public static void initOrders() {
@@ -177,10 +179,10 @@ public class TestHelper {
         Set<Address> addresses1 = Set.of(address1, address2);
         Set<Address> addresses2 = Set.of(address3, address4);
 
-        Client client1 = getClient1();
+        Client client1 = setClient1Info(1, "Test First Name 1", "Test Last Name 1");
         client1.setAddressList(addresses1);
 
-        Client client2 = getClient2();
+        Client client2 = setClient2Info(2, "Test First Name 2", "Test Last Name 2");
         client2.setAddressList(addresses2);
 
         return List.of(client1, client2);
@@ -242,19 +244,17 @@ public class TestHelper {
         address4.setId(id);
     }
 
-    public static Client getClient1() {
-        client1.setFirstName("Test First Name 1");
-        client1.setLastName("Test Last Name 1");
-        client1.setEmail("test1@email.com");
-        client1.setId(1);
+    public static Client setClient1Info(long id, String firstName, String lastName) {
+        client1.setFirstName(firstName);
+        client1.setLastName(lastName);
+        client1.setId(id);
         return client1;
     }
 
-    public static Client getClient2() {
-        client2.setFirstName("Test First Name 2");
-        client2.setLastName("Test Last Name 2");
-        client2.setEmail("test2@email.com");
-        client2.setId(2);
+    public static Client setClient2Info(long id, String firstName, String lastName) {
+        client2.setFirstName(firstName);
+        client2.setLastName(lastName);
+        client2.setId(id);
         return client2;
     }
 

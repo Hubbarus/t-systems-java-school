@@ -41,7 +41,8 @@ public class ClientServiceTest {
 
     @Test
     public void findByEmailWithExistingUser() {
-        Client expected = TestHelper.getClient1();
+        Client expected = TestHelper.client1;
+        expected.setEmail("test1@email.com");
         ClientDTO actual = clientService.findByEmail("test1@email.com");
         assertEquals(expected.getId(), actual.getId());
     }
@@ -53,37 +54,24 @@ public class ClientServiceTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void updateUserInformationWithNullFirstArgument() {
-        ClientDTO client = mapper.map(TestHelper.getClient1(), ClientDTO.class);
+        ClientDTO client = mapper.map(TestHelper.client1, ClientDTO.class);
         clientService.updateUserInformation(null, client);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void updateUserInformationWithNullSecondArgument() {
-        ClientDTO client = mapper.map(TestHelper.getClient1(), ClientDTO.class);
+        ClientDTO client = mapper.map(TestHelper.client1, ClientDTO.class);
         clientService.updateUserInformation(client, null);
     }
 
     @Test
     public void updateUserInformationWithProperArguments() {
-        ClientDTO clientToBeUpdated = mapper.map(TestHelper.getClient1(), ClientDTO.class);
-        ClientDTO newClient = mapper.map(TestHelper.getClient2(), ClientDTO.class);
+        ClientDTO clientToBeUpdated = mapper.map(TestHelper.client1, ClientDTO.class);
+        ClientDTO newClient = mapper.map(TestHelper.client2, ClientDTO.class);
 
         clientService.updateUserInformation(clientToBeUpdated, newClient);
 
         assertEquals(clientToBeUpdated.getFirstName(), newClient.getFirstName());
         assertEquals(clientToBeUpdated.getLastName(), newClient.getLastName());
-    }
-
-    @Test
-    public void checkIfUserExistsAndCreate() {
-        ClientDTO client = mapper.map(TestHelper.getClient1(), ClientDTO.class);
-        String s = clientService.checkIfUserExistsAndCreate(client, model);
-
-        assertEquals(s, "registration");
-
-        client.setEmail("notExists@text.com");
-
-        String s1 = clientService.checkIfUserExistsAndCreate(client, model);
-        assertEquals(s1, "redirect:/login");
     }
 }
