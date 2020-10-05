@@ -37,7 +37,7 @@ public class AdminController {
     private PagingUtil pagingUtil;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String showAdminPage(Model model) {
+    public String showAdminPage() {
         return "admin/adminPage";
     }
 
@@ -55,9 +55,9 @@ public class AdminController {
     }
 
     @RequestMapping(value = "/orders/edit", method = RequestMethod.POST)
-    public String editOrder(@ModelAttribute OrderDTO order, Model model) {
+    public String editOrder(@ModelAttribute OrderDTO order) {
         orderService.updateOrderInformation(order);
-        return getAllOrders(1, model);
+        return "redirect:/manage/orders?page=1";
     }
 
     @RequestMapping(value = "/statistics", method = RequestMethod.GET)
@@ -106,13 +106,13 @@ public class AdminController {
     }
 
     @RequestMapping(value = "/editItem", method = RequestMethod.POST)
-    public String editItem(@ModelAttribute ItemDTO item, Model model) {
+    public String editItem(@ModelAttribute ItemDTO item) {
         itemService.saveOrUpdate(item);
-        return getItemsEditPage(1, model);
+        return "redirect:/manage/items?page=1";
     }
 
     @RequestMapping(value = "/categories", method = RequestMethod.GET)
-    public String getAllCategories(Model model) {
+    public String getAllCategories() {
         return "/admin/categories";
     }
 
@@ -125,31 +125,28 @@ public class AdminController {
     @RequestMapping(value = "/categoriesEdit", method = RequestMethod.GET)
     public String editCat(@RequestParam("new") String newName,
                           @RequestParam("old") String oldName,
-                          Model model,
                           HttpServletRequest request) {
         itemService.renameGroup(oldName, newName);
         request.getSession().setAttribute("categories", itemService.getGroupNames());
-        return getAllCategories(model);
+        return "redirect:/manage/categories";
     }
 
     @RequestMapping(value = "/categoriesAdd", method = RequestMethod.GET)
     public String addCat(@RequestParam("c") String cat,
                          @SessionAttribute("categories") List<String> categories,
-                         Model model,
                          HttpServletRequest request) {
         categories.add(cat);
         request.getSession().setAttribute("categories", categories);
-        return getAllCategories(model);
+        return "redirect:/manage/categories";
     }
 
     @RequestMapping(value = "/categoriesDel", method = RequestMethod.GET)
     public String delCat(@RequestParam("c") String cat,
                          @SessionAttribute("categories") List<String> categories,
-                         Model model,
                          HttpServletRequest request) {
         itemService.deleteGroup(cat);
         categories.remove(cat);
         request.getSession().setAttribute("categories", categories);
-        return getItemsEditPage(1, model);
+        return "redirect:/manage/orders?page=1";
     }
 }

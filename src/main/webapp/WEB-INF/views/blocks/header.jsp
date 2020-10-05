@@ -11,6 +11,9 @@
             <sec:authorize access="isAuthenticated()">${user.firstName}</sec:authorize>
             <sec:authorize access="!isAuthenticated()">Guest</sec:authorize>!</p>
 
+        <a href="/" class="text-dark text-md-center h4">Main Page</a>
+
+
         <a href="/shop/" class="text-dark text-md-center h4">View Shop</a>
 
         <sec:authorize access="!isAuthenticated()">

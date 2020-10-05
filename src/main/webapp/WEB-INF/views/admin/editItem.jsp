@@ -12,7 +12,7 @@
     <jsp:include page="../blocks/header.jsp"/>
 </header>
 
-<form:form method="post" modelAttribute="itemToEdit" action="/manage/editItem">
+<form:form method="post" modelAttribute="itemToEdit" action="/manage/editItem" onsubmit="return onSubmit();" id="itemForm">
     <form:input path="id" type="hidden"/>
     <table class="table">
         <tr>
@@ -242,6 +242,19 @@
 
         if (selector.selected == null) {
             selector.selected = 'Choose...';
+        }
+    }
+
+    function onSubmit() {
+        var form = document.forms['itemForm'];
+        var field = form.elements['inputGroupSelect01'];
+
+        if (field.value === '#') {
+            alert('Choose group, please');
+            return false;
+        } else {
+            form.submit();
+            return true;
         }
     }
 
