@@ -1,6 +1,5 @@
 package project.service;
 
-import io.seruco.encoding.base62.Base62;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,6 +11,7 @@ import project.dto.ItemDTO;
 import project.dto.OrderDTO;
 import project.entity.Order;
 import project.entity.enums.StatusEnum;
+import project.utils.OrderNumberGenerator;
 import project.utils.StatByDateHolder;
 import project.utils.TopTenComparator;
 
@@ -31,6 +31,7 @@ public class OrderService {
     @Autowired private final OrderDao orderDao;
     @Autowired private final OrderConverter orderConverter;
     @Autowired private final ItemService itemService;
+    @Autowired private final OrderNumberGenerator generator;
 
     public void save(OrderDTO orderDTO) {
         Order order = orderConverter.convertToEntity(orderDTO);
@@ -61,7 +62,7 @@ public class OrderService {
         Date currentDate = new Date();
         order.setDate(new java.sql.Date(currentDate.getTime()));
 
-        order.setOrderNo(generateOrderNo(order));
+        order.setOrderNo(generator.generate(order, findAll().size()));
 
         for (CartDTO cartDTO : order.getItems()) {
             ItemDTO item = itemService.findById(cartDTO.getItem().getId());
@@ -72,46 +73,6 @@ public class OrderService {
         }
 
         save(order);
-    }
-
-    private String generateOrderNo(OrderDTO order) {
-        StringBuilder num = new StringBuilder();
-
-        switch (order.getPaymentMethod()) {
-            case CARD: {
-                num.append("CD");
-                break;
-            }
-            case CASH: {
-                num.append("CS");
-                break;
-            }
-            case REMITTANCE: {
-                num.append("R");
-                break;
-            }
-        }
-
-        Base62 base62 = Base62.createInstance();
-        int val = findAll().size();
-        byte[] arr = String.valueOf(val).getBytes();
-        String str = new String(base62.encode(arr));
-        num.append(str);
-
-        switch (order.getShipmentMethod()) {
-            case SELF_PICKUP: {
-                num.append("SP");
-                break;
-            }
-            case DOOR_TO_DOOR: {
-                num.append("DTD");
-                break;
-            }
-        }
-
-        num.append(order.getDate().toLocalDate().getDayOfMonth());
-
-        return num.toString();
     }
 
     public List<CartDTO> getTopTenItems() {
