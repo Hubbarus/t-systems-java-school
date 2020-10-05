@@ -1,10 +1,10 @@
 package project.converter;
 
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import project.dto.CartDTO;
 import project.entity.Cart;
 
-@Service
+@Component
 public class CartConverter {
 
     public Cart convertToEntity(CartDTO dto) {

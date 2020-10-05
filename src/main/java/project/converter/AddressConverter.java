@@ -2,11 +2,11 @@ package project.converter;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import project.dto.AddressDTO;
 import project.service.AddressService;
 
-@Service
+@Component
 public class AddressConverter implements Converter<String, AddressDTO> {
 
     @Autowired private AddressService addressService;

@@ -2,6 +2,7 @@ package project.converter;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import project.dto.CartDTO;
 import project.dto.ItemDTO;
@@ -14,7 +15,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-@Service
+@Component
 public class OrderConverter {
 
     @Autowired private ModelMapper mapper;
