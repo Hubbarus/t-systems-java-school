@@ -75,11 +75,8 @@ public class ClientController {
     @RequestMapping(value = "/userInfo/manage", method = RequestMethod.POST)
     public String editAccountInfo(Principal principal,
                                   @ModelAttribute ClientDTO client, Model model) {
-
-        ClientDTO currentClient = clientService.findByEmail(principal.getName());
-
         model.addAttribute("successMsg", "Information has been changed successfully");
-        clientService.updateUserInformation(currentClient, client);
+        clientService.updateUserInformation(client);
         return getUserInfo(model, principal);
     }
 

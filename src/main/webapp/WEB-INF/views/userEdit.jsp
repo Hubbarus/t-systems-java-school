@@ -1,3 +1,7 @@
+<%@ page import="project.dto.AddressDTO" %>
+<%@ page import="java.util.Set" %>
+<%@ page import="project.dto.ClientDTO" %>
+<%@ page import="java.util.HashSet" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -10,9 +14,11 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 </head>
 <body>
+
 <header>
     <jsp:include page="blocks/header.jsp"/>
 </header>
+
 <div class="container w-50 align-content-center">
     <div class="text-center mt-3 mb-3">
         <h2>Edit Profile</h2>
@@ -100,6 +106,7 @@
 <%--                Button--%>
                 <tr>
                     <td>
+                        <form:hidden path="id" value="${client.id}"/>
                         <form:hidden path="active" value="${client.active}"/>
                         <form:hidden path="role" value="${client.role}"/>
                         <form:hidden path="email" value="${client.email}"/>

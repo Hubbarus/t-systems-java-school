@@ -53,17 +53,16 @@ public class ClientService {
         clientDao.save(userToSave);
     }
 
-    public void updateUserInformation(ClientDTO currentClient, ClientDTO client) {
-        if (currentClient == null || client == null) {
+    public void updateUserInformation(ClientDTO client) {
+        if (client == null) {
             throw new IllegalArgumentException();
         }
-        currentClient.setFirstName(client.getFirstName());
-        currentClient.setLastName(client.getLastName());
-        currentClient.setBirthDate(client.getBirthDate());
-        currentClient.setUserPass(passwordEncoder.encode(client.getUserPass()));
 
-        Client clientToUpdate = mapper.map(currentClient, Client.class);
-        clientDao.update(clientToUpdate);
+        Set<AddressDTO> addressList = findByEmail(client.getEmail()).getAddressList();
+
+        client.setAddressList(addressList);
+        client.setUserPass(passwordEncoder.encode(client.getUserPass()));
+        clientDao.update(mapper.map(client, Client.class));
     }
 
     public void updateAddressInformation(Principal principal, AddressDTO addressDTO) {

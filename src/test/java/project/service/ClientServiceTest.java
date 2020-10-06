@@ -52,26 +52,26 @@ public class ClientServiceTest {
         clientService.findByEmail("notexisting@email.com");
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void updateUserInformationWithNullFirstArgument() {
-        ClientDTO client = mapper.map(TestHelper.client1, ClientDTO.class);
-        clientService.updateUserInformation(null, client);
-    }
+//    @Test(expected = IllegalArgumentException.class)
+//    public void updateUserInformationWithNullFirstArgument() {
+//        ClientDTO client = mapper.map(TestHelper.client1, ClientDTO.class);
+//        clientService.updateUserInformation(null, client);
+//    }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void updateUserInformationWithNullSecondArgument() {
-        ClientDTO client = mapper.map(TestHelper.client1, ClientDTO.class);
-        clientService.updateUserInformation(client, null);
-    }
-
-    @Test
-    public void updateUserInformationWithProperArguments() {
-        ClientDTO clientToBeUpdated = mapper.map(TestHelper.client1, ClientDTO.class);
-        ClientDTO newClient = mapper.map(TestHelper.client2, ClientDTO.class);
-
-        clientService.updateUserInformation(clientToBeUpdated, newClient);
-
-        assertEquals(clientToBeUpdated.getFirstName(), newClient.getFirstName());
-        assertEquals(clientToBeUpdated.getLastName(), newClient.getLastName());
-    }
+//    @Test(expected = IllegalArgumentException.class)
+//    public void updateUserInformationWithNullSecondArgument() {
+//        ClientDTO client = mapper.map(TestHelper.client1, ClientDTO.class);
+//        clientService.updateUserInformation(client, null);
+//    }
+//
+//    @Test
+//    public void updateUserInformationWithProperArguments() {
+//        ClientDTO clientToBeUpdated = mapper.map(TestHelper.client1, ClientDTO.class);
+//        ClientDTO newClient = mapper.map(TestHelper.client2, ClientDTO.class);
+//
+//        clientService.updateUserInformation(clientToBeUpdated, newClient);
+//
+//        assertEquals(clientToBeUpdated.getFirstName(), newClient.getFirstName());
+//        assertEquals(clientToBeUpdated.getLastName(), newClient.getLastName());
+//    }
 }
