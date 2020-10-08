@@ -61,16 +61,13 @@ public class AdminController {
     }
 
     @RequestMapping(value = "/statistics", method = RequestMethod.GET)
-    public String getStatisticsPage(Model model, StatByDateHolder holder) {
+    public String getStatisticsPage(Model model, StatByDateHolder holder, HttpServletRequest request) {
         List<CartDTO> topTenItems = orderService.getTopTenItems();
         List<Map.Entry<ClientDTO, Integer>> topTenClients = orderService.getTopTenClients();
 
-        model.addAttribute("topItems", topTenItems);
-        model.addAttribute("topClients", topTenClients);
-        if (holder == null) {
-            holder = new StatByDateHolder();
-        }
-        model.addAttribute("statDateForm", holder);
+        request.getSession().setAttribute("topItems", topTenItems);
+        request.getSession().setAttribute("topClients", topTenClients);
+        model.addAttribute("statDateForm", new StatByDateHolder());
         return "admin/statistics";
     }
 
@@ -80,7 +77,8 @@ public class AdminController {
         if (holder.getOrders().size() == 0) {
             model.addAttribute("err", "No sales in this period");
         }
-        return getStatisticsPage(model, holder);
+        model.addAttribute("statDateForm", holder);
+        return "admin/statistics";
     }
 
     @RequestMapping(value = "/items", method = RequestMethod.GET)
