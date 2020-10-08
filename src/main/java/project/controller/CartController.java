@@ -9,12 +9,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import project.dto.CartDTO;
-import project.dto.ItemDTO;
 import project.service.ItemService;
 import project.utils.CartListWrapper;
 
 import java.util.ArrayList;
-import java.util.List;
 
 @Controller
 @RequestMapping("/cart")
@@ -34,37 +32,25 @@ public class CartController {
     public String addToCart(@ModelAttribute("cart") CartDTO cart,
                             @SessionAttribute("items") CartListWrapper wrapper,
                             Model model) {
-        List<CartDTO> cartDTOList = wrapper.getList();
-        cartDTOList.add(cart);
-        wrapper.setList(cartDTOList);
-        return showCart(model, wrapper);
+        itemService.addToCart(wrapper, cart);
+        model.addAttribute("items", wrapper);
+        return "cart";
     }
 
     @RequestMapping(value = "/add")
     public String addOneToCart(@RequestParam("itemId") Long itemId,
                                @SessionAttribute("items") CartListWrapper wrapper, Model model) {
-        List<CartDTO> cartDTOList = wrapper.getList();
-        ItemDTO item = itemService.findById(itemId);
-        CartDTO cart = new CartDTO();
-        cart.setItem(item);
-        cart.setQuantity(1);
-        cartDTOList.add(cart);
-        wrapper.setList(cartDTOList);
-        return showCart(model, wrapper);
+        itemService.buyInOneClick(wrapper, itemId);
+        model.addAttribute("items", wrapper);
+        return "cart";
     }
 
     @RequestMapping(value = "/removeItem", method = RequestMethod.GET)
     public String removeItem(@RequestParam(value = "itemId") long itemId, Model model,
                              @SessionAttribute("items") CartListWrapper wrapper) {
-        List<CartDTO> items = wrapper.getList();
-        for (CartDTO cartDTO : items) {
-            if (cartDTO.getItem().getId() == itemId) {
-                items.remove(cartDTO);
-                break;
-            }
-        }
-        wrapper.setList(items);
-        return showCart(model, wrapper);
+        itemService.removeItemFromCart(wrapper, itemId);
+        model.addAttribute("items", wrapper);
+        return "cart";
     }
 
     @RequestMapping(value = "/clearCart", method = RequestMethod.GET)

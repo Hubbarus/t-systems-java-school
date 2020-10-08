@@ -9,6 +9,7 @@ import project.dto.CartDTO;
 import project.dto.ItemDTO;
 import project.entity.Item;
 import project.exception.NoSuchItemGroupException;
+import project.utils.CartListWrapper;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -116,5 +117,32 @@ public class ItemService {
                 update(item);
             }
         }
+    }
+
+    public void addToCart(CartListWrapper wrapper, CartDTO cart) {
+        List<CartDTO> cartDTOList = wrapper.getList();
+        cartDTOList.add(cart);
+        wrapper.setList(cartDTOList);
+    }
+
+    public void buyInOneClick(CartListWrapper wrapper, Long itemId) {
+        List<CartDTO> cartDTOList = wrapper.getList();
+        ItemDTO item = findById(itemId);
+        CartDTO cart = new CartDTO();
+        cart.setItem(item);
+        cart.setQuantity(1);
+        cartDTOList.add(cart);
+        wrapper.setList(cartDTOList);
+    }
+
+    public void removeItemFromCart(CartListWrapper wrapper, long itemId) {
+        List<CartDTO> items = wrapper.getList();
+        for (CartDTO cartDTO : items) {
+            if (cartDTO.getItem().getId() == itemId) {
+                items.remove(cartDTO);
+                break;
+            }
+        }
+        wrapper.setList(items);
     }
 }
