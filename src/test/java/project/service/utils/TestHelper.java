@@ -3,15 +3,12 @@ package project.service.utils;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import project.dto.AddressDTO;
 import project.dto.CartDTO;
 import project.dto.ClientDTO;
 import project.dto.ItemDTO;
 import project.dto.OrderDTO;
-import project.entity.Address;
-import project.entity.Cart;
 import project.entity.Client;
-import project.entity.Item;
-import project.entity.Order;
 import project.entity.enums.PaymentEnum;
 import project.entity.enums.RoleEnum;
 import project.entity.enums.ShipmentEnum;
@@ -19,7 +16,6 @@ import project.entity.enums.StatusEnum;
 
 import java.math.BigDecimal;
 import java.sql.Date;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -29,283 +25,86 @@ public class TestHelper {
     private static PasswordEncoder encoder = new BCryptPasswordEncoder();
     private static ModelMapper mapper = new ModelMapper();
 
-    public static Order order1 = new Order();
-    public static Order order2 = new Order();
+    private static List<Client> clientList = new ArrayList<>();
 
-    public static Address address1;
-    public static Address address2;
-    public static Address address3;
-    public static Address address4;
+    private static List<OrderDTO> orders = new ArrayList<>();
 
-    public static Client client1;
-    public static Client client2;
-
-    public static Item item1;
-    public static Item item2;
-    public static Item item3;
-    public static Item item4;
-
-    public static Cart cart1;
-    public static Cart cart2;
-    public static Cart cart3;
-    public static Cart cart4;
-
-    public static void initAddresses() {
-        address1 = new Address();
-        address1.setCountry("Russia");
-        address1.setCity("Spb");
-        address1.setBuilding(1);
-        address1.setApart(1);
-        address1.setPostcode("123456");
-        address1.setStreet("Test street 1");
-
-        address2 = new Address();
-        address2.setCity("Russia");
-        address2.setCity("Spb");
-        address2.setBuilding(1);
-        address2.setApart(1);
-        address2.setPostcode("234567");
-        address2.setStreet("Test street 2");
-
-        address3 = new Address();
-        address3.setCity("Russia");
-        address3.setCity("Spb");
-        address3.setBuilding(1);
-        address3.setApart(1);
-        address3.setPostcode("234567");
-        address3.setStreet("Test street 3");
-
-        address4 = new Address();
-        address4.setCity("Russia");
-        address4.setCity("Spb");
-        address4.setBuilding(1);
-        address4.setApart(1);
-        address4.setPostcode("234567");
-        address4.setStreet("Test street 4");
+    public static CartDTO getCart(long id, ItemDTO item, int quantity, OrderDTO order) {
+        CartDTO cart = new CartDTO();
+        cart.setId(id);
+        cart.setItem(item);
+        cart.setQuantity(quantity);
+        cart.setOrder(order);
+        return cart;
     }
 
-    public static void initItems() {
-        item1 = new Item();
-        item1.setStock(20);
-        item1.setPrice(BigDecimal.valueOf(1));
-        item1.setPathToIMG("path");
-        item1.setVolume(1.1);
-        item1.setWeight(1.1);
+    public static OrderDTO getOrder(long id, String num, ClientDTO client, List<CartDTO> items) {
+        OrderDTO order = new OrderDTO();
+        order.setShipmentMethod(ShipmentEnum.DOOR_TO_DOOR);
+        order.setPaymentStatus(true);
+        order.setPaymentMethod(PaymentEnum.CARD);
+        order.setStatus(StatusEnum.DELIVERED);
+        order.setDate(Date.valueOf("2020-01-01"));
 
-        item2 = new Item();
-        item2.setStock(20);
-        item2.setPrice(BigDecimal.valueOf(2));
-        item2.setPathToIMG("path2");
-        item2.setVolume(2.2);
-        item2.setWeight(2.2);
+        order.setId(id);
+        order.setOrderNo(num);
+        order.setClient(client);
+        order.setItems(items);
 
-        item3 = new Item();
-        item3.setStock(20);
-        item3.setPrice(BigDecimal.valueOf(3));
-        item3.setPathToIMG("path3");
-        item3.setVolume(3.3);
-        item3.setWeight(3.3);
+        orders.add(order);
 
-        item4 = new Item();
-        item4.setStock(20);
-        item4.setPrice(BigDecimal.valueOf(4));
-        item4.setPathToIMG("path4");
-        item4.setVolume(4.4);
-        item4.setWeight(4.4);
+        return order;
     }
 
-    public static void initClients() {
-        client1 = new Client();
-        client1.setBirthDate(new Date(new java.util.Date().getTime()));
-        client1.setActive(true);
-        client1.setUserPass(encoder.encode("password"));
-        client1.setRole(RoleEnum.USER);
-        client1.setEmail("test1@email.com");
+    public static ItemDTO getItem(long id, String name, String group) {
+        ItemDTO item = new ItemDTO();
+        item.setPathToIMG("path");
+        item.setWeight(0.1);
+        item.setVolume(0.1);
+        item.setDescription("description");
+        item.setStock(10);
+        item.setPrice(BigDecimal.valueOf(10));
 
-        client2 = new Client();
-        client2.setBirthDate(new Date(new java.util.Date().getTime()));
-        client2.setActive(true);
-        client2.setUserPass(encoder.encode("password"));
-        client2.setRole(RoleEnum.USER);
-        client2.setEmail("test2@email.com");
+        item.setId(id);
+        item.setItemName(name);
+        item.setItemGroup(group);
+        return item;
     }
 
-    public static void initOrders() {
-        order1.setPaymentStatus(true);
-        order1.setDate(Date.valueOf(LocalDate.of(2020, 1, 2)));
-        order1.setStatus(StatusEnum.NEW);
-        order1.setPaymentMethod(PaymentEnum.CARD);
-        order1.setShipmentMethod(ShipmentEnum.DOOR_TO_DOOR);
-
-        order2.setPaymentStatus(true);
-        order1.setDate(Date.valueOf(LocalDate.of(2020, 1, 2)));
-        order2.setStatus(StatusEnum.NEW);
-        order2.setPaymentMethod(PaymentEnum.CARD);
-        order2.setShipmentMethod(ShipmentEnum.DOOR_TO_DOOR);
+    public static AddressDTO getAddress(long id, int apart) {
+        AddressDTO address = new AddressDTO();
+        address.setCountry("Russia");
+        address.setCity("Spb");
+        address.setPostcode("123456");
+        address.setStreet("Lenina");
+        address.setBuilding(1);
+        address.setId(id);
+        address.setApart(apart);
+        return address;
     }
 
-    public static void initCarts() {
-        cart1 = new Cart();
-        cart1.setItem(item1);
-        cart1.setOrder(order1);
-        cart1.setQuantity(1);
-        cart1.setId(1);
+    public static ClientDTO getClient(long id, String firstName, String lastName, String email, Set<AddressDTO> addresses) {
+        ClientDTO client = new ClientDTO();
+        client.setRole(RoleEnum.USER);
+        client.setUserPass(encoder.encode("password"));
+        client.setActive(true);
+        client.setBirthDate(Date.valueOf("1990-11-15"));
 
-        cart2 = new Cart();
-        cart2.setItem(item2);
-        cart2.setOrder(order1);
-        cart2.setQuantity(2);
-        cart2.setId(2);
+        client.setId(id);
+        client.setFirstName(firstName);
+        client.setLastName(lastName);
+        client.setEmail(email);
+        client.setAddressList(addresses);
 
-        cart3 = new Cart();
-        cart3.setItem(item3);
-        cart3.setOrder(order2);
-        cart3.setQuantity(3);
-        cart3.setId(3);
-
-        cart4 = new Cart();
-        cart4.setItem(getItem4());
-        cart4.setOrder(order2);
-        cart4.setQuantity(4);
-        cart4.setId(4);
+        clientList.add(mapper.map(client, Client.class));
+        return client;
     }
 
-    public static List<Client> getAllClients() {
-        setAddress1ID(1);
-        setAddress2ID(2);
-        setAddress3ID(3);
-        setAddress4ID(4);
-
-        Set<Address> addresses1 = Set.of(address1, address2);
-        Set<Address> addresses2 = Set.of(address3, address4);
-
-        Client client1 = setClient1Info(1, "Test First Name 1", "Test Last Name 1");
-        client1.setAddressList(addresses1);
-
-        Client client2 = setClient2Info(2, "Test First Name 2", "Test Last Name 2");
-        client2.setAddressList(addresses2);
-
-        return List.of(client1, client2);
+    public static List<Client> getClientList() {
+        return clientList;
     }
 
-    public static List<Item> getAllItems() {
-        return List.of(getItem1(), getItem2(), getItem3(), getItem4());
-    }
-
-    public static List<Order> getAllOrders() {
-        List<Order> orders = List.of(order1, order2);
+    public static List<OrderDTO> getOrders() {
         return orders;
-    }
-
-    public static OrderDTO convertToDTO(Order order) {
-        OrderDTO dto = new OrderDTO();
-        dto.setPaymentMethod(order.getPaymentMethod());
-        dto.setStatus(order.getStatus());
-        dto.setDate(order.getDate());
-        dto.setOrderNo(order.getOrderNo());
-        dto.setId(order.getId());
-        dto.setClient(mapper.map(order.getClient(), ClientDTO.class));
-        dto.setShipmentMethod(order.getShipmentMethod());
-
-        BigDecimal subtotal = BigDecimal.ZERO;
-        List<Cart> carts = order.getCarts();
-        List<CartDTO> cartDTOS = new ArrayList<>();
-
-        for (Cart cart : carts) {
-            int quantity = cart.getQuantity();
-            CartDTO cartDTO = new CartDTO();
-            cartDTO.setQuantity(cart.getQuantity());
-            cartDTO.setId(cart.getId());
-            cartDTO.setItem(mapper.map(cart.getItem(), ItemDTO.class));
-            cartDTO.setOrder(dto);
-            cartDTOS.add(cartDTO);
-
-            subtotal = subtotal.add(cart.getItem().getPrice().multiply(BigDecimal.valueOf(quantity)));
-        }
-
-        dto.setSubtotal(subtotal);
-        dto.setItems(cartDTOS);
-        return dto;
-    }
-
-    public static void setAddress1ID(long id) {
-        address1.setId(id);
-    }
-
-    public static void setAddress2ID(long id) {
-        address2.setId(id);
-    }
-
-    public static void setAddress3ID(long id) {
-        address3.setId(id);
-    }
-
-    public static void setAddress4ID(long id) {
-        address4.setId(id);
-    }
-
-    public static Client setClient1Info(long id, String firstName, String lastName) {
-        client1.setFirstName(firstName);
-        client1.setLastName(lastName);
-        client1.setId(id);
-        return client1;
-    }
-
-    public static Client setClient2Info(long id, String firstName, String lastName) {
-        client2.setFirstName(firstName);
-        client2.setLastName(lastName);
-        client2.setId(id);
-        return client2;
-    }
-
-    public static Order getOrder1() {
-        order1.setId(1);
-        order1.setOrderNo("no1");
-        order1.setClient(client1);
-        List<Cart> carts = List.of(cart1, cart2);
-        order1.setCarts(carts);
-        return order1;
-    }
-
-    public static Order getOrder2() {
-        order2.setId(2);
-        order2.setOrderNo("no2");
-        order2.setClient(client2);
-        List<Cart> carts = List.of(cart3, cart4);
-        order2.setCarts(carts);
-        return order2;
-    }
-
-    public static Item getItem1() {
-        item1.setId(1);
-        item1.setItemGroup("Group1");
-        item1.setItemName("ItemName1");
-        item1.setDescription("Description1");
-        return item1;
-    }
-
-    public static Item getItem2() {
-        item2.setId(2);
-        item2.setItemGroup("Group2");
-        item2.setItemName("ItemName2");
-        item2.setDescription("Description2");
-        return item2;
-    }
-
-    public static Item getItem3() {
-        item3.setId(3);
-        item3.setItemGroup("Group3");
-        item3.setItemName("ItemName3");
-        item3.setDescription("Description3");
-        return item3;
-    }
-
-    public static Item getItem4() {
-        item4.setId(4);
-        item4.setItemGroup("Group4");
-        item4.setItemName("ItemName4");
-        item4.setDescription("Description4");
-
-        return item4;
     }
 }

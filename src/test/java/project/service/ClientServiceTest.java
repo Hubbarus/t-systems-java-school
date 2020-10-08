@@ -9,14 +9,22 @@ import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.ui.Model;
 import project.dao.ClientDao;
+import project.dto.AddressDTO;
+import project.dto.CartDTO;
 import project.dto.ClientDTO;
-import project.entity.Client;
-import project.exception.NoSuchClientException;
+import project.dto.ItemDTO;
+import project.dto.OrderDTO;
 import project.service.utils.TestHelper;
+import project.utils.CartListWrapper;
 
-import static org.junit.Assert.assertEquals;
+import java.math.BigDecimal;
+import java.security.Principal;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -26,52 +34,78 @@ public class ClientServiceTest {
     @Mock ClientDao clientDao;
     @Mock BCryptPasswordEncoder passwordEncoder;
     @Spy ModelMapper mapper;
-    @Mock Model model;
+    @Mock OrderService orderService;
+    @Mock Principal principal;
+
+    private ClientDTO defaultClient = new ClientDTO();
 
     @Before
-    public void setUp() throws Exception {
-        TestHelper.initAddresses();
-        TestHelper.initItems();
-        TestHelper.initClients();
-        TestHelper.initCarts();
-        TestHelper.initOrders();
-        when(clientDao.findAll()).thenReturn(TestHelper.getAllClients());
-        doNothing().when(clientDao).update(any(Client.class));
+    public void setUp() {
+        defaultClient = TestHelper.getClient(1, "FirstName", "LastName", "test@gmail.com", new HashSet<>());
+        when(clientDao.findAll()).thenReturn(TestHelper.getClientList());
+        when(orderService.findAll()).thenReturn(TestHelper.getOrders());
+        when(principal.getName()).thenReturn(defaultClient.getEmail());
+        doNothing().when(clientDao).save(any());
     }
 
     @Test
-    public void findByEmailWithExistingUser() {
-        Client expected = TestHelper.client1;
-        expected.setEmail("test1@email.com");
-        ClientDTO actual = clientService.findByEmail("test1@email.com");
-        assertEquals(expected.getId(), actual.getId());
+    public void findByEmail() {
+        AddressDTO address1 = TestHelper.getAddress(1, 1);
+        AddressDTO address2 = TestHelper.getAddress(2, 2);
+        ClientDTO client1 = TestHelper.getClient(1, "FirstName1", "LastName1",
+                "test1@gmail.com", Set.of(address1, address2));
+        ClientDTO client2 = TestHelper.getClient(2, "FirstName2", "LastName2",
+                "test2@gmail.com", Set.of(address1, address2));
+
+        ClientDTO target = clientService.findByEmail(client1.getEmail());
+
+        assertEquals(target.getFirstName(), client1.getFirstName());
     }
 
-    @Test(expected = NoSuchClientException.class)
-    public void findByEmailWithNotExistingUser() {
-        clientService.findByEmail("notexisting@email.com");
+    @Test
+    public void checkIfUserExistsAndCreate() {
+        boolean target = clientService.checkIfUserExistsAndCreate(defaultClient);
+        assertTrue(target);
+
+        ClientDTO clientDTO = new ClientDTO();
+        target = clientService.checkIfUserExistsAndCreate(clientDTO);
+        assertFalse(target);
     }
 
-//    @Test(expected = IllegalArgumentException.class)
-//    public void updateUserInformationWithNullFirstArgument() {
-//        ClientDTO client = mapper.map(TestHelper.client1, ClientDTO.class);
-//        clientService.updateUserInformation(null, client);
-//    }
+    @Test
+    public void getAllClientOrders() {
+        ItemDTO item1 = TestHelper.getItem(1, "Item1", "Group1");
+        ItemDTO item2 = TestHelper.getItem(2, "Item2", "Group1");
 
-//    @Test(expected = IllegalArgumentException.class)
-//    public void updateUserInformationWithNullSecondArgument() {
-//        ClientDTO client = mapper.map(TestHelper.client1, ClientDTO.class);
-//        clientService.updateUserInformation(client, null);
-//    }
-//
-//    @Test
-//    public void updateUserInformationWithProperArguments() {
-//        ClientDTO clientToBeUpdated = mapper.map(TestHelper.client1, ClientDTO.class);
-//        ClientDTO newClient = mapper.map(TestHelper.client2, ClientDTO.class);
-//
-//        clientService.updateUserInformation(clientToBeUpdated, newClient);
-//
-//        assertEquals(clientToBeUpdated.getFirstName(), newClient.getFirstName());
-//        assertEquals(clientToBeUpdated.getLastName(), newClient.getLastName());
-//    }
+        CartDTO cart1 = TestHelper.getCart(1, item1, 3, null);
+        CartDTO cart2 = TestHelper.getCart(2, item2, 4, null);
+
+        OrderDTO order = TestHelper.getOrder(1, "orderNum", defaultClient, List.of(cart1, cart2));
+        cart1.setOrder(order);
+        cart2.setOrder(order);
+
+        List<OrderDTO> allClientOrders = clientService.getAllClientOrders(defaultClient);
+
+        assertTrue(allClientOrders.contains(order));
+
+
+    }
+
+    @Test
+    public void collectOrder() {
+        ItemDTO item1 = TestHelper.getItem(1, "Item1", "Group1");
+        ItemDTO item2 = TestHelper.getItem(2, "Item2", "Group1");
+
+        CartDTO cart1 = TestHelper.getCart(1, item1, 3, null);
+        CartDTO cart2 = TestHelper.getCart(2, item2, 4, null);
+
+        CartListWrapper wrapper = new CartListWrapper();
+        wrapper.setList(List.of(cart1, cart2));
+        wrapper.setSubtotal(BigDecimal.valueOf(42));
+
+        OrderDTO target = clientService.collectOrder(wrapper, principal);
+
+        assertEquals(target.getItems(), wrapper.getList());
+        assertEquals(target.getClient().getId(), defaultClient.getId());
+    }
 }

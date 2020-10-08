@@ -54,12 +54,7 @@ public class ClientService {
     }
 
     public void updateUserInformation(ClientDTO client) {
-        if (client == null) {
-            throw new IllegalArgumentException();
-        }
-
         Set<AddressDTO> addressList = findByEmail(client.getEmail()).getAddressList();
-
         client.setAddressList(addressList);
         client.setUserPass(passwordEncoder.encode(client.getUserPass()));
         clientDao.update(mapper.map(client, Client.class));
