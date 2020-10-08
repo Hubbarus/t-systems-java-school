@@ -1,7 +1,6 @@
 package project.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -12,7 +11,6 @@ import project.dto.ClientDTO;
 import project.dto.OrderDTO;
 import project.service.AddressService;
 import project.service.ClientService;
-import project.service.UserService;
 
 import java.security.Principal;
 import java.util.List;
@@ -22,12 +20,10 @@ import java.util.List;
 public class ClientController {
 
     @Autowired private ClientService clientService;
-    @Autowired private UserService userService;
     @Autowired private AddressService addressService;
 
     @RequestMapping(value = "/registration", method = RequestMethod.GET)
     public String registration(Model model) {
-
         model.addAttribute("clientForm", new ClientDTO());
         return "registration";
     }
@@ -50,19 +46,6 @@ public class ClientController {
         model.addAttribute("client", client);
         model.addAttribute("address", new AddressDTO());
         return "/userInfo";
-    }
-
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public String showLogin(Model model) {
-        model.addAttribute("user", new ClientDTO());
-        return "login";
-    }
-
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public String doLogin(@ModelAttribute ClientDTO user,
-                          Model model) {
-        UserDetails userDetails = userService.loadUserByUsername(user.getEmail());
-        return "redirect:/";
     }
 
     @RequestMapping(value = "/userInfo/manage", method = RequestMethod.GET)
