@@ -1,5 +1,6 @@
 package project.service;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -145,5 +146,10 @@ public class ItemServiceTest {
         itemService.removeItemFromCart(wrapper, defaultItem.getId());
 
         assertEquals(0, wrapper.getList().size());
+    }
+
+    @After
+    public void flush() {
+        TestHelper.flush();
     }
 }

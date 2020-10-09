@@ -10,6 +10,7 @@ import project.dto.ItemDTO;
 import project.dto.OrderDTO;
 import project.entity.Client;
 import project.entity.Item;
+import project.entity.Order;
 import project.entity.enums.PaymentEnum;
 import project.entity.enums.RoleEnum;
 import project.entity.enums.ShipmentEnum;
@@ -27,9 +28,8 @@ public class TestHelper {
     private static ModelMapper mapper = new ModelMapper();
 
     private static List<Client> clientList = new ArrayList<>();
-
     private static List<OrderDTO> orders = new ArrayList<>();
-
+    private static List<Order> entOrders = new ArrayList<>();
     private static List<Item> items = new ArrayList<>();
 
     public static CartDTO getCart(long id, ItemDTO item, int quantity, OrderDTO order) {
@@ -47,14 +47,23 @@ public class TestHelper {
         order.setPaymentStatus(true);
         order.setPaymentMethod(PaymentEnum.CARD);
         order.setStatus(StatusEnum.DELIVERED);
-        order.setDate(Date.valueOf("2020-01-01"));
+        order.setDate(Date.valueOf("2020-05-05"));
 
         order.setId(id);
         order.setOrderNo(num);
         order.setClient(client);
         order.setItems(items);
 
+        BigDecimal subtotal = BigDecimal.ZERO;
+        for (CartDTO cart : items) {
+            ItemDTO item = cart.getItem();
+            int quantity = cart.getQuantity();
+            subtotal = subtotal.add(item.getPrice().multiply(BigDecimal.valueOf(quantity)));
+        }
+        order.setSubtotal(subtotal);
+
         orders.add(order);
+        entOrders.add(mapper.map(order, Order.class));
 
         return order;
     }
@@ -115,5 +124,20 @@ public class TestHelper {
 
     public static List<Item> getItems() {
         return items;
+    }
+
+    public static List<Order> getEntOrders() {
+        return entOrders;
+    }
+
+    public static OrderDTO convertToDTO(OrderDTO order) {
+        return order;
+    }
+
+    public static void flush() {
+        clientList = new ArrayList<>();
+        orders = new ArrayList<>();
+        entOrders = new ArrayList<>();
+        items = new ArrayList<>();
     }
 }

@@ -1,5 +1,6 @@
 package project.service;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -107,5 +108,10 @@ public class ClientServiceTest {
 
         assertEquals(target.getItems(), wrapper.getList());
         assertEquals(target.getClient().getId(), defaultClient.getId());
+    }
+
+    @After
+    public void flush() {
+        TestHelper.flush();
     }
 }

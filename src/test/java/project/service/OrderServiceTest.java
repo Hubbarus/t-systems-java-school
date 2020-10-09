@@ -1,64 +1,129 @@
 package project.service;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.modelmapper.ModelMapper;
 import project.converter.OrderConverter;
 import project.dao.OrderDao;
+import project.dto.CartDTO;
+import project.dto.ClientDTO;
+import project.dto.ItemDTO;
+import project.dto.OrderDTO;
+import project.entity.Order;
+import project.entity.enums.StatusEnum;
+import project.service.utils.TestHelper;
+import project.utils.OrderNumberGenerator;
+import project.utils.StatByDateHolder;
+
+import java.sql.Date;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.*;
+
 @RunWith(MockitoJUnitRunner.class)
 public class OrderServiceTest {
 
     @InjectMocks private OrderService orderService;
     @Mock private OrderDao dao;
     @Mock private OrderConverter converter;
+    @Spy private OrderNumberGenerator generator;
+    @Spy private ModelMapper mapper;
+    @Mock private ItemService itemService;
 
-//    @Before
-//    public void setUp() throws Exception {
-//        TestHelper.initAddresses();
-//        TestHelper.initItems();
-//        TestHelper.initClients();
-//        TestHelper.initCarts();
-//        TestHelper.initOrders();
-//        when(dao.findAll()).thenReturn(TestHelper.getAllOrders());
-//        Order order1 = TestHelper.getOrder1();
-//        when(converter.convertToDTO(any())).thenReturn(TestHelper.convertToDTO(order1));
-//
-//    }
-//
-//    @Test
-//    public void getTopTenItems() {
-//        List<CartDTO> list = orderService.getTopTenItems();
-//        assertEquals(4, list.get(0).getQuantity());
-//        assertEquals(2, list.get(1).getQuantity());
-//    }
-//
-//    @Test
-//    public void getTopTenClients() {
-//        List<Map.Entry<ClientDTO, Integer>> topTenClients = orderService.getTopTenClients();
-//        assertEquals(2, (int) topTenClients.get(0).getValue());
-//    }
-//
-//    @Test
-//    public void getSalesBetweenDates() {
-//        LocalDate to = LocalDate.of(2020, 1, 3);
-//        LocalDate from = LocalDate.of(2020, 1, 1);
-//
-//        StatByDateHolder holder = new StatByDateHolder();
-//        holder.setFrom(Date.valueOf(from));
-//        holder.setTo(Date.valueOf(to));
-//
-//        StatByDateHolder salesBetweenDates = orderService.getSalesBetweenDates(holder);
-//
-//        assertEquals(2, salesBetweenDates.getOrders().size());
-//
-//        to = LocalDate.of(2020, 1, 3);
-//        from = LocalDate.of(2020, 1, 5);
-//        holder.setTo(Date.valueOf(to));
-//        holder.setFrom(Date.valueOf(from));
-//
-//        StatByDateHolder salesBetweenDates1 = orderService.getSalesBetweenDates(holder);
-//
-//        assertEquals(0, salesBetweenDates1.getOrders().size());
-//    }
+    private OrderDTO defaultOrder = new OrderDTO();
+    private OrderDTO anotherOrder = new OrderDTO();
+    private ClientDTO defaultClient = new ClientDTO();
+    @Before
+    public void setUp() {
+        defaultClient = TestHelper.getClient(1, "FirstName",
+                "LastName", "test@gmail.com", new HashSet<>());
+        ItemDTO item = TestHelper.getItem(1, "ItemName", "ItemGroup");
+        CartDTO cart = TestHelper.getCart(1, item, 10, defaultOrder);
+        ArrayList<CartDTO> carts = new ArrayList<>();
+        carts.add(cart);
+
+        defaultOrder = TestHelper.getOrder(1, "number", defaultClient, carts);
+
+        ItemDTO item1 = TestHelper.getItem(2, "ItemName1", "ItemGroup1");
+        CartDTO cart1 = TestHelper.getCart(2, item1, 20, null);
+        ArrayList<CartDTO> carts1 = new ArrayList<>();
+        carts1.add(cart1);
+
+        anotherOrder = TestHelper.getOrder(2, "anotherNum", defaultClient, carts1);
+        cart1.setOrder(anotherOrder);
+
+        when(itemService.findById(any())).thenReturn(item);
+        doNothing().when(itemService).update(any());
+        doNothing().when(dao).save(any());
+        when(dao.findAll()).thenReturn(TestHelper.getEntOrders());
+        when(converter.convertToDTO(any(Order.class)))
+                .thenReturn(TestHelper.convertToDTO(defaultOrder))
+                .thenReturn(anotherOrder);
+    }
+
+    @Test
+    public void createOrderAndSave() {
+        assertEquals(StatusEnum.DELIVERED, defaultOrder.getStatus());
+
+        orderService.createOrderAndSave(defaultOrder);
+        Date now = new Date(new java.util.Date().getTime());
+
+        assertEquals(StatusEnum.NEW, defaultOrder.getStatus());
+        assertEquals(now.toLocalDate(), defaultOrder.getDate().toLocalDate());
+    }
+
+    @Test
+    public void getTopTenItems() {
+        List<CartDTO> topTenItems = orderService.getTopTenItems();
+        assertEquals(anotherOrder.getItems().get(0).getQuantity(), topTenItems.get(0).getQuantity());
+        assertEquals(defaultOrder.getItems().get(0).getQuantity(), topTenItems.get(1).getQuantity());
+    }
+
+    @Test
+    public void getTopTenClients() {
+        List<Map.Entry<ClientDTO, Integer>> topTenClients = orderService.getTopTenClients();
+        ClientDTO target = topTenClients.get(0).getKey();
+        int quantityOfOrders = topTenClients.get(0).getValue();
+
+        assertEquals(defaultClient, target);
+        assertEquals(2, quantityOfOrders);
+    }
+
+    @Test
+    public void getSalesBetweenDates() {
+        LocalDate from = LocalDate.of(2020, 4, 4);
+        LocalDate to = LocalDate.of(2020, 5, 20);
+        StatByDateHolder holder = new StatByDateHolder();
+        holder.setFrom(from);
+        holder.setTo(to);
+
+        orderService.getSalesBetweenDates(holder);
+        assertEquals(2, holder.getOrders().size());
+
+        from = LocalDate.of(2000, 1, 1);
+        to = LocalDate.of(2000, 1, 2);
+        holder = new StatByDateHolder();
+        holder.setFrom(from);
+        holder.setTo(to);
+
+        orderService.getSalesBetweenDates(holder);
+        assertEquals(0, holder.getOrders().size());
+
+    }
+
+    @After
+    public void flush() {
+        TestHelper.flush();
+    }
 }

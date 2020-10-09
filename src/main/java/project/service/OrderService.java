@@ -145,8 +145,8 @@ public class OrderService {
     }
 
     public StatByDateHolder getSalesBetweenDates(StatByDateHolder holder) {
-        LocalDate from = holder.getFrom().toLocalDate();
-        LocalDate to = holder.getTo().toLocalDate();
+        LocalDate from = holder.getFrom();
+        LocalDate to = holder.getTo();
 
         BigDecimal total = BigDecimal.ZERO;
         List<OrderDTO> orders = new ArrayList<>();
