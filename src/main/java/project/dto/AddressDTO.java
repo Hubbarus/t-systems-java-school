@@ -33,8 +33,12 @@ public class AddressDTO {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof AddressDTO)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof AddressDTO)) {
+            return false;
+        }
         AddressDTO that = (AddressDTO) o;
         return getId() == that.getId();
     }
