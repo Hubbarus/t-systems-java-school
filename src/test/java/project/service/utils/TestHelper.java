@@ -9,6 +9,7 @@ import project.dto.ClientDTO;
 import project.dto.ItemDTO;
 import project.dto.OrderDTO;
 import project.entity.Client;
+import project.entity.Item;
 import project.entity.enums.PaymentEnum;
 import project.entity.enums.RoleEnum;
 import project.entity.enums.ShipmentEnum;
@@ -28,6 +29,8 @@ public class TestHelper {
     private static List<Client> clientList = new ArrayList<>();
 
     private static List<OrderDTO> orders = new ArrayList<>();
+
+    private static List<Item> items = new ArrayList<>();
 
     public static CartDTO getCart(long id, ItemDTO item, int quantity, OrderDTO order) {
         CartDTO cart = new CartDTO();
@@ -68,6 +71,8 @@ public class TestHelper {
         item.setId(id);
         item.setItemName(name);
         item.setItemGroup(group);
+
+        items.add(mapper.map(item, Item.class));
         return item;
     }
 
@@ -106,5 +111,9 @@ public class TestHelper {
 
     public static List<OrderDTO> getOrders() {
         return orders;
+    }
+
+    public static List<Item> getItems() {
+        return items;
     }
 }
