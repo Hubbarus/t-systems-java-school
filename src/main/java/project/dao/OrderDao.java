@@ -1,5 +1,6 @@
 package project.dao;
 
+import lombok.extern.java.Log;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import project.entity.Order;
@@ -9,17 +10,21 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import java.util.List;
+import java.util.logging.Level;
 
 @Repository
+@Log
 public class OrderDao extends AbstractDao {
     @Transactional
     public void save(Order entity) {
         getSession().persist(entity);
+        log.log(Level.INFO, String.format("Order with id %s saved.", entity.getId()));
     }
 
     @Transactional
     public void update(Order entity) {
         getSession().update(entity);
+        log.log(Level.INFO, String.format("Order with id %s updated.", entity.getId()));
     }
 
     @Transactional

@@ -1,6 +1,7 @@
 package project.service;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.java.Log;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,10 +16,12 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Level;
 import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
+@Log
 public class ItemService {
 
     @Autowired private final ItemDao itemDao;
@@ -53,6 +56,7 @@ public class ItemService {
         }
 
         if (result.size() == 0) {
+            log.log(Level.WARNING, String.format("Group %s not found", group));
             throw new NoSuchItemGroupException("Group " + group + " not found");
         }
 
@@ -107,6 +111,7 @@ public class ItemService {
                 update(item);
             }
         }
+        log.log(Level.INFO, String.format("Category with name %s renamed to %s", oldName, newName));
     }
 
     public void deleteGroup(String cat) {
@@ -117,12 +122,14 @@ public class ItemService {
                 update(item);
             }
         }
+        log.log(Level.INFO, String.format("Category with name %s deleted. All items moved to DEFAULT.", cat));
     }
 
     public void addToCart(CartListWrapper wrapper, CartDTO cart) {
         List<CartDTO> cartDTOList = wrapper.getList();
         cartDTOList.add(cart);
         wrapper.setList(cartDTOList);
+        log.log(Level.INFO, String.format("Item %s added to cart", cart.getItem().getItemName()));
     }
 
     public void buyInOneClick(CartListWrapper wrapper, Long itemId) {
@@ -133,6 +140,7 @@ public class ItemService {
         cart.setQuantity(1);
         cartDTOList.add(cart);
         wrapper.setList(cartDTOList);
+        log.log(Level.INFO, String.format("Item %s added to cart", cart.getItem().getItemName()));
     }
 
     public void removeItemFromCart(CartListWrapper wrapper, long itemId) {
@@ -140,6 +148,7 @@ public class ItemService {
         for (CartDTO cartDTO : items) {
             if (cartDTO.getItem().getId() == itemId) {
                 items.remove(cartDTO);
+                log.log(Level.INFO, String.format("Item %s removed from cart", cartDTO.getItem().getItemName()));
                 break;
             }
         }

@@ -1,5 +1,6 @@
 package project.service;
 
+import lombok.extern.java.Log;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -16,9 +17,11 @@ import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Level;
 import java.util.stream.Collectors;
 
 @Service
+@Log
 public class ClientService {
 
     @Autowired private ClientDao clientDao;
@@ -69,11 +72,13 @@ public class ClientService {
                 if (address.getId() == addressDTO.getId()) {
                     addresses.remove(address);
                     addresses.add(addressDTO);
+                    log.log(Level.INFO, String.format("Address %s information updated", addressDTO.getId()));
                     break;
                 }
             }
         } else {
             addresses.add(addressDTO);
+            log.log(Level.INFO, String.format("New Address added: %s", addressDTO));
         }
 
         user.setAddressList(addresses);
@@ -98,6 +103,7 @@ public class ClientService {
         order.setItems(items.getList());
         order.setClient(findByEmail(principal.getName()));
         order.setSubtotal(items.getSubtotal());
+        log.log(Level.INFO, String.format("Order collected for user %s", principal.getName()));
         return order;
     }
 
@@ -115,6 +121,7 @@ public class ClientService {
         if (client.getEmail() == null) {
             return false;
         }
+        log.log(Level.WARNING, String.format("User with username %s already exists", client.getEmail()));
         return true;
 
     }

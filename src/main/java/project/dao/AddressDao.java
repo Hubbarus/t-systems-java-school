@@ -8,10 +8,6 @@ import project.entity.Address;
 public class AddressDao extends AbstractDao {
 
     @Transactional
-    public void update(Address entity) {
-        getSession().update(entity);
-    }
-    @Transactional
     public Address findById(Long id) {
         return getSession().get(Address.class, id);
     }
