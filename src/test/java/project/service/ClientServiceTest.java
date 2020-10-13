@@ -11,7 +11,6 @@ import org.mockito.junit.MockitoJUnitRunner;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import project.dao.ClientDao;
-import project.dto.AddressDTO;
 import project.dto.CartDTO;
 import project.dto.ClientDTO;
 import project.dto.ItemDTO;
@@ -23,7 +22,6 @@ import java.math.BigDecimal;
 import java.security.Principal;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
@@ -43,24 +41,10 @@ public class ClientServiceTest {
     @Before
     public void setUp() {
         defaultClient = TestHelper.getClient(1, "FirstName", "LastName", "test@gmail.com", new HashSet<>());
-        when(clientDao.findAll()).thenReturn(TestHelper.getClientList());
         when(orderService.findAll()).thenReturn(TestHelper.getOrders());
+//        when(clientDao.findByEmail(defaultClient.getEmail())).thenReturn();
         when(principal.getName()).thenReturn(defaultClient.getEmail());
         doNothing().when(clientDao).save(any());
-    }
-
-    @Test
-    public void findByEmail() {
-        AddressDTO address1 = TestHelper.getAddress(1, 1);
-        AddressDTO address2 = TestHelper.getAddress(2, 2);
-        ClientDTO client1 = TestHelper.getClient(1, "FirstName1", "LastName1",
-                "test1@gmail.com", Set.of(address1, address2));
-        ClientDTO client2 = TestHelper.getClient(2, "FirstName2", "LastName2",
-                "test2@gmail.com", Set.of(address1, address2));
-
-        ClientDTO target = clientService.findByEmail(client1.getEmail());
-
-        assertEquals(target.getFirstName(), client1.getFirstName());
     }
 
     @Test

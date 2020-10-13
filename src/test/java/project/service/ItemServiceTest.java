@@ -49,26 +49,6 @@ public class ItemServiceTest {
     }
 
     @Test
-    public void findByGroup() {
-        ItemDTO anotherItem = TestHelper.getItem(2, "TestName1", "AnotherGroup");
-
-        List<ItemDTO> defaultTarget = itemService.findByGroup(defaultItem.getItemGroup());
-        
-        assertTrue(defaultTarget.contains(defaultItem));
-        assertEquals(1, defaultTarget.size());
-
-        List<ItemDTO> anotherTarget = itemService.findByGroup(anotherItem.getItemGroup());
-
-        assertTrue(anotherTarget.contains(anotherItem));
-        assertEquals(1, anotherTarget.size());
-    }
-
-    @Test(expected = NoSuchItemGroupException.class)
-    public void findByGroupWithException() {
-        itemService.findByGroup("No such group in list");
-    }
-
-    @Test
     public void getGroupNames() {
         ItemDTO anotherItem = TestHelper.getItem(2, "TestName1", "AnotherGroup");
 
@@ -77,18 +57,6 @@ public class ItemServiceTest {
         assertTrue(groupNames.contains(defaultItem.getItemGroup()));
         assertTrue(groupNames.contains(anotherItem.getItemGroup()));
         assertEquals(2, groupNames.size());
-    }
-
-    @Test
-    public void getItemInCategoryById() {
-        ItemDTO anotherItem = TestHelper.getItem(2, "TestName1", "TestGroup");
-        List<ItemDTO> groups = itemService.findByGroup("TestGroup");
-
-        assertEquals(2, groups.size());
-
-        CartDTO target = itemService.getItemInCategoryById(2L, "TestGroup");
-
-        assertEquals(anotherItem, target.getItem());
     }
 
     @Test(expected = NoSuchItemGroupException.class)

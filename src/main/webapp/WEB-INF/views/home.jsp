@@ -1,3 +1,5 @@
+<%@ page import="project.utils.CartListWrapper" %>
+<%@ page import="java.util.ArrayList" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html; charset=UTF-8" language="java" %>
@@ -20,6 +22,13 @@
 <header>
     <jsp:include page="blocks/header.jsp"/>
 </header>
+
+<%
+    CartListWrapper wrapper = new CartListWrapper();
+    wrapper.setList(new ArrayList<>());
+    session.setAttribute("items", wrapper);
+%>
+
 <%--Success order--%>
 <div class="container-md mt-3 mb-3 text-center">
     <c:if test="${param.get('success').equals('yes')}">
