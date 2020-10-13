@@ -41,8 +41,7 @@ public class ClientServiceTest {
     @Before
     public void setUp() {
         defaultClient = TestHelper.getClient(1, "FirstName", "LastName", "test@gmail.com", new HashSet<>());
-        when(orderService.findAll()).thenReturn(TestHelper.getOrders());
-//        when(clientDao.findByEmail(defaultClient.getEmail())).thenReturn();
+        when(clientDao.findByEmail(defaultClient.getEmail())).thenReturn(TestHelper.convertToEntity(defaultClient));
         when(principal.getName()).thenReturn(defaultClient.getEmail());
         doNothing().when(clientDao).save(any());
     }
@@ -55,25 +54,6 @@ public class ClientServiceTest {
         ClientDTO clientDTO = new ClientDTO();
         target = clientService.checkIfUserExistsAndCreate(clientDTO);
         assertFalse(target);
-    }
-
-    @Test
-    public void getAllClientOrders() {
-        ItemDTO item1 = TestHelper.getItem(1, "Item1", "Group1");
-        ItemDTO item2 = TestHelper.getItem(2, "Item2", "Group1");
-
-        CartDTO cart1 = TestHelper.getCart(1, item1, 3, null);
-        CartDTO cart2 = TestHelper.getCart(2, item2, 4, null);
-
-        OrderDTO order = TestHelper.getOrder(1, "orderNum", defaultClient, List.of(cart1, cart2));
-        cart1.setOrder(order);
-        cart2.setOrder(order);
-
-        List<OrderDTO> allClientOrders = clientService.getAllClientOrders(defaultClient);
-
-        assertTrue(allClientOrders.contains(order));
-
-
     }
 
     @Test

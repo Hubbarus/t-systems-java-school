@@ -134,6 +134,10 @@ public class TestHelper {
         return order;
     }
 
+    public static List<Client> convertToEntity(ClientDTO clientDTO) {
+        return List.of(mapper.map(clientDTO, Client.class));
+    }
+
     public static void flush() {
         clientList = new ArrayList<>();
         orders = new ArrayList<>();
