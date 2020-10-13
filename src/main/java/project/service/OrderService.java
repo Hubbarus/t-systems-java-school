@@ -9,6 +9,7 @@ import project.dto.CartDTO;
 import project.dto.ClientDTO;
 import project.dto.ItemDTO;
 import project.dto.OrderDTO;
+import project.entity.Client;
 import project.entity.Order;
 import project.entity.enums.StatusEnum;
 import project.utils.OrderNumberGenerator;
@@ -176,5 +177,12 @@ public class OrderService {
 
         Order orderToUpdate = orderConverter.convertToEntity(updtOrder);
         orderDao.update(orderToUpdate);
+    }
+
+    public List<OrderDTO> getAllClientOrders(Client user) {
+        List<Order> orders = orderDao.getAllClientOrders(user);
+        return orders.stream()
+                .map(orderConverter::convertToDTO)
+                .collect(Collectors.toList());
     }
 }

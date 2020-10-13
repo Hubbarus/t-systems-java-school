@@ -14,11 +14,9 @@ import project.entity.enums.RoleEnum;
 import project.utils.CartListWrapper;
 
 import java.security.Principal;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
-import java.util.stream.Collectors;
 
 @Service
 @Log
@@ -29,22 +27,9 @@ public class ClientService {
     @Autowired private OrderService orderService;
     @Autowired private ModelMapper mapper;
 
-    private List<ClientDTO> findAll() {
-        List<Client> clients = clientDao.findAll();
-        return clients
-                .stream()
-                .map(cl -> mapper.map(cl, ClientDTO.class))
-                .collect(Collectors.toList());
-    }
-
     public ClientDTO findByEmail(String email) {
-        List<ClientDTO> clients = findAll();
-        for (ClientDTO client : clients) {
-            if (client.getEmail().equalsIgnoreCase(email)) {
-                return client;
-            }
-        }
-        return new ClientDTO();
+        List<Client> list = clientDao.findByEmail(email);
+        return list.size() == 0 ? new ClientDTO() : mapper.map(list.get(0), ClientDTO.class);
     }
 
     private void createUserAndSave(ClientDTO user) {
@@ -87,15 +72,7 @@ public class ClientService {
     }
 
     public List<OrderDTO> getAllClientOrders(ClientDTO user) {
-        List<OrderDTO> currentClientOrders = new ArrayList<>();
-        List<OrderDTO> orders = orderService.findAll();
-        for (OrderDTO order : orders) {
-            long clientId = order.getClient().getId();
-            if (clientId == user.getId()) {
-                currentClientOrders.add(order);
-            }
-        }
-        return currentClientOrders;
+        return orderService.getAllClientOrders(mapper.map(user, Client.class));
     }
 
     public OrderDTO collectOrder(CartListWrapper items, Principal principal) {

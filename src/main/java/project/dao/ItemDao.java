@@ -56,4 +56,16 @@ public class ItemDao extends AbstractDao {
                 .setMaxResults(quantity)
                 .list();
     }
+
+    @Transactional(readOnly = true)
+    public List<Item> getByCategory(String category) {
+        CriteriaBuilder cb = getSession().getCriteriaBuilder();
+        CriteriaQuery<Item> cq = cb.createQuery(Item.class);
+
+        Root<Item> rootEntry = cq.from(Item.class);
+        CriteriaQuery<Item> items = cq.select(rootEntry).where(cb.equal(rootEntry.get("itemGroup"), category));
+
+        return getSession().createQuery(items)
+                .list();
+    }
 }

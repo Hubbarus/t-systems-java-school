@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import project.entity.Client;
 
 import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import java.util.List;
@@ -41,5 +42,17 @@ public class ClientDao extends AbstractDao {
 
         TypedQuery<Client> allQuery = getSession().createQuery(all);
         return allQuery.getResultList();
+    }
+
+    @Transactional(readOnly = true)
+    public List<Client> findByEmail(String email) {
+        CriteriaBuilder cb = getSession().getCriteriaBuilder();
+        CriteriaQuery<Client> cq = cb.createQuery(Client.class);
+
+        Root<Client> rootEntry = cq.from(Client.class);
+        CriteriaQuery<Client> clients = cq.select(rootEntry).where(cb.equal(rootEntry.get("email"), email));
+
+        return getSession().createQuery(clients)
+                .list();
     }
 }

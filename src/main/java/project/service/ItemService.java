@@ -9,10 +9,8 @@ import project.dao.ItemDao;
 import project.dto.CartDTO;
 import project.dto.ItemDTO;
 import project.entity.Item;
-import project.exception.NoSuchItemGroupException;
 import project.utils.CartListWrapper;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -45,22 +43,12 @@ public class ItemService {
                 .collect(Collectors.toList());
     }
 
-    public List<ItemDTO> findByGroup(String group) throws NoSuchItemGroupException {
-        List<ItemDTO> result = new ArrayList<>();
-        List<ItemDTO> all = findAll();
-
-        for (ItemDTO item : all) {
-            if (item.getItemGroup().equalsIgnoreCase(group)) {
-                result.add(item);
-            }
-        }
-
-        if (result.size() == 0) {
-            log.log(Level.WARNING, String.format("Group %s not found", group));
-            throw new NoSuchItemGroupException("Group " + group + " not found");
-        }
-
-        return result;
+    public List<ItemDTO> findByGroup(String group) {
+        List<Item> byCategory = itemDao.getByCategory(group);
+        return byCategory
+                .stream()
+                .map(it -> mapper.map(it, ItemDTO.class))
+                .collect(Collectors.toList());
     }
 
     public List<ItemDTO> getItems(int from, int quantity) {

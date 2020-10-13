@@ -3,6 +3,7 @@ package project.dao;
 import lombok.extern.java.Log;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import project.entity.Client;
 import project.entity.Order;
 
 import javax.persistence.TypedQuery;
@@ -55,6 +56,18 @@ public class OrderDao extends AbstractDao {
         return getSession().createQuery(all)
                 .setFirstResult(from)
                 .setMaxResults(quantity)
+                .list();
+    }
+
+    @Transactional(readOnly = true)
+    public List<Order> getAllClientOrders(Client user) {
+        CriteriaBuilder cb = getSession().getCriteriaBuilder();
+        CriteriaQuery<Order> cq = cb.createQuery(Order.class);
+
+        Root<Order> rootEntry = cq.from(Order.class);
+        CriteriaQuery<Order> orders = cq.select(rootEntry).where(cb.equal(rootEntry.get("client"), user));
+
+        return getSession().createQuery(orders)
                 .list();
     }
 }
