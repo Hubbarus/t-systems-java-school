@@ -26,12 +26,12 @@ public class ClientDao extends AbstractDao {
         log.log(Level.INFO, String.format("User with %s information updated", entity.getEmail()));
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public Client findById(Long id) {
         return getSession().get(Client.class, id);
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public List<Client> findAll() {
         CriteriaQuery<Client> cq = getSession()
                 .getCriteriaBuilder()

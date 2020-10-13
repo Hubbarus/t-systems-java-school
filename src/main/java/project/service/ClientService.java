@@ -125,4 +125,9 @@ public class ClientService {
         return true;
 
     }
+
+    public void doPayment(Principal principal, OrderDTO order) {
+        order.setClient(findByEmail(principal.getName()));
+        orderService.createOrderAndSave(order);
+    }
 }

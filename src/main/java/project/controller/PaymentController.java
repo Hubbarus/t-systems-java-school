@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import project.dto.OrderDTO;
 import project.service.ClientService;
-import project.service.OrderService;
 import project.utils.CartListWrapper;
 
 import java.security.Principal;
@@ -17,7 +16,6 @@ import java.security.Principal;
 @RequestMapping("/pay")
 public class PaymentController {
 
-    @Autowired private OrderService orderService;
     @Autowired private ClientService clientService;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
@@ -29,9 +27,8 @@ public class PaymentController {
     }
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
-    public String doPayment(@ModelAttribute("order") OrderDTO order, Model model, Principal principal) {
-        order.setClient(clientService.findByEmail(principal.getName()));
-        orderService.createOrderAndSave(order);
+    public String doPayment(@ModelAttribute("order") OrderDTO order, Principal principal) {
+        clientService.doPayment(principal, order);
         return "redirect:/cart/clearCart";
     }
 }

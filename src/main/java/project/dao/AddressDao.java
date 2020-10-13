@@ -7,7 +7,7 @@ import project.entity.Address;
 @Repository
 public class AddressDao extends AbstractDao {
 
-    @Transactional
+    @Transactional(readOnly = true)
     public Address findById(Long id) {
         return getSession().get(Address.class, id);
     }

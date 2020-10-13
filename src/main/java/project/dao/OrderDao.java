@@ -27,12 +27,12 @@ public class OrderDao extends AbstractDao {
         log.log(Level.INFO, String.format("Order with id %s updated.", entity.getId()));
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public Order findById(Long id) {
         return getSession().get(Order.class, id);
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public List<Order> findAll() {
         CriteriaQuery<Order> cq = getSession()
                 .getCriteriaBuilder()
@@ -44,7 +44,7 @@ public class OrderDao extends AbstractDao {
         return allQuery.getResultList();
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public List<Order> getOrders(int from, int quantity) {
         CriteriaBuilder cb = getSession().getCriteriaBuilder();
         CriteriaQuery<Order> cq = cb.createQuery(Order.class);

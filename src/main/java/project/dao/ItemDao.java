@@ -26,12 +26,12 @@ public class ItemDao extends AbstractDao {
         getSession().update(entity);
         log.log(Level.INFO, String.format("Item with id %s updated.", entity.getId()));
     }
-    @Transactional
+    @Transactional(readOnly = true)
     public Item findById(Long id) {
         return getSession().get(Item.class, id);
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public List<Item> findAll() {
         CriteriaQuery<Item> cq = getSession()
                 .getCriteriaBuilder()
@@ -43,7 +43,7 @@ public class ItemDao extends AbstractDao {
         return allQuery.getResultList();
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public List<Item> getItems(int from, int quantity) {
         CriteriaBuilder cb = getSession().getCriteriaBuilder();
         CriteriaQuery<Item> cq = cb.createQuery(Item.class);
