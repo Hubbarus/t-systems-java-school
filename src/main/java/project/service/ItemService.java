@@ -154,4 +154,11 @@ public class ItemService {
         }
         wrapper.setList(items);
     }
+
+    public ItemDTO editOrAddItem(ItemDTO item) {
+        if (item.getItemName() != null) {
+            return findById(item.getId());
+        }
+        return new ItemDTO();
+    }
 }

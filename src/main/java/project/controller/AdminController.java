@@ -95,10 +95,7 @@ public class AdminController {
 
     @RequestMapping(value = "/editItem", method = RequestMethod.GET)
     public String editOrAddItem(@ModelAttribute ItemDTO item, Model model) {
-        ItemDTO itemToEdit = new ItemDTO();
-        if (item.getItemName() != null) {
-            itemToEdit = itemService.findById(item.getId());
-        }
+        ItemDTO itemToEdit = itemService.editOrAddItem(item);
         model.addAttribute("itemToEdit", itemToEdit);
         return "admin/editItem";
     }
