@@ -9,7 +9,7 @@
                 </a>
                 <title><strong>${cart.item.itemName}</strong></title>
                 <rect width="100%" height="100%" fill="#55595c"></rect>
-                <text>${cart.item.itemName}</text></img>
+                <text class="mt-2">${cart.item.itemName}</text></img>
                 <div class="card-body">
                     <p class="card-text">${cart.item.description}</p>
                     <div class="d-flex justify-content-between align-items-center">

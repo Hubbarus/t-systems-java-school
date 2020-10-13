@@ -50,7 +50,7 @@
                                         <img src="${i.pathToIMG}" class="img-fluid w-100">
                                     </a>
                                     <title>${i.itemName}</title>
-                                    <text>${i.itemName}</text></img>
+                                    <text class="mt-2">${i.itemName}</text></img>
                                     <div class="card-body">
                                         <p class="card-text">${i.description}</p>
                                         <div class="d-flex justify-content-between align-items-center">
