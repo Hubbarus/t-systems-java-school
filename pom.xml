@@ -7,11 +7,10 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>1.9</maven.compiler.source>
-        <maven.compiler.target>1.9</maven.compiler.target>
+        <maven.compiler.source>1.7</maven.compiler.source>
+        <maven.compiler.target>1.7</maven.compiler.target>
 
         <spring.version>5.2.8.RELEASE</spring.version>
-        <java.version>12.0.1</java.version>
     </properties>
 
     <groupId>org.tsystems.paul.study</groupId>
@@ -37,111 +36,111 @@
             <artifactId>spring-context</artifactId>
             <version>${spring.version}</version>
         </dependency>
-<!--        Spring Core-->
+        <!--        Spring Core-->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-core</artifactId>
             <version>${spring.version}</version>
         </dependency>
-<!--        Spring Beans-->
+        <!--        Spring Beans-->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-beans</artifactId>
             <version>${spring.version}</version>
         </dependency>
-<!--        Spring WEB MVC-->
+        <!--        Spring WEB MVC-->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
             <version>${spring.version}</version>
         </dependency>
-<!--        Spring WEB-->
+        <!--        Spring WEB-->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-web</artifactId>
             <version>${spring.version}</version>
         </dependency>
-<!--        PostgreSQL Driver-->
+        <!--        PostgreSQL Driver-->
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <version>42.2.12</version>
         </dependency>
-<!--        Hibernate-->
+        <!--        Hibernate-->
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>
             <version>5.4.10.Final</version>
         </dependency>
-<!--        JDBC-->
+        <!--        JDBC-->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-jdbc</artifactId>
             <version>5.2.8.RELEASE</version>
         </dependency>
-<!--        JPA-->
+        <!--        JPA-->
         <dependency>
             <groupId>org.hibernate.javax.persistence</groupId>
             <artifactId>hibernate-jpa-2.1-api</artifactId>
             <version>1.0.0.Final</version>
         </dependency>
-<!--        ModelMapper-->
+        <!--        ModelMapper-->
         <dependency>
             <groupId>org.modelmapper</groupId>
             <artifactId>modelmapper</artifactId>
             <version>2.3.0</version>
         </dependency>
-<!--        DBCP2-->
+        <!--        DBCP2-->
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-dbcp2</artifactId>
             <version>2.7.0</version>
         </dependency>
-<!--        Servlet-->
+        <!--        Servlet-->
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
             <version>4.0.1</version>
             <scope>provided</scope>
         </dependency>
-<!--        Spring ORM-->
+        <!--        Spring ORM-->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-orm</artifactId>
             <version>${spring.version}</version>
         </dependency>
-<!--        Jackson-->
+        <!--        Jackson-->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
             <version>2.9.8</version>
         </dependency>
-<!--        JAXB-->
+        <!--        JAXB-->
         <dependency>
             <groupId>javax.xml.bind</groupId>
             <artifactId>jaxb-api</artifactId>
             <version>2.3.1</version>
             <scope>runtime</scope>
         </dependency>
-<!--        Javax Transaction-->
+        <!--        Javax Transaction-->
         <dependency>
             <groupId>javax.transaction</groupId>
             <artifactId>jta</artifactId>
             <version>1.1</version>
         </dependency>
-<!--        Spring Security Core-->
+        <!--        Spring Security Core-->
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-core</artifactId>
             <version>5.3.4.RELEASE</version>
         </dependency>
-<!--        Spring Security WEB-->
+        <!--        Spring Security WEB-->
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-web</artifactId>
             <version>5.3.4.RELEASE</version>
         </dependency>
-<!--        Spring Security Config-->
+        <!--        Spring Security Config-->
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-config</artifactId>
@@ -153,21 +152,21 @@
             <artifactId>spring-security-taglibs</artifactId>
             <version>5.2.0.RELEASE</version>
         </dependency>
-<!--        Lombok-->
+        <!--        Lombok-->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>1.18.12</version>
             <scope>provided</scope>
         </dependency>
-<!--        JUnit-->
+        <!--        JUnit-->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.12</version>
             <scope>test</scope>
         </dependency>
-<!--        Spring test-->
+        <!--        Spring test-->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
@@ -193,72 +192,13 @@
         <finalName>mms-project</finalName>
         <pluginManagement>
             <plugins>
-<!--                Deploying-->
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-dependency-plugin</artifactId>
-                    <version>2.3</version>
-                    <executions>
-                        <execution>
-                            <phase>package</phase>
-                            <goals>
-                                <goal>copy</goal>
-                            </goals>
-                            <configuration>
-                                <artifactItems>
-                                    <artifactItem>
-                                        <groupId>com.github.jsimone</groupId>
-                                        <artifactId>webapp-runner</artifactId>
-                                        <version>8.0.30.2</version>
-                                        <destFileName>webapp-runner.jar</destFileName>
-                                    </artifactItem>
-                                </artifactItems>
-                            </configuration>
-                        </execution>
-                    </executions>
-                </plugin>
-<!--                -->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
-                    <version>3.8.0</version>
                     <configuration>
-                        <fork>false</fork>
-                        <source>${java.version}</source>
-                        <target>${java.version}</target>
-                        <encoding>UTF-8</encoding>
-                        <compilerArgs>
-                            <arg>-parameters</arg>
-                        </compilerArgs>
-                        <release>${java.version}</release>
-                        <forceJavacCompilerUse>true</forceJavacCompilerUse>
+                        <source>8</source>
+                        <target>8</target>
                     </configuration>
-                    <executions>
-                        <!-- Replacing default-compile as it is treated specially by maven -->
-                        <execution>
-                            <id>default-compile</id>
-                            <phase>none</phase>
-                        </execution>
-                        <!-- Replacing default-testCompile as it is treated specially by maven -->
-                        <execution>
-                            <id>default-testCompile</id>
-                            <phase>none</phase>
-                        </execution>
-                        <execution>
-                            <id>java-compile</id>
-                            <phase>compile</phase>
-                            <goals>
-                                <goal>compile</goal>
-                            </goals>
-                        </execution>
-                        <execution>
-                            <id>java-test-compile</id>
-                            <phase>test-compile</phase>
-                            <goals>
-                                <goal>testCompile</goal>
-                            </goals>
-                        </execution>
-                    </executions>
                 </plugin>
                 <plugin>
                     <artifactId>maven-clean-plugin</artifactId>
@@ -287,16 +227,16 @@
                 </plugin>
             </plugins>
         </pluginManagement>
-<!--        <plugins>-->
-<!--            <plugin>-->
-<!--                <groupId>org.apache.maven.plugins</groupId>-->
-<!--                <artifactId>maven-compiler-plugin</artifactId>-->
-<!--                <configuration>-->
-<!--                    <source>9</source>-->
-<!--                    <target>9</target>-->
-<!--                </configuration>-->
-<!--            </plugin>-->
-<!--        </plugins>-->
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>9</source>
+                    <target>9</target>
+                </configuration>
+            </plugin>
+        </plugins>
     </build>
 
 </project>
