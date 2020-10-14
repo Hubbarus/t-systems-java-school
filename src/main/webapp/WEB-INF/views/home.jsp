@@ -23,12 +23,6 @@
     <jsp:include page="blocks/header.jsp"/>
 </header>
 
-<%
-    CartListWrapper wrapper = new CartListWrapper();
-    wrapper.setList(new ArrayList<>());
-    session.setAttribute("items", wrapper);
-%>
-
 <%--Success order--%>
 <div class="container-md mt-3 mb-3 text-center">
     <c:if test="${param.get('success').equals('yes')}">

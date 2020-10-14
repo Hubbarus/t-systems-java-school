@@ -120,28 +120,28 @@ public class AdminController {
     @RequestMapping(value = "/categoriesEdit", method = RequestMethod.GET)
     public String editCat(@RequestParam("new") String newName,
                           @RequestParam("old") String oldName,
-                          HttpServletRequest request) {
-        itemService.renameGroup(oldName, newName);
-        request.getSession().setAttribute("categories", itemService.getGroupNames());
+                          Model model) {
+
+        model.addAttribute("categories", itemService.renameGroup(oldName, newName));
         return "redirect:/manage/categories";
     }
 
     @RequestMapping(value = "/categoriesAdd", method = RequestMethod.GET)
     public String addCat(@RequestParam("c") String cat,
                          @SessionAttribute("categories") List<String> categories,
-                         HttpServletRequest request) {
+                         Model model) {
         categories.add(cat);
-        request.getSession().setAttribute("categories", categories);
+        model.addAttribute("categories", categories);
         return "redirect:/manage/categories";
     }
 
     @RequestMapping(value = "/categoriesDel", method = RequestMethod.GET)
     public String delCat(@RequestParam("c") String cat,
                          @SessionAttribute("categories") List<String> categories,
-                         HttpServletRequest request) {
+                         Model model) {
         itemService.deleteGroup(cat);
         categories.remove(cat);
-        request.getSession().setAttribute("categories", categories);
-        return "redirect:/manage/orders?page=1";
+        model.addAttribute("categories", categories);
+        return "redirect:/manage/items?page=1";
     }
 }

@@ -83,8 +83,7 @@
     
     function onDeleteClick(categ) {
         if (confirm('Are you sure you want to delete category?\n\n' +
-            'NOTICE: All Items form this category will be moved to DEFAULT category ' +
-            'and not gonna be shown in shop until you not set new category.' +
+            'NOTICE: All Items form this category will be moved to OTHER category ' +
             '\nYou will be redirected to items edit page.')) {
             window.location = '/manage/categoriesDel?c=' + categ;
             return true;

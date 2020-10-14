@@ -48,7 +48,7 @@
                 <td>
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
-                            <label class="input-group-text" for="paymentSelector">Options</label>
+                            <label class="input-group-text" for="paymentSelector">Payment</label>
                         </div>
                         <form:select path="paymentMethod" class="custom-select" id="paymentSelector" required="true">
                             <option selected>Choose...</option>
@@ -64,7 +64,7 @@
                 <td>
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
-                            <label class="input-group-text" for="shipmentSelector">Options</label>
+                            <label class="input-group-text" for="shipmentSelector">Shipment</label>
                         </div>
                         <form:select path="shipmentMethod" class="custom-select" id="shipmentSelector" required="true">
                             <option selected>Choose...</option>

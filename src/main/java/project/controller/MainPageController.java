@@ -13,6 +13,7 @@ import project.dto.ClientDTO;
 import project.service.ClientService;
 import project.service.ItemService;
 import project.service.OrderService;
+import project.utils.CartListWrapper;
 
 import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
@@ -37,6 +38,13 @@ public class MainPageController {
             request.getSession().setAttribute("user", user);
         }
         return "home";
+    }
+
+    @ModelAttribute("items")
+    public CartListWrapper createShoppingList() {
+        CartListWrapper wrapper = new CartListWrapper();
+        wrapper.setList(new ArrayList<>());
+        return wrapper;
     }
 
     @ModelAttribute("categories")

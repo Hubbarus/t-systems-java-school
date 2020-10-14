@@ -91,7 +91,7 @@ public class ItemService {
         }
     }
 
-    public void renameGroup(String oldName, String newName) {
+    public Set<String> renameGroup(String oldName, String newName) {
         List<ItemDTO> all = findAll();
         for (ItemDTO item : all) {
             if (item.getItemGroup().equals(oldName)) {
@@ -100,13 +100,14 @@ public class ItemService {
             }
         }
         log.log(Level.INFO, String.format("Category with name %s renamed to %s", oldName, newName));
+        return getGroupNames();
     }
 
     public void deleteGroup(String cat) {
         List<ItemDTO> all = findAll();
         for (ItemDTO item : all) {
             if (item.getItemGroup().equalsIgnoreCase(cat)) {
-                item.setItemGroup("DEFAULT");
+                item.setItemGroup("Other");
                 update(item);
             }
         }
