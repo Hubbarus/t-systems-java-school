@@ -16,9 +16,10 @@ import java.util.Properties;
 public class HibernateConfig {
 
     private static final String DRIVER = "org.postgresql.Driver";
-    private static final String URL = "jdbc:postgresql://localhost:5432/postgres";
-    private static final String USER_NAME = "postgres";
-    private static final String PASSWORD = "0000";
+    private static final String URL = "jdbc:postgresql://" + "ec2-54-155-22-153.eu-west-1.compute.amazonaws.com"
+            + ":5432/" + "d4qdmko4td2pic";
+    private static final String USER_NAME = "vxnsaafrjyebhm";
+    private static final String PASSWORD = "8f20a7c17658d98c4edaf7bd338f86f3d492e5e1d5b29276a11562143baf60be";
     private static final String SCHEMA = "mms_schema";
     private static final String DIALECT = "org.hibernate.dialect.PostgresPlusDialect";
     private static final String PACKAGE = "project.entity";

@@ -21,18 +21,27 @@
                 <c:if test="${itemToEdit.itemName != null}">
                     <img src="${itemToEdit.pathToIMG}" height="300"><br>
                 </c:if>
-                <label for="basic-url">Path to image in "img/" folder</label>
+<%--                <label for="basic-url">Path to image in "img/" folder</label>--%>
+<%--                <div class="input-group mb-3">--%>
+<%--                    <div class="input-group-prepend">--%>
+<%--                        <span class="input-group-text" id="basic-addon3">/img/</span>--%>
+<%--                    </div>--%>
+<%--                    <form:input path="pathToIMG"--%>
+<%--                                placeholde="example.jpg"--%>
+<%--                                type="text"--%>
+<%--                                class="form-control"--%>
+<%--                                id="basic-url"--%>
+<%--                                aria-describedby="basic-addon3"--%>
+<%--                                value="${itemToEdit.pathToIMG}" required="true"/>--%>
+<%--                </div>--%>
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
-                        <span class="input-group-text" id="basic-addon3">/img/</span>
+                        <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
                     </div>
-                    <form:input path="pathToIMG"
-                                placeholde="example.jpg"
-                                type="text"
-                                class="form-control"
-                                id="basic-url"
-                                aria-describedby="basic-addon3"
-                                value="${itemToEdit.pathToIMG}" required="true"/>
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
+                        <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                    </div>
                 </div>
             </td>
             <td>
