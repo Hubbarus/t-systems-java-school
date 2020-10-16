@@ -6,6 +6,8 @@
     <title>Title</title>
     <link rel="shortcut icon" href="/img/favicon.ico" type="img/x-icon">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 </head>
 <body>
 <header>
@@ -23,7 +25,7 @@
                 </c:if>
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
-                        <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
+                        <span class="input-group-text" id="inputGroupFileAddon01">Choose IMG</span>
                     </div>
                     <div class="custom-file">
                         <input name="file"
@@ -31,22 +33,9 @@
                                class="custom-file-input"
                                id="file"
                                aria-describedby="inputGroupFileAddon01"/>
-                        <label class="custom-file-label" for="file">Choose file</label>
+                        <label class="custom-file-label" for="file" id="file-name">no img</label>
                     </div>
                 </div>
-<%--                <label for="basic-url">Path to image in "img/" folder</label>--%>
-<%--                <div class="input-group mb-3">--%>
-<%--                    <div class="input-group-prepend">--%>
-<%--                        <span class="input-group-text" id="basic-addon3">/img/</span>--%>
-<%--                    </div>--%>
-<%--                    <form:input path="pathToIMG"--%>
-<%--                                placeholde="example.jpg"--%>
-<%--                                type="text"--%>
-<%--                                class="form-control"--%>
-<%--                                id="basic-url"--%>
-<%--                                aria-describedby="basic-addon3"--%>
-<%--                                value="${itemToEdit.pathToIMG}" required="true"/>--%>
-<%--                </div>--%>
             </td>
             <td>
                 <table class="table">
@@ -188,6 +177,10 @@
 </form:form>
 
 <script type="text/javascript">
+    $("#file").change(function(){
+        $("#file-name").text(this.files[0].name);
+    });
+
     var selector = document.getElementById('inputGroupSelect01');
     var groups = [
         {
