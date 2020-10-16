@@ -12,7 +12,6 @@ import project.dto.CartDTO;
 import project.dto.ClientDTO;
 import project.service.ClientService;
 import project.service.ItemService;
-import project.service.OrderService;
 import project.utils.CartListWrapper;
 
 import javax.servlet.http.HttpServletRequest;
@@ -27,7 +26,6 @@ import java.util.Set;
 public class MainPageController {
 
     @Autowired private ClientService clientService;
-    @Autowired private OrderService orderService;
     @Autowired private ItemService itemService;
 
     @GetMapping("/")
@@ -55,7 +53,7 @@ public class MainPageController {
 
     @ModelAttribute("topTenItems")
     public List<CartDTO> getTopTen() {
-        return orderService.getTopTenItems();
+        return itemService.getTopTenItems();
     }
 
 

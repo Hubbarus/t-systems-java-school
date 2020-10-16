@@ -62,7 +62,7 @@ public class AdminController {
 
     @RequestMapping(value = "/statistics", method = RequestMethod.GET)
     public String getStatisticsPage(Model model, HttpServletRequest request) {
-        List<CartDTO> topTenItems = orderService.getTopTenItems();
+        List<CartDTO> topTenItems = itemService.getTopTenItems();
         List<Map.Entry<ClientDTO, Integer>> topTenClients = orderService.getTopTenClients();
 
         request.getSession().setAttribute("topItems", topTenItems);

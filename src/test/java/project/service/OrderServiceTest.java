@@ -44,6 +44,7 @@ public class OrderServiceTest {
     private OrderDTO defaultOrder = new OrderDTO();
     private OrderDTO anotherOrder = new OrderDTO();
     private ClientDTO defaultClient = new ClientDTO();
+
     @Before
     public void setUp() {
         defaultClient = TestHelper.getClient(1, "FirstName",
@@ -81,13 +82,6 @@ public class OrderServiceTest {
 
         assertEquals(StatusEnum.NEW, defaultOrder.getStatus());
         assertEquals(now.toLocalDate(), defaultOrder.getDate().toLocalDate());
-    }
-
-    @Test
-    public void getTopTenItems() {
-        List<CartDTO> topTenItems = orderService.getTopTenItems();
-        assertEquals(anotherOrder.getItems().get(0).getQuantity(), topTenItems.get(0).getQuantity());
-        assertEquals(defaultOrder.getItems().get(0).getQuantity(), topTenItems.get(1).getQuantity());
     }
 
     @Test

@@ -10,7 +10,9 @@ import project.dto.CartDTO;
 import project.dto.ItemDTO;
 import project.entity.Item;
 import project.utils.CartListWrapper;
+import project.utils.ItemTopTenComparator;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -149,5 +151,22 @@ public class ItemService {
             return findById(item.getId());
         }
         return new ItemDTO();
+    }
+
+    public List<CartDTO> getTopTenItems() {
+        List<Object[]> topTenItems = itemDao.getTopTenItems();
+
+        List<CartDTO> resultList = new ArrayList<>();
+        for (Object[] obj : topTenItems) {
+            CartDTO cart = new CartDTO();
+            cart.setItem(findById((Long) obj[0]));
+            Long quan = (Long) obj[1];
+            cart.setQuantity(quan.intValue());
+            resultList.add(cart);
+        }
+
+        resultList.sort(new ItemTopTenComparator().reversed());
+
+        return resultList;
     }
 }

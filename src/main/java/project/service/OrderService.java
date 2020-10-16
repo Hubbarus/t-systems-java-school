@@ -75,49 +75,12 @@ public class OrderService {
         orderDao.save(orderToSave);
     }
 
-    public List<CartDTO> getTopTenItems() {
-        List<OrderDTO> orders = findAll();
-        Map<ItemDTO, Integer> allItemsWithQuantities = getMapOfAllSoldItems(orders);
-
-        List<Map.Entry<ItemDTO, Integer>> listOfEntries = new ArrayList<>(allItemsWithQuantities.entrySet());
-
-        listOfEntries.sort(new TopTenComparator<ItemDTO>().reversed());
-
-        List<CartDTO> resultList = new ArrayList<>();
-        for (Map.Entry<ItemDTO, Integer> entry : listOfEntries) {
-            CartDTO cart = new CartDTO();
-            cart.setItem(entry.getKey());
-            cart.setQuantity(entry.getValue());
-            resultList.add(cart);
-        }
-
-        return resultList.size() > 10 ? getFirstTenElements(resultList) : resultList;
-    }
-
     private <T> List<T> getFirstTenElements(List<T> source) {
         List<T> tenElements = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
             tenElements.add(source.get(i));
         }
         return tenElements;
-    }
-
-    private Map<ItemDTO, Integer> getMapOfAllSoldItems(List<OrderDTO> orders) {
-        Map<ItemDTO, Integer> resultMap = new HashMap<>();
-        for (OrderDTO order : orders) {
-            List<CartDTO> items = order.getItems();
-            for (CartDTO cart : items) {
-                ItemDTO item = cart.getItem();
-                if (resultMap.containsKey(item)) {
-                    Integer integer = resultMap.get(item);
-                    resultMap.put(item, integer + cart.getQuantity());
-                } else {
-                    resultMap.put(item, cart.getQuantity());
-                }
-            }
-        }
-
-        return resultMap;
     }
 
     public List<Map.Entry<ClientDTO, Integer>> getTopTenClients() {
