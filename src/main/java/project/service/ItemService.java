@@ -10,7 +10,6 @@ import project.dto.CartDTO;
 import project.dto.ItemDTO;
 import project.entity.Item;
 import project.utils.CartListWrapper;
-import project.utils.ItemTopTenComparator;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -164,8 +163,6 @@ public class ItemService {
             cart.setQuantity(quan.intValue());
             resultList.add(cart);
         }
-
-        resultList.sort(new ItemTopTenComparator().reversed());
 
         return resultList;
     }

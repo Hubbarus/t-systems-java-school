@@ -4,10 +4,13 @@ import lombok.extern.java.Log;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import project.entity.Client;
+import project.entity.Item;
+import project.entity.Order;
 
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Root;
 import java.util.List;
 import java.util.logging.Level;
@@ -54,5 +57,23 @@ public class ClientDao extends AbstractDao {
 
         return getSession().createQuery(clients)
                 .list();
+    }
+
+    @Transactional(readOnly = true)
+    public List<Object[]> getTopTenClients() {
+        CriteriaBuilder cb = getSession().getCriteriaBuilder();
+        CriteriaQuery<Object[]> cq = cb.createQuery(Object[].class);
+
+        Root<Order> rootEntry = cq.from(Order.class);
+        Join<Order, Item> join = rootEntry.join("client");
+
+        cq.groupBy(join.get("id"));
+        cq.multiselect(join.get("id"), cb.count(rootEntry)).orderBy(cb.desc(cb.count(rootEntry)));
+
+        List<Object[]> list = getSession()
+                .createQuery(cq)
+                .setMaxResults(10)
+                .list();
+        return list;
     }
 }

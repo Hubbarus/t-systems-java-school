@@ -25,8 +25,6 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
@@ -82,16 +80,6 @@ public class OrderServiceTest {
 
         assertEquals(StatusEnum.NEW, defaultOrder.getStatus());
         assertEquals(now.toLocalDate(), defaultOrder.getDate().toLocalDate());
-    }
-
-    @Test
-    public void getTopTenClients() {
-        List<Map.Entry<ClientDTO, Integer>> topTenClients = orderService.getTopTenClients();
-        ClientDTO target = topTenClients.get(0).getKey();
-        int quantityOfOrders = topTenClients.get(0).getValue();
-
-        assertEquals(defaultClient, target);
-        assertEquals(2, quantityOfOrders);
     }
 
     @Test

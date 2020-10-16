@@ -80,7 +80,8 @@ public class ItemDao extends AbstractDao {
         Join<Cart, Item> join = rootEntry.join("item");
 
         cq.groupBy(join.get("id"));
-        cq.multiselect(join.get("id"), cb.sum(rootEntry.get("quantity")));
+        cq.multiselect(join.get("id"), cb.sum(rootEntry.get("quantity")))
+                .orderBy(cb.desc(cb.sum(rootEntry.get("quantity"))));
 
         List<Object[]> list = getSession()
                 .createQuery(cq)

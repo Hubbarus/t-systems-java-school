@@ -14,6 +14,7 @@ import project.dto.CartDTO;
 import project.dto.ClientDTO;
 import project.dto.ItemDTO;
 import project.dto.OrderDTO;
+import project.service.ClientService;
 import project.service.ItemService;
 import project.service.OrderService;
 import project.utils.PagingUtil;
@@ -31,6 +32,8 @@ public class AdminController {
 //    private static final String PATH = "admin/";
     @Autowired
     private OrderService orderService;
+    @Autowired
+    private ClientService clientService;
     @Autowired
     private ItemService itemService;
     @Autowired
@@ -63,7 +66,7 @@ public class AdminController {
     @RequestMapping(value = "/statistics", method = RequestMethod.GET)
     public String getStatisticsPage(Model model, HttpServletRequest request) {
         List<CartDTO> topTenItems = itemService.getTopTenItems();
-        List<Map.Entry<ClientDTO, Integer>> topTenClients = orderService.getTopTenClients();
+        List<Map.Entry<ClientDTO, Integer>> topTenClients = clientService.getTopTenClients();
 
         request.getSession().setAttribute("topItems", topTenItems);
         request.getSession().setAttribute("topClients", topTenClients);

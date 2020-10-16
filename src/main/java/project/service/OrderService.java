@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 import project.converter.OrderConverter;
 import project.dao.OrderDao;
 import project.dto.CartDTO;
-import project.dto.ClientDTO;
 import project.dto.ItemDTO;
 import project.dto.OrderDTO;
 import project.entity.Client;
@@ -14,15 +13,12 @@ import project.entity.Order;
 import project.entity.enums.StatusEnum;
 import project.utils.OrderNumberGenerator;
 import project.utils.StatByDateHolder;
-import project.utils.TopTenComparator;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -73,39 +69,6 @@ public class OrderService {
 
         Order orderToSave = orderConverter.convertToEntity(order);
         orderDao.save(orderToSave);
-    }
-
-    private <T> List<T> getFirstTenElements(List<T> source) {
-        List<T> tenElements = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            tenElements.add(source.get(i));
-        }
-        return tenElements;
-    }
-
-    public List<Map.Entry<ClientDTO, Integer>> getTopTenClients() {
-        List<OrderDTO> orders = findAll();
-        Map<ClientDTO, Integer> allClientsWithNumOfOrders = getMapOfClientOrders(orders);
-
-        List<Map.Entry<ClientDTO, Integer>> listOfEntries = new ArrayList<>(allClientsWithNumOfOrders.entrySet());
-
-        listOfEntries.sort(new TopTenComparator<ClientDTO>().reversed());
-
-        return listOfEntries.size() > 10 ? getFirstTenElements(listOfEntries) : listOfEntries;
-    }
-
-    private Map<ClientDTO, Integer> getMapOfClientOrders(List<OrderDTO> orders) {
-        Map<ClientDTO, Integer> resultMap = new HashMap<>();
-        for (OrderDTO order : orders) {
-            ClientDTO client = order.getClient();
-            if (resultMap.containsKey(client)) {
-                int orderQuan = resultMap.get(client);
-                resultMap.put(client, orderQuan + 1);
-            } else {
-                resultMap.put(client, 1);
-            }
-        }
-        return resultMap;
     }
 
     public StatByDateHolder getSalesBetweenDates(StatByDateHolder holder) {

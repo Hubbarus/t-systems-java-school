@@ -14,7 +14,10 @@ import project.entity.enums.RoleEnum;
 import project.utils.CartListWrapper;
 
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 
@@ -106,5 +109,24 @@ public class ClientService {
     public void doPayment(Principal principal, OrderDTO order) {
         order.setClient(findByEmail(principal.getName()));
         orderService.createOrderAndSave(order);
+    }
+
+    public List<Map.Entry<ClientDTO, Integer>> getTopTenClients() {
+        List<Object[]> topTenClients = clientDao.getTopTenClients();
+
+        Map<ClientDTO, Integer> resultMap = new LinkedHashMap<>();
+
+        for (Object[] obj : topTenClients) {
+            ClientDTO client = findById((Long) obj[0]);
+            Long quan = (Long) obj[1];
+            resultMap.put(client, quan.intValue());
+        }
+
+        return new ArrayList<>(resultMap.entrySet());
+    }
+
+    private ClientDTO findById(Long id) {
+        Client client = clientDao.findById(id);
+        return mapper.map(client, ClientDTO.class);
     }
 }
