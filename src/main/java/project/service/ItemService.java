@@ -5,12 +5,17 @@ import lombok.extern.java.Log;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import project.dao.ItemDao;
 import project.dto.CartDTO;
 import project.dto.ItemDTO;
 import project.entity.Item;
 import project.utils.CartListWrapper;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -81,15 +86,26 @@ public class ItemService {
         return cart;
     }
 
-    public void saveOrUpdate(ItemDTO item) {
+    public void saveOrUpdate(ItemDTO item, MultipartFile file, String filePath) {
+        setPathToIMGAndUploadToServer(item, file, filePath);
         try {
             findById(item.getId());
             update(item);
         } catch (Exception e) {
-            item.setPathToIMG("/img/" + item.getPathToIMG());
             Item itemToSave = mapper.map(item, Item.class);
             itemDao.save(itemToSave);
         }
+    }
+
+    private void setPathToIMGAndUploadToServer(ItemDTO item, MultipartFile file, String filePath) {
+        try {
+            byte[] bytes = file.getBytes();
+            Path path = Paths.get(filePath + file.getOriginalFilename());
+            Files.write(path, bytes);
+        } catch (IOException e) {
+            log.log(Level.SEVERE, "Error while uploading file");
+        }
+        item.setPathToIMG("/img/" + file.getOriginalFilename());
     }
 
     public Set<String> renameGroup(String oldName, String newName) {

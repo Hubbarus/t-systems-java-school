@@ -6,6 +6,7 @@ import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import project.utils.CartListWrapper;
 import project.utils.PagingUtil;
 
@@ -39,6 +40,11 @@ public class SpringConfig {
                 .setFieldAccessLevel(PRIVATE)
                 .setPropertyCondition(skipCollections());
         return mapper;
+    }
+
+    @Bean
+    public StandardServletMultipartResolver multipartResolver() {
+        return new StandardServletMultipartResolver();
     }
 
     private Condition skipCollections() {

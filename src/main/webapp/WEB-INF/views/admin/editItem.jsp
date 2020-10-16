@@ -12,7 +12,7 @@
     <jsp:include page="../blocks/header.jsp"/>
 </header>
 
-<form:form method="post" modelAttribute="itemToEdit" action="/manage/editItem" onsubmit="return onSubmit();" id="itemForm">
+<form:form method="post" modelAttribute="itemToEdit" action="/manage/editItem" onsubmit="return onSubmit();" id="itemForm" enctype="multipart/form-data">
     <form:input path="id" type="hidden"/>
     <table class="table">
         <tr>
@@ -21,19 +21,32 @@
                 <c:if test="${itemToEdit.itemName != null}">
                     <img src="${itemToEdit.pathToIMG}" height="300"><br>
                 </c:if>
-                <label for="basic-url">Path to image in "img/" folder</label>
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
-                        <span class="input-group-text" id="basic-addon3">/img/</span>
+                        <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
                     </div>
-                    <form:input path="pathToIMG"
-                                placeholde="example.jpg"
-                                type="text"
-                                class="form-control"
-                                id="basic-url"
-                                aria-describedby="basic-addon3"
-                                value="${itemToEdit.pathToIMG}" required="true"/>
+                    <div class="custom-file">
+                        <input name="file"
+                               type="file"
+                               class="custom-file-input"
+                               id="file"
+                               aria-describedby="inputGroupFileAddon01"/>
+                        <label class="custom-file-label" for="file">Choose file</label>
+                    </div>
                 </div>
+<%--                <label for="basic-url">Path to image in "img/" folder</label>--%>
+<%--                <div class="input-group mb-3">--%>
+<%--                    <div class="input-group-prepend">--%>
+<%--                        <span class="input-group-text" id="basic-addon3">/img/</span>--%>
+<%--                    </div>--%>
+<%--                    <form:input path="pathToIMG"--%>
+<%--                                placeholde="example.jpg"--%>
+<%--                                type="text"--%>
+<%--                                class="form-control"--%>
+<%--                                id="basic-url"--%>
+<%--                                aria-describedby="basic-addon3"--%>
+<%--                                value="${itemToEdit.pathToIMG}" required="true"/>--%>
+<%--                </div>--%>
             </td>
             <td>
                 <table class="table">

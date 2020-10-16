@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.multipart.MultipartFile;
 import project.dto.CartDTO;
 import project.dto.ClientDTO;
 import project.dto.ItemDTO;
@@ -104,8 +105,10 @@ public class AdminController {
     }
 
     @RequestMapping(value = "/editItem", method = RequestMethod.POST)
-    public String editItem(@ModelAttribute ItemDTO item) {
-        itemService.saveOrUpdate(item);
+    public String editItem(@ModelAttribute ItemDTO item,
+                           @RequestParam("file") MultipartFile file, HttpServletRequest request) {
+        String filePath = request.getServletContext().getRealPath("/") + "img/";
+        itemService.saveOrUpdate(item, file, filePath);
         return "redirect:/manage/items?page=1";
     }
 
