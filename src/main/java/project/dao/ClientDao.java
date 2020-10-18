@@ -7,7 +7,6 @@ import project.entity.Client;
 import project.entity.Item;
 import project.entity.Order;
 
-import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Join;
@@ -33,18 +32,6 @@ public class ClientDao extends AbstractDao {
     @Transactional(readOnly = true)
     public Client findById(Long id) {
         return getSession().get(Client.class, id);
-    }
-
-    @Transactional(readOnly = true)
-    public List<Client> findAll() {
-        CriteriaQuery<Client> cq = getSession()
-                .getCriteriaBuilder()
-                .createQuery(Client.class);
-        Root<Client> rootEntry = cq.from(Client.class);
-        CriteriaQuery<Client> all = cq.select(rootEntry);
-
-        TypedQuery<Client> allQuery = getSession().createQuery(all);
-        return allQuery.getResultList();
     }
 
     @Transactional(readOnly = true)

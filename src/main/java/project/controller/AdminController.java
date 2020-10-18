@@ -15,6 +15,8 @@ import project.dto.CartDTO;
 import project.dto.ClientDTO;
 import project.dto.ItemDTO;
 import project.dto.OrderDTO;
+import project.exception.IMGUploadException;
+import project.exception.NoSuchClientException;
 import project.service.ClientService;
 import project.service.ItemService;
 import project.service.OrderService;
@@ -65,7 +67,7 @@ public class AdminController {
     }
 
     @RequestMapping(value = "/statistics", method = RequestMethod.GET)
-    public String getStatisticsPage(Model model, HttpServletRequest request) {
+    public String getStatisticsPage(Model model, HttpServletRequest request) throws NoSuchClientException {
         List<CartDTO> topTenItems = itemService.getTopTenItems();
         List<Map.Entry<ClientDTO, Integer>> topTenClients = clientService.getTopTenClients();
 
@@ -106,7 +108,8 @@ public class AdminController {
 
     @RequestMapping(value = "/editItem", method = RequestMethod.POST)
     public String editItem(@ModelAttribute ItemDTO item,
-                           @RequestParam("file") MultipartFile file, HttpServletRequest request) {
+                           @RequestParam("file") MultipartFile file, HttpServletRequest request)
+            throws IMGUploadException {
         String filePath = request.getServletContext().getRealPath("/") + "img/";
         itemService.saveOrUpdate(item, file, filePath);
         return "redirect:/manage/items?page=1";

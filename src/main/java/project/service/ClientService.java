@@ -11,6 +11,7 @@ import project.dto.ClientDTO;
 import project.dto.OrderDTO;
 import project.entity.Client;
 import project.entity.enums.RoleEnum;
+import project.exception.NoSuchClientException;
 import project.utils.CartListWrapper;
 
 import java.security.Principal;
@@ -111,7 +112,7 @@ public class ClientService {
         orderService.createOrderAndSave(order);
     }
 
-    public List<Map.Entry<ClientDTO, Integer>> getTopTenClients() {
+    public List<Map.Entry<ClientDTO, Integer>> getTopTenClients() throws NoSuchClientException {
         List<Object[]> topTenClients = clientDao.getTopTenClients();
 
         Map<ClientDTO, Integer> resultMap = new LinkedHashMap<>();
@@ -125,8 +126,12 @@ public class ClientService {
         return new ArrayList<>(resultMap.entrySet());
     }
 
-    private ClientDTO findById(Long id) {
+    private ClientDTO findById(Long id) throws NoSuchClientException {
         Client client = clientDao.findById(id);
+        if (client == null) {
+            log.log(Level.WARNING, String.format("No client with %s found", id));
+            throw new NoSuchClientException(String.format("No client with %s found", id));
+        }
         return mapper.map(client, ClientDTO.class);
     }
 }

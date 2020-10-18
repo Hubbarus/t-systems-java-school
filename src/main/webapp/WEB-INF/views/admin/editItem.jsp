@@ -19,6 +19,7 @@
     <table class="table">
         <tr>
 <%--            Path to IMG--%>
+            <form:hidden path="pathToIMG" value="${itemToEdit.pathToIMG}"/>
             <td>
                 <c:if test="${itemToEdit.itemName != null}">
                     <img src="${itemToEdit.pathToIMG}" height="300"><br>

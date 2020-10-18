@@ -10,6 +10,7 @@ import project.dao.ItemDao;
 import project.dto.CartDTO;
 import project.dto.ItemDTO;
 import project.entity.Item;
+import project.exception.IMGUploadException;
 import project.utils.CartListWrapper;
 
 import java.io.IOException;
@@ -36,7 +37,7 @@ public class ItemService {
         itemDao.update(item);
     }
 
-    public ItemDTO findById(Long id) {
+    public ItemDTO findById(Long id){
         Item item = itemDao.findById(id);
         return mapper.map(item, ItemDTO.class);
     }
@@ -86,8 +87,12 @@ public class ItemService {
         return cart;
     }
 
-    public void saveOrUpdate(ItemDTO item, MultipartFile file, String filePath) {
-        setPathToIMGAndUploadToServer(item, file, filePath);
+    public void saveOrUpdate(ItemDTO item, MultipartFile file, String filePath) throws IMGUploadException {
+        if (item.getPathToIMG().equals("")
+                || !file.getOriginalFilename().equals("")) {
+            setPathToIMGAndUploadToServer(item, file, filePath);
+        }
+
         try {
             findById(item.getId());
             update(item);
@@ -97,13 +102,19 @@ public class ItemService {
         }
     }
 
-    private void setPathToIMGAndUploadToServer(ItemDTO item, MultipartFile file, String filePath) {
+    private void setPathToIMGAndUploadToServer(ItemDTO item, MultipartFile file, String filePath) throws IMGUploadException {
+        if (file.getOriginalFilename().equals("")) {
+            item.setPathToIMG("/img/default_no_img.png");
+            return;
+        }
+
         try {
             byte[] bytes = file.getBytes();
             Path path = Paths.get(filePath + file.getOriginalFilename());
             Files.write(path, bytes);
         } catch (IOException e) {
             log.log(Level.SEVERE, "Error while uploading file");
+            throw new IMGUploadException("Error while uploading file");
         }
         item.setPathToIMG("/img/" + file.getOriginalFilename());
     }
