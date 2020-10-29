@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import project.dto.CartDTO;
 import project.dto.ClientDTO;
+import project.exception.AppJsonParseException;
+import project.exception.AppQueueException;
 import project.producer.Producer;
 import project.service.ClientService;
 import project.service.ItemService;
@@ -40,7 +42,7 @@ public class MainPageController {
     }
 
     @GetMapping("/test")
-    public String getTestTopTen() {
+    public String getTestTopTen() throws AppQueueException, AppJsonParseException {
         List<CartDTO> topTenItems = itemService.getTopTenItems();
         CartListWrapper wrapper = new CartListWrapper();
         wrapper.setList(topTenItems);

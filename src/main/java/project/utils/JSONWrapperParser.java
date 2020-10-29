@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Component;
 import project.dto.CartDTO;
 import project.dto.ItemDTO;
+import project.exception.AppJsonParseException;
 
 import java.io.IOException;
 import java.io.StringWriter;
@@ -13,7 +14,7 @@ import java.util.stream.Collectors;
 @Component
 public class JSONWrapperParser {
 
-    public String serializeToJson(CartListWrapper wrapper) throws IOException {
+    public String serializeToJson(CartListWrapper wrapper) throws AppJsonParseException {
         List<CartDTO> list = wrapper.getList();
         List<ItemDTO> items = list.stream()
                 .map(CartDTO::getItem)
@@ -21,7 +22,11 @@ public class JSONWrapperParser {
         ObjectMapper mapper = new ObjectMapper();
 
         StringWriter writer = new StringWriter();
-        mapper.writeValue(writer, items);
+        try {
+            mapper.writeValue(writer, items);
+        } catch (IOException e) {
+            throw new AppJsonParseException("Exception while parsing object", e);
+        }
         return writer.toString();
     }
 

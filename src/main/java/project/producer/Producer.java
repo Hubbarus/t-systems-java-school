@@ -4,6 +4,8 @@ import org.apache.activemq.ActiveMQConnectionFactory;
 import org.apache.activemq.command.ActiveMQTextMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import project.exception.AppJsonParseException;
+import project.exception.AppQueueException;
 import project.utils.CartListWrapper;
 import project.utils.JSONWrapperParser;
 
@@ -13,7 +15,6 @@ import javax.jms.Destination;
 import javax.jms.JMSException;
 import javax.jms.MessageProducer;
 import javax.jms.Session;
-import java.io.IOException;
 
 @Component
 public class Producer {
@@ -22,7 +23,7 @@ public class Producer {
     @Autowired private JSONWrapperParser parser;
     private String queueName = "QUEUE";
 
-    public void sendMessage(CartListWrapper wrapper) {
+    public void sendMessage(CartListWrapper wrapper) throws AppQueueException, AppJsonParseException {
         try {
             Connection connection = factory.createQueueConnection();
             connection.start();
@@ -40,9 +41,7 @@ public class Producer {
             session.close();
             connection.close();
         } catch (JMSException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+            throw new AppQueueException("Exception in ActiveMQ connection", e);
         }
     }
 }
