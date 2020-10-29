@@ -10,6 +10,12 @@
 <head>
     <title>Edit Information</title>
 
+    <style>
+        .text-err {
+            color: red;
+        }
+    </style>
+
     <link rel="shortcut icon" href="/img/favicon.ico" type="img/x-icon">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 </head>
@@ -34,7 +40,7 @@
             <h2><b>Username :</b> ${client.email}</h2>
         </div>
         <table class="table">
-            <form:form method="post" modelAttribute="client" action="">
+            <form:form method="post" modelAttribute="client" action="" onsubmit="return validate();">
 <%--                F name--%>
                 <tr>
                     <td>
@@ -43,6 +49,7 @@
                                 <span class="input-group-text" id="basic-addon1">First Name</span>
                             </div>
                             <form:input path="firstName"
+                                        id="fName"
                                         type="text"
                                         class="form-control"
                                         value="${client.firstName}"
@@ -50,7 +57,11 @@
                                         aria-label="First Name"
                                         aria-describedby="basic-addon1"
                                         required="true"/>
+                            <div class="input-group-append">
+                                <span class="input-group-text"><span class="text-err" id="fNameErr"/></span>
+                            </div>
                         </div>
+
                     </td>
                 </tr>
 <%--                L name--%>
@@ -61,6 +72,7 @@
                                 <span class="input-group-text" id="basic-addon2">Last Name</span>
                             </div>
                             <form:input path="lastName"
+                                        id="lName"
                                         type="text"
                                         class="form-control"
                                         value="${client.lastName}"
@@ -68,6 +80,9 @@
                                         aria-label="Last Name"
                                         aria-describedby="basic-addon2"
                                         required="true"/>
+                            <div class="input-group-append">
+                                <span class="input-group-text"><span class="text-err" id="lNameErr"/></span>
+                            </div>
                         </div>
                     </td>
                 </tr>
@@ -95,11 +110,35 @@
                                 <span class="input-group-text" id="basic-addon6">Password</span>
                             </div>
                             <form:password path="userPass"
+                                           id="pw"
                                            class="form-control"
                                            placeholder="Password"
                                            aria-label="Password"
                                            aria-describedby="basic-addon6"
                                            required="true"/>
+                            <div class="input-group-append">
+                                <span class="input-group-text"><span class="text-err" id="pwErr"/></span>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+<%--                Pass Repeat--%>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon7">Repeat Password</span>
+                            </div>
+                            <input type="password"
+                                   id="pwRep"
+                                   class="form-control"
+                                   placeholder="Password"
+                                   aria-label="Password"
+                                   aria-describedby="basic-addon6"
+                                   required="true"/>
+                            <div class="input-group-append">
+                                <span class="input-group-text"><span class="text-err" id="pwRepErr"/></span>
+                            </div>
                         </div>
                     </td>
                 </tr>
@@ -121,5 +160,44 @@
 <footer>
     <jsp:include page="blocks/footer.jsp"/>
 </footer>
+<script type="text/javascript">
+    function validate() {
+        var fNameErr, lNameErr, pwErr;
+        var hasErr = false;
+        document.getElementById("fNameErr").innerText = "";
+        document.getElementById("lNameErr").innerText = "";
+        document.getElementById("pwErr").innerText = "";
+        document.getElementById("pwRepErr").innerText = "";
+
+        var fNameVal = document.getElementById("fName").value;
+        if (fNameVal.length < 2) {
+            fNameErr = "Too short name";
+            document.getElementById("fNameErr").innerText = fNameErr;
+            hasErr = true;
+        }
+
+        var lNameVal = document.getElementById("lName").value;
+        if (lNameVal.length < 2) {
+            lNameErr = "Too short Last name";
+            document.getElementById("lNameErr").innerText = lNameErr;
+            hasErr = true;
+        }
+
+        var pwVal = document.getElementById("pw").value;
+        var pwRepVal = document.getElementById("pwRep").value;
+        if (pwVal.length < 4) {
+            pwErr = "Too short password";
+            document.getElementById("pwErr").innerText = pwErr;
+            hasErr = true;
+        }
+        if (pwVal != pwRepVal) {
+            pwErr = "Password don't match!"
+            document.getElementById("pwRepErr").innerText = pwErr;
+            hasErr = true;
+        }
+
+        return !hasErr;
+    }
+</script>
 </body>
 </html>
