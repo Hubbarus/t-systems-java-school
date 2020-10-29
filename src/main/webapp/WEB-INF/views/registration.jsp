@@ -12,6 +12,11 @@
 
     <title>Registration</title>
 
+    <style>
+        .text-err {
+            color: red;
+        }
+    </style>
     <link rel="shortcut icon" href="/img/favicon.ico" type="img/x-icon">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 </head>
@@ -35,7 +40,7 @@
 
     <c:otherwise>
         <div class="table text-center align-content-center">
-            <form:form method="POST" modelAttribute="clientForm" action="/client/registration/">
+            <form:form method="POST" modelAttribute="clientForm" action="/client/registration/" onsubmit="return validate();">
                 <h3 class="text-center">Client Information</h3>
 <%--                First name--%>
                 <div class="input-group mb-3">
@@ -43,12 +48,16 @@
                         <span class="input-group-text" id="basic-addon1">First Name</span>
                     </div>
                     <form:input path="firstName"
+                                id = "fName"
                                 type="text"
                                 class="form-control"
                                 placeholder="First Name"
                                 aria-label="First Name"
                                 aria-describedby="basic-addon1"
                                 required="true"/>
+                    <div class="input-group-append">
+                        <span class="input-group-text"><span class="text-err" id="fNameErr"/></span>
+                    </div>
                 </div>
 <%--                Last name--%>
                 <div class="input-group mb-3">
@@ -56,12 +65,16 @@
                         <span class="input-group-text" id="basic-addon2">Last Name</span>
                     </div>
                     <form:input path="lastName"
+                                id="lName"
                                 type="text"
                                 class="form-control"
                                 placeholder="Last Name"
                                 aria-label="Last Name"
                                 aria-describedby="basic-addon2"
                                 required="true"/>
+                    <div class="input-group-append">
+                        <span class="input-group-text"><span class="text-err" id="lNameErr"/></span>
+                    </div>
                 </div>
 <%--                Date of birth--%>
                 <fmt:formatDate value="${clientForm.birthDate}" var="date" pattern="yyyy-MM-dd"/>
@@ -95,11 +108,31 @@
                         <span class="input-group-text" id="basic-addon6">Password</span>
                     </div>
                     <form:password path="userPass"
+                                   id="pw"
                                    class="form-control"
                                    placeholder="Password"
                                    aria-label="Password"
                                    aria-describedby="basic-addon6"
                                    required="true"/>
+                    <div class="input-group-append">
+                        <span class="input-group-text"><span class="text-err" id="pwErr"/></span>
+                    </div>
+                </div>
+<%--                Repeat Password--%>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon7">Repeat Password</span>
+                    </div>
+                    <input type="password"
+                           id="pwRep"
+                           class="form-control"
+                           placeholder="Password"
+                           aria-label="Password"
+                           aria-describedby="basic-addon6"
+                           required="true"/>
+                    <div class="input-group-append">
+                        <span class="input-group-text"><span class="text-err" id="pwRepErr"/></span>
+                    </div>
                 </div>
 <%--                Button--%>
                 <button type="submit" class="btn btn-outline-success">Do register!</button>
@@ -112,5 +145,45 @@
 <footer>
     <jsp:include page="blocks/footer.jsp"/>
 </footer>
+
+<script type="text/javascript">
+    function validate() {
+        var fNameErr, lNameErr, pwErr;
+        var hasErr = false;
+        document.getElementById("fNameErr").innerText = "";
+        document.getElementById("lNameErr").innerText = "";
+        document.getElementById("pwErr").innerText = "";
+        document.getElementById("pwRepErr").innerText = "";
+
+        var fNameVal = document.getElementById("fName").value;
+        if (fNameVal.length < 2) {
+            fNameErr = "Too short name";
+            document.getElementById("fNameErr").innerText = fNameErr;
+            hasErr = true;
+        }
+
+        var lNameVal = document.getElementById("lName").value;
+        if (lNameVal.length < 2) {
+            lNameErr = "Too short Last name";
+            document.getElementById("lNameErr").innerText = lNameErr;
+            hasErr = true;
+        }
+
+        var pwVal = document.getElementById("pw").value;
+        var pwRepVal = document.getElementById("pwRep").value;
+        if (pwVal.length < 4) {
+            pwErr = "Too short password";
+            document.getElementById("pwErr").innerText = pwErr;
+            hasErr = true;
+        }
+        if (pwVal != pwRepVal) {
+            pwErr = "Password don't match!"
+            document.getElementById("pwRepErr").innerText = pwErr;
+            hasErr = true;
+        }
+
+        return !hasErr;
+    }
+</script>
 </body>
 </html>
