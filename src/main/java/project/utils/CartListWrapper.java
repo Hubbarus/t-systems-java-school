@@ -17,4 +17,8 @@ import java.util.List;
 public class CartListWrapper implements Serializable {
     private List<CartDTO> list;
     private BigDecimal subtotal;
+
+    public CartListWrapper(List<CartDTO> topTenItems) {
+        this.list = topTenItems;
+    }
 }

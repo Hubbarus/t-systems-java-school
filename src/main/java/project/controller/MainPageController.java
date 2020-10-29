@@ -9,8 +9,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import project.dto.CartDTO;
 import project.dto.ClientDTO;
-import project.exception.AppJsonParseException;
-import project.exception.AppQueueException;
 import project.producer.Producer;
 import project.service.ClientService;
 import project.service.ItemService;
@@ -38,15 +36,6 @@ public class MainPageController {
             user = clientService.findByEmail(principal.getName());
             request.getSession().setAttribute("user", user);
         }
-        return "home";
-    }
-
-    @GetMapping("/test")
-    public String getTestTopTen() throws AppQueueException, AppJsonParseException {
-        List<CartDTO> topTenItems = itemService.getTopTenItems();
-        CartListWrapper wrapper = new CartListWrapper();
-        wrapper.setList(topTenItems);
-        producer.sendMessage(wrapper);
         return "home";
     }
 

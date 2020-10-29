@@ -16,8 +16,6 @@
 
         <a href="/shop/" class="text-dark text-md-center h4">View Shop</a>
 
-        <a href="/test/" class="text-dark text-md-center h4">Test</a>
-
         <sec:authorize access="!isAuthenticated()">
             <a href="/client/registration/" class="text-dark text-md-center h4">Registration</a>
             <a href="/login" class="text-dark text-md-center h4">Sigh In</a>

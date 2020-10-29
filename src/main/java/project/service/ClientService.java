@@ -11,7 +11,10 @@ import project.dto.ClientDTO;
 import project.dto.OrderDTO;
 import project.entity.Client;
 import project.entity.enums.RoleEnum;
+import project.exception.AppJsonParseException;
+import project.exception.AppQueueException;
 import project.exception.NoSuchClientException;
+import project.producer.Producer;
 import project.utils.CartListWrapper;
 
 import java.security.Principal;
@@ -30,6 +33,8 @@ public class ClientService {
     @Autowired private PasswordEncoder passwordEncoder;
     @Autowired private OrderService orderService;
     @Autowired private ModelMapper mapper;
+    @Autowired private ItemService itemService;
+    @Autowired private Producer producer;
 
     public ClientDTO findByEmail(String email) {
         List<Client> list = clientDao.findByEmail(email);
@@ -107,9 +112,10 @@ public class ClientService {
 
     }
 
-    public void doPayment(Principal principal, OrderDTO order) {
+    public void doPayment(Principal principal, OrderDTO order) throws AppJsonParseException, AppQueueException {
         order.setClient(findByEmail(principal.getName()));
         orderService.createOrderAndSave(order);
+        producer.sendMessage(new CartListWrapper(itemService.getTopTenItems()));
     }
 
     public List<Map.Entry<ClientDTO, Integer>> getTopTenClients() throws NoSuchClientException {
