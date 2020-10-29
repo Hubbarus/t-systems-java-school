@@ -10,6 +10,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import project.entity.enums.RoleEnum;
 
+import java.io.Serializable;
 import java.sql.Date;
 import java.util.Collection;
 import java.util.Collections;
@@ -19,7 +20,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ClientDTO implements UserDetails {
+public class ClientDTO implements UserDetails, Serializable {
     private long id;
     private String firstName;
     private String lastName;

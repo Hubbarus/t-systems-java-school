@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import project.dto.CartDTO;
 import project.dto.ClientDTO;
-import project.exception.NoSuchItemException;
+import project.producer.Producer;
 import project.service.ClientService;
 import project.service.ItemService;
 import project.utils.CartListWrapper;
@@ -27,6 +27,7 @@ public class MainPageController {
 
     @Autowired private ClientService clientService;
     @Autowired private ItemService itemService;
+    @Autowired private Producer producer;
 
     @GetMapping("/")
     public String getHome(Principal principal, HttpServletRequest request) {
@@ -35,6 +36,15 @@ public class MainPageController {
             user = clientService.findByEmail(principal.getName());
             request.getSession().setAttribute("user", user);
         }
+        return "home";
+    }
+
+    @GetMapping("/test")
+    public String getTestTopTen() {
+        List<CartDTO> topTenItems = itemService.getTopTenItems();
+        CartListWrapper wrapper = new CartListWrapper();
+        wrapper.setList(topTenItems);
+        producer.sendMessage(wrapper);
         return "home";
     }
 
@@ -52,7 +62,7 @@ public class MainPageController {
     }
 
     @ModelAttribute("topTenItems")
-    public List<CartDTO> getTopTen() throws NoSuchItemException {
+    public List<CartDTO> getTopTen() {
         return itemService.getTopTenItems();
     }
 

@@ -1,5 +1,7 @@
 package project.config;
 
+import org.apache.activemq.ActiveMQConnection;
+import org.apache.activemq.ActiveMQConnectionFactory;
 import org.modelmapper.Condition;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
@@ -18,6 +20,13 @@ import static org.modelmapper.config.Configuration.AccessLevel.PRIVATE;
 @Configuration
 @ComponentScan("project")
 public class SpringConfig {
+
+    @Bean
+    public ActiveMQConnectionFactory getMQConnectionFactory() {
+        return new ActiveMQConnectionFactory(ActiveMQConnection.DEFAULT_USER,
+                ActiveMQConnection.DEFAULT_PASSWORD,
+                ActiveMQConnection.DEFAULT_BROKER_URL);
+    }
 
     @Bean
     public PagingUtil getPagingUtil() {
