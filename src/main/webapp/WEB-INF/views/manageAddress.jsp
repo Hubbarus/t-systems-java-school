@@ -34,6 +34,7 @@
                             <form:input path="country" placeholder="${address.country}"
                                         type="text" class="form-control"
                                         aria-label="Country"
+                                        required="true"
                                         aria-describedby="basic-addon1"/>
                         </div>
                     </td>
@@ -47,6 +48,7 @@
                             </div>
                             <form:input path="city" placeholder="${address.city}"
                                         type="text" class="form-control"
+                                        required="true"
                                         aria-label="City"
                                         aria-describedby="basic-addon2"/>
                         </div>
@@ -61,6 +63,7 @@
                             </div>
                             <form:input  path="postcode" placeholder="${address.postcode}"
                                          type="text"
+                                         required="true"
                                          class="form-control"
                                          aria-label="Postcode"
                                          aria-describedby="basic-addon3"/>
@@ -75,9 +78,10 @@
                                 <span class="input-group-text" id="basic-addon4">Street: </span>
                             </div>
                             <form:input type="text" path="street" placeholder="${address.street}"
-                                   class="form-control"
-                                   aria-label="Street"
-                                   aria-describedby="basic-addon4"/>
+                                        class="form-control"
+                                        required="true"
+                                        aria-label="Street"
+                                        aria-describedby="basic-addon4"/>
                         </div>
                     </td>
                 </tr>
@@ -90,6 +94,7 @@
                             </div>
                             <form:input path="building" placeholder="${address.building}"
                                         type="text"
+                                        required="true"
                                         class="form-control"
                                         aria-label="Building"
                                         aria-describedby="basic-addon5"/>
@@ -107,8 +112,20 @@
                             <form:input path="apart" placeholder="${address.apart}"
                                         type="text" class="form-control"
                                         aria-label="Apart"
+                                        required="true"
                                         aria-describedby="basic-addon6"/>
                         </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <c:if test="${errors.size() != 0}">
+                            <c:forEach var="err" items="${errors}">
+                                <div class="text alert-danger">
+                                    <c:out value="${err.defaultMessage}"/><br>
+                                </div>
+                            </c:forEach>
+                        </c:if>
                     </td>
                 </tr>
 <%--                Button--%>
