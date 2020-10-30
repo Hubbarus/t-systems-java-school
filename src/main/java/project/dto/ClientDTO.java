@@ -10,6 +10,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import project.entity.enums.RoleEnum;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.sql.Date;
 import java.util.Collection;
@@ -22,10 +24,14 @@ import java.util.Set;
 @Builder
 public class ClientDTO implements UserDetails, Serializable {
     private long id;
+    @Size(min = 2, message = "Name length must be at least 2 characters")
     private String firstName;
+    @Size(min = 2, message = "Last Name length must be at least 2 characters")
     private String lastName;
+    @Size(min = 2, message = "Password must be at least 4 characters")
     private String userPass;
     private Date birthDate;
+    @Email(message = "Incorrect e-mail address")
     private String email;
     private boolean active;
     private RoleEnum role;

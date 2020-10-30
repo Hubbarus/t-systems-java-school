@@ -31,8 +31,15 @@ public class ClientController {
     }
 
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
-    public String addClient(@ModelAttribute("userForm") ClientDTO client,
+    public String addClient(@Valid @ModelAttribute("userForm") ClientDTO client,
+                            BindingResult result,
                             Model model) {
+        if (result.hasErrors()) {
+            model.addAttribute("errors", result.getAllErrors());
+            model.addAttribute("client", client);
+            return "userEdit";
+        }
+
         if (clientService.checkIfUserExistsAndCreate(client)) {
             model.addAttribute("userNameError", "This username already exist!");
             return "registration";
@@ -59,7 +66,14 @@ public class ClientController {
 
     @RequestMapping(value = "/userInfo/manage", method = RequestMethod.POST)
     public String editAccountInfo(Principal principal,
-                                  @ModelAttribute ClientDTO client, Model model) {
+                                  @Valid @ModelAttribute ClientDTO client,
+                                  BindingResult result,
+                                  Model model) {
+        if (result.hasErrors()) {
+            model.addAttribute("errors", result.getAllErrors());
+            model.addAttribute("client", client);
+            return "userEdit";
+        }
         model.addAttribute("successMsg", "Information has been changed successfully");
         clientService.updateUserInformation(client);
         return getUserInfo(model, principal);

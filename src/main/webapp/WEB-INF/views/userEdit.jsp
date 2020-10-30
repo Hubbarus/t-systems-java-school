@@ -122,6 +122,7 @@
                         </div>
                     </td>
                 </tr>
+<%--                Pass Repeat--%>
                 <tr>
                     <td>
 <%--                Pass Repeat--%>
@@ -140,6 +141,18 @@
                                 <span class="input-group-text"><span class="text-err" id="pwRepErr"/></span>
                             </div>
                         </div>
+                    </td>
+                </tr>
+<%--                Errors--%>
+                <tr>
+                    <td>
+                        <c:if test="${errors.size() != 0}">
+                            <c:forEach var="err" items="${errors}">
+                                <div class="text alert-danger">
+                                    <c:out value="${err.defaultMessage}"/><br>
+                                </div>
+                            </c:forEach>
+                        </c:if>
                     </td>
                 </tr>
 <%--                Button--%>

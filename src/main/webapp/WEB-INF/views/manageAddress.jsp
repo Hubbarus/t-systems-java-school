@@ -117,6 +117,7 @@
                         </div>
                     </td>
                 </tr>
+<%--                Errors--%>
                 <tr>
                     <td>
                         <c:if test="${errors.size() != 0}">

@@ -157,7 +157,7 @@
 
         var fNameVal = document.getElementById("fName").value;
         if (fNameVal.length < 2) {
-            fNameErr = "Too short name";
+            fNameErr = "Too short First Name";
             document.getElementById("fNameErr").innerText = fNameErr;
             hasErr = true;
         }
