@@ -37,7 +37,7 @@ public class ClientController {
         if (result.hasErrors()) {
             model.addAttribute("errors", result.getAllErrors());
             model.addAttribute("client", client);
-            return "userEdit";
+            return "registration";
         }
 
         if (clientService.checkIfUserExistsAndCreate(client)) {
