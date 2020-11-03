@@ -29,6 +29,9 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Controller class for "/manage" mapping.
+ */
 @Controller
 @RequestMapping("/manage")
 @SessionAttributes({"itemGroups", "categories"})

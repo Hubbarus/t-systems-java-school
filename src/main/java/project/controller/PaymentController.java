@@ -14,6 +14,9 @@ import project.utils.CartListWrapper;
 
 import java.security.Principal;
 
+/**
+ * Controller class for "/pay" mapping.
+ */
 @Controller
 @RequestMapping("/pay")
 public class PaymentController {

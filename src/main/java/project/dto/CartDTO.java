@@ -6,6 +6,10 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
+/**
+ * @author paulponomarev
+ * Cart DTO class.
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

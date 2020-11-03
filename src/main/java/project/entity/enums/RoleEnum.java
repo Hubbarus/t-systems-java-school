@@ -2,6 +2,9 @@ package project.entity.enums;
 
 import org.springframework.security.core.GrantedAuthority;
 
+/**
+ * Enumeration of roles for security.
+ */
 public enum RoleEnum implements GrantedAuthority {
     USER("User"),
     ADMIN("Admin");

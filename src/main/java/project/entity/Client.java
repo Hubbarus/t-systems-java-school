@@ -21,6 +21,10 @@ import java.io.Serializable;
 import java.sql.Date;
 import java.util.Set;
 
+/**
+ * @author paulponomarev
+ * Client entity class for database.
+ */
 @Entity
 @Data
 public class Client  implements Serializable {

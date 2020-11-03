@@ -14,6 +14,10 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author paulponomarev
+ * Converter class for {@link Order} to {@link OrderDTO}.
+ */
 @Component
 public class OrderConverter {
 

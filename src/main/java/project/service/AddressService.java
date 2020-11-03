@@ -12,6 +12,9 @@ import project.exception.NoSuchAddressException;
 
 import java.util.logging.Level;
 
+/**
+ * Service class for {@link AddressDTO} objects.
+ */
 @Service
 @AllArgsConstructor
 @Log

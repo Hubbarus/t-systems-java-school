@@ -12,6 +12,10 @@ import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Objects;
 
+/**
+ * @author paulponomarev
+ * Address DTO class.
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

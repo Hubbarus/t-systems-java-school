@@ -11,6 +11,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+/**
+ * @author paulponomarev
+ * Cart entity class for database.
+ */
 @Entity
 @Data
 @Table(name = "cart")

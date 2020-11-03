@@ -9,6 +9,9 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Statistics holder class. Collecting orders by date.
+ */
 @Data
 public class StatByDateHolder {
     private List<OrderDTO> orders = new ArrayList<>();

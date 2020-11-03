@@ -14,25 +14,45 @@ import javax.persistence.criteria.Root;
 import java.util.List;
 import java.util.logging.Level;
 
+/**
+ * Dao class for {@link Item} entity.
+ */
 @Repository
 @Log
 public class ItemDao extends AbstractDao {
+
+    /**
+     * Saves entity information to database.
+     * @param entity to save
+     */
     @Transactional
     public void save(Item entity) {
         getSession().persist(entity);
         log.log(Level.INFO, String.format("Item with id %s saved.", entity.getId()));
     }
 
+    /**
+     * Updates entity information to database.
+     * @param entity to save
+     */
     @Transactional
     public void update(Item entity) {
         getSession().update(entity);
         log.log(Level.INFO, String.format("Item with id %s updated.", entity.getId()));
     }
+
+    /**
+     * @param id of entity in database.
+     * @return {@link Item} object with pointed id.
+     */
     @Transactional(readOnly = true)
     public Item findById(Long id) {
         return getSession().get(Item.class, id);
     }
 
+    /**
+     * @return {@link List} of all {@link Item} objects.
+     */
     @Transactional(readOnly = true)
     public List<Item> findAll() {
         CriteriaQuery<Item> cq = getSession()
@@ -45,6 +65,12 @@ public class ItemDao extends AbstractDao {
         return allQuery.getResultList();
     }
 
+
+    /**
+     * @param from id of entry in database
+     * @param quantity of entries to be returned
+     * @return {@link List} of {@link Item} objects.
+     */
     @Transactional(readOnly = true)
     public List<Item> getItems(int from, int quantity) {
         CriteriaBuilder cb = getSession().getCriteriaBuilder();
@@ -59,6 +85,11 @@ public class ItemDao extends AbstractDao {
                 .list();
     }
 
+
+    /**
+     * @param category of {@link Item}.
+     * @return {@link List} of {@link Item} objects with provided category.
+     */
     @Transactional(readOnly = true)
     public List<Item> getByCategory(String category) {
         CriteriaBuilder cb = getSession().getCriteriaBuilder();
@@ -71,6 +102,10 @@ public class ItemDao extends AbstractDao {
                 .list();
     }
 
+
+    /**
+     * @return {@link List} of top 10 {@link Item} objects by sold quantity.
+     */
     @Transactional(readOnly = true)
     public List<Object[]> getTopTenItems() {
         CriteriaBuilder cb = getSession().getCriteriaBuilder();

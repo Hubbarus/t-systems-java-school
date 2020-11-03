@@ -8,7 +8,9 @@ import project.service.ItemService;
 import project.utils.CartListWrapper;
 import project.utils.JSONWrapperParser;
 
-
+/**
+ * Rest controller class for stand application.
+ */
 @RestController("/")
 public class StandController {
 

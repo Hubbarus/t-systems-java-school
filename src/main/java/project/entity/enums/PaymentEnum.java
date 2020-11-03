@@ -1,5 +1,8 @@
 package project.entity.enums;
 
+/**
+ * Enumeration of payment methods.
+ */
 public enum PaymentEnum {
     CASH("Cash"),
     CARD("Card"),

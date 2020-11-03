@@ -4,6 +4,10 @@ import org.springframework.stereotype.Component;
 import project.dto.CartDTO;
 import project.entity.Cart;
 
+/**
+ * @author paulponomarev
+ * Converter class for {@link Cart} to {@link CartDTO}.
+ */
 @Component
 public class CartConverter {
 

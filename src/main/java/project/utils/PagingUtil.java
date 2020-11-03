@@ -8,6 +8,9 @@ import project.service.OrderService;
 
 import java.util.List;
 
+/**
+ * Performing class for app paging.
+ */
 public class PagingUtil {
 
     private static final int RECORD_PER_PAGE = 6;

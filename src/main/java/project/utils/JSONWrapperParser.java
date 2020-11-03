@@ -11,6 +11,9 @@ import java.io.StringWriter;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Json converter class for {@link CartListWrapper} class.
+ */
 @Component
 public class JSONWrapperParser {
 

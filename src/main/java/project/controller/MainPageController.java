@@ -20,6 +20,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Controller class for root mapping.
+ */
 @Controller
 @RequestMapping(value = "/", method = RequestMethod.GET)
 @SessionAttributes(value = {"user", "items", "categories", "topTenItems"})

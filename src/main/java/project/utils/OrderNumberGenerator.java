@@ -4,6 +4,9 @@ import io.seruco.encoding.base62.Base62;
 import org.springframework.stereotype.Component;
 import project.dto.OrderDTO;
 
+/**
+ * Generator of order numbers class.
+ */
 @Component
 public class OrderNumberGenerator {
 

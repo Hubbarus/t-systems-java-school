@@ -6,6 +6,11 @@ import org.springframework.stereotype.Component;
 import project.dto.AddressDTO;
 import project.service.AddressService;
 
+/**
+ * @author paulponomarev
+ * Converter class.
+ * Converts {@link String} to {@link AddressDTO}.
+ */
 @Component
 public class AddressConverter implements Converter<String, AddressDTO> {
 

@@ -15,6 +15,10 @@ import javax.persistence.ManyToMany;
 import java.io.Serializable;
 import java.util.Set;
 
+/**
+ * @author paulponomarev
+ * Address entity class for database.
+ */
 @Entity
 @Data
 public class Address implements Serializable {

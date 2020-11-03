@@ -13,6 +13,9 @@ import javax.persistence.criteria.Root;
 import java.util.List;
 import java.util.logging.Level;
 
+/**
+ * Dao class for {@link Order} entity.
+ */
 @Repository
 @Log
 public class OrderDao extends AbstractDao {

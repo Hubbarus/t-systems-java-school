@@ -14,9 +14,11 @@ import project.utils.CartListWrapper;
 
 import java.util.ArrayList;
 
+/**
+ * Controller class for "/cart" mapping.
+ */
 @Controller
 @RequestMapping("/cart")
-
 public class CartController {
 
     @Autowired private ItemService itemService;

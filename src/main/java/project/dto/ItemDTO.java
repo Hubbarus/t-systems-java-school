@@ -15,6 +15,10 @@ import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * @author paulponomarev
+ * Item DTO class.
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

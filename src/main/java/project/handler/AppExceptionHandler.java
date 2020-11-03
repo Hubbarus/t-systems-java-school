@@ -10,6 +10,9 @@ import project.exception.NoSuchAddressException;
 import project.exception.NoSuchClientException;
 import project.exception.NoSuchItemException;
 
+/**
+ * Handler for all exceptions in app.
+ */
 @ControllerAdvice
 public class AppExceptionHandler {
 

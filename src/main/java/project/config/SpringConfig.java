@@ -17,6 +17,9 @@ import java.util.HashSet;
 
 import static org.modelmapper.config.Configuration.AccessLevel.PRIVATE;
 
+/**
+ * Main app configuration class.
+ */
 @Configuration
 @ComponentScan("project")
 public class SpringConfig {

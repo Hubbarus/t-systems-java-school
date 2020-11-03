@@ -17,6 +17,9 @@ import javax.validation.Valid;
 import java.security.Principal;
 import java.util.List;
 
+/**
+ * Controller class for "/client" mapping.
+ */
 @Controller
 @RequestMapping("/client")
 public class ClientController {

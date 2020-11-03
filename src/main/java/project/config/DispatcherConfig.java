@@ -16,6 +16,9 @@ import org.springframework.web.servlet.view.JstlView;
 import project.converter.AddressConverter;
 import project.dto.AddressDTO;
 
+/**
+ * App dispatcher configuration class.
+ */
 @Configuration
 @EnableWebMvc
 @ComponentScan("project.controller")

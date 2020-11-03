@@ -25,6 +25,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 
+/**
+ * Service class for {@link ClientDTO} objects.
+ */
 @Service
 @Log
 public class ClientService {

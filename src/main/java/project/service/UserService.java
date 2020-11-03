@@ -12,6 +12,9 @@ import project.dto.ClientDTO;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Service class security configs.
+ */
 @Service
 public class UserService implements UserDetailsService {
 

@@ -19,6 +19,10 @@ import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * @author paulponomarev
+ * Item entity class for database.
+ */
 @Entity
 @Data
 @ToString

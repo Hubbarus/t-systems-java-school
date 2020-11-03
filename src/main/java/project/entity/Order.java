@@ -24,6 +24,10 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author paulponomarev
+ * Order entity class for database.
+ */
 @Entity
 @Data
 public class Order implements Serializable {

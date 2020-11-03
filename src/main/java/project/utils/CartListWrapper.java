@@ -10,6 +10,9 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 
+/**
+ * Wrapper cart class for UI.
+ */
 @Getter
 @Setter
 @NoArgsConstructor

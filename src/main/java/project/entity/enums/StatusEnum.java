@@ -1,5 +1,8 @@
 package project.entity.enums;
 
+/**
+ * Enumeration of order status.
+ */
 public enum StatusEnum {
     NEW("New"),
     PROCESSING("Processing"),

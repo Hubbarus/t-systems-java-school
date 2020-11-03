@@ -10,6 +10,9 @@ import javax.servlet.MultipartConfigElement;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletRegistration;
 
+/**
+ * Web application initializer configuration class.
+ */
 public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
     private static final String TMP_FOLDER = "/tmp";
     private static final int MAX_UPLOAD_SIZE = 5 * 1024 * 1024;

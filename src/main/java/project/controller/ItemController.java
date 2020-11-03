@@ -8,6 +8,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import project.service.ItemService;
 
+/**
+ * Controller class for "/shop" mapping.
+ */
 @Controller
 @RequestMapping("/shop")
 public class ItemController {

@@ -16,6 +16,9 @@ import javax.jms.JMSException;
 import javax.jms.MessageProducer;
 import javax.jms.Session;
 
+/**
+ * MQ producer class.
+ */
 @Component
 public class Producer {
 
