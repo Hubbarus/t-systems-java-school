@@ -21,7 +21,8 @@ public class PaymentController {
     @Autowired private ClientService clientService;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String chooseExtraDetails(@ModelAttribute("items") CartListWrapper items, Model model, Principal principal) {
+    public String chooseExtraDetails(@ModelAttribute("items") CartListWrapper items,
+                                     Model model, Principal principal) {
         OrderDTO order = clientService.collectOrder(items, principal);
         model.addAttribute("order", order);
         model.addAttribute("items", items);
@@ -29,7 +30,8 @@ public class PaymentController {
     }
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
-    public String doPayment(@ModelAttribute("order") OrderDTO order, Principal principal) throws AppJsonParseException, AppQueueException {
+    public String doPayment(@ModelAttribute("order") OrderDTO order,
+                            Principal principal) throws AppJsonParseException, AppQueueException {
         clientService.doPayment(principal, order);
         return "redirect:/cart/clearCart";
     }

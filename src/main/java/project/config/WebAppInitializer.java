@@ -8,12 +8,11 @@ import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatche
 import javax.servlet.FilterRegistration;
 import javax.servlet.MultipartConfigElement;
 import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration;
 
 public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
-    private String TMP_FOLDER = "/tmp";
-    private int MAX_UPLOAD_SIZE = 5 * 1024 * 1024;
+    private static final String TMP_FOLDER = "/tmp";
+    private static final int MAX_UPLOAD_SIZE = 5 * 1024 * 1024;
 
     @Override
     protected Class<?>[] getRootConfigClasses() {
@@ -31,7 +30,7 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
     }
 
     @Override
-    public void onStartup(ServletContext servletContext) throws ServletException {
+    public void onStartup(ServletContext servletContext) {
         AnnotationConfigWebApplicationContext appContext = new AnnotationConfigWebApplicationContext();
         appContext.register(SpringConfig.class);
 
@@ -40,7 +39,6 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
         dispatcher.setLoadOnStartup(1);
         dispatcher.addMapping("/");
 
-        // UtF8 Charactor Filter.
         FilterRegistration.Dynamic fr = servletContext.addFilter("encodingFilter", CharacterEncodingFilter.class);
 
         fr.setInitParameter("encoding", "UTF-8");

@@ -1,0 +1,31 @@
+version: "3.8"
+services:
+  mms-project:
+    build: .
+    container_name: shop-app
+    ports:
+      - 8080:8080
+
+  stand-app:
+    build: ../StandApp1
+    container_name: stand-app
+    ports:
+      - 8880:8080
+    depends_on:
+      - mms-project
+
+  activemq:
+    image: rmohr/activemq
+    container_name: activemq
+    ports:
+      - 1883:1883
+      - 5672:5672
+      - 61613:61613
+      - 61614:61614
+      - 61616:61616
+      - 8161:8161
+    environment:
+      ACTIVEMQ_NAME: amq
+      ACTIVEMQ_REMOVE_DEFAULT_ACCOUNT: 'True'
+      ACTIVEMQ_ADMIN_LOGIN: admin
+      ACTIVEMQ_ADMIN_PASSWORD: admin

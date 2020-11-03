@@ -37,7 +37,7 @@ public class ItemService {
         itemDao.update(item);
     }
 
-    public ItemDTO findById(Long id){
+    public ItemDTO findById(Long id) {
         Item item = itemDao.findById(id);
         return mapper.map(item, ItemDTO.class);
     }
@@ -102,7 +102,9 @@ public class ItemService {
         }
     }
 
-    private void setPathToIMGAndUploadToServer(ItemDTO item, MultipartFile file, String filePath) throws IMGUploadException {
+    private void setPathToIMGAndUploadToServer(ItemDTO item,
+                                               MultipartFile file,
+                                               String filePath) throws IMGUploadException {
         if (file.getOriginalFilename().equals("")) {
             item.setPathToIMG("/img/default_no_img.png");
             return;

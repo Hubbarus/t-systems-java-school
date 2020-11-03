@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import project.dto.CartDTO;
-import project.exception.NoSuchItemException;
 import project.service.ItemService;
 import project.utils.CartListWrapper;
 
@@ -40,7 +39,8 @@ public class CartController {
 
     @RequestMapping(value = "/add")
     public String addOneToCart(@RequestParam("itemId") Long itemId,
-                               @SessionAttribute("items") CartListWrapper wrapper, Model model) throws NoSuchItemException {
+                               @SessionAttribute("items") CartListWrapper wrapper,
+                               Model model) {
         itemService.buyInOneClick(wrapper, itemId);
         model.addAttribute("items", wrapper);
         return "cart";

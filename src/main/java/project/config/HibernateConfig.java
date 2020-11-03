@@ -16,7 +16,7 @@ import java.util.Properties;
 public class HibernateConfig {
 
     private static final String DRIVER = "org.postgresql.Driver";
-    private static final String URL = "jdbc:postgresql://localhost:5432/postgres";
+    private static final String URL = "jdbc:postgresql://host.docker.internal:5432/postgres";
     private static final String USER_NAME = "postgres";
     private static final String PASSWORD = "0000";
     private static final String SCHEMA = "mms_schema";
