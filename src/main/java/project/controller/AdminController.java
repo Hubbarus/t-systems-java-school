@@ -4,10 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
@@ -47,12 +48,12 @@ public class AdminController {
     @Autowired
     private PagingUtil pagingUtil;
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
+    @GetMapping(value = "/")
     public String showAdminPage() {
         return "admin/adminPage";
     }
 
-    @RequestMapping(value = "/orders", method = RequestMethod.GET)
+    @GetMapping(value = "/orders")
     public String getAllOrders(@RequestParam(value = "page") Integer page,
                                Model model) {
         int numOfPages = pagingUtil.getNumOfPages(orderService.findAll().size());
@@ -65,13 +66,13 @@ public class AdminController {
         return "admin/orders";
     }
 
-    @RequestMapping(value = "/orders/edit", method = RequestMethod.POST)
+    @PostMapping(value = "/orders/edit")
     public String editOrder(@ModelAttribute OrderDTO order) {
         orderService.updateOrderInformation(order);
         return "redirect:/manage/orders?page=1";
     }
 
-    @RequestMapping(value = "/statistics", method = RequestMethod.GET)
+    @GetMapping(value = "/statistics")
     public String getStatisticsPage(Model model, HttpServletRequest request) throws NoSuchClientException {
         List<CartDTO> topTenItems = itemService.getTopTenItems();
         List<Map.Entry<ClientDTO, Integer>> topTenClients = clientService.getTopTenClients();
@@ -82,7 +83,7 @@ public class AdminController {
         return "admin/statistics";
     }
 
-    @RequestMapping(value = "/statistics", method = RequestMethod.POST)
+    @PostMapping(value = "/statistics")
     public String getDatesStats(@ModelAttribute StatByDateHolder holder, Model model) {
         holder = orderService.getSalesBetweenDates(holder);
         if (holder.getOrders().size() == 0) {
@@ -92,7 +93,7 @@ public class AdminController {
         return "admin/statistics";
     }
 
-    @RequestMapping(value = "/items", method = RequestMethod.GET)
+    @GetMapping(value = "/items")
     public String getItemsEditPage(@RequestParam(value = "page") Integer page, Model model) {
         int numOfPages = pagingUtil.getNumOfPages(itemService.findAll().size());
         List<ItemDTO> allItems = pagingUtil.getItemsForPage(page);
@@ -104,14 +105,14 @@ public class AdminController {
         return "admin/items";
     }
 
-    @RequestMapping(value = "/editItem", method = RequestMethod.GET)
+    @GetMapping(value = "/editItem")
     public String editOrAddItem(@ModelAttribute ItemDTO item, Model model) {
         ItemDTO itemToEdit = itemService.editOrAddItem(item);
         model.addAttribute("itemToEdit", itemToEdit);
         return "admin/editItem";
     }
 
-    @RequestMapping(value = "/editItem", method = RequestMethod.POST)
+    @PostMapping(value = "/editItem")
     public String editItem(@Valid @ModelAttribute ItemDTO item, BindingResult result,
                            @RequestParam("file") MultipartFile file, HttpServletRequest request,
                            Model model)
@@ -127,18 +128,18 @@ public class AdminController {
         return "redirect:/manage/items?page=1";
     }
 
-    @RequestMapping(value = "/categories", method = RequestMethod.GET)
+    @GetMapping(value = "/categories")
     public String getAllCategories() {
         return "/admin/categories";
     }
 
-    @RequestMapping(value = "/categories/{category}", method = RequestMethod.GET)
+    @GetMapping(value = "/categories/{category}")
     public String getCategoryName(@PathVariable("category") String category, Model model) {
         model.addAttribute("cat", category);
         return "/admin/categories";
     }
 
-    @RequestMapping(value = "/categoriesEdit", method = RequestMethod.GET)
+    @GetMapping(value = "/categoriesEdit")
     public String editCat(@RequestParam("new") String newName,
                           @RequestParam("old") String oldName,
                           Model model) {
@@ -147,7 +148,7 @@ public class AdminController {
         return "redirect:/manage/categories";
     }
 
-    @RequestMapping(value = "/categoriesAdd", method = RequestMethod.GET)
+    @GetMapping(value = "/categoriesAdd")
     public String addCat(@RequestParam("c") String cat,
                          @SessionAttribute("categories") List<String> categories,
                          Model model) {
@@ -156,7 +157,7 @@ public class AdminController {
         return "redirect:/manage/categories";
     }
 
-    @RequestMapping(value = "/categoriesDel", method = RequestMethod.GET)
+    @GetMapping(value = "/categoriesDel")
     public String delCat(@RequestParam("c") String cat,
                          @SessionAttribute("categories") List<String> categories,
                          Model model) {

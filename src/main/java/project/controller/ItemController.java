@@ -3,9 +3,9 @@ package project.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import project.service.ItemService;
 
 /**
@@ -18,18 +18,18 @@ public class ItemController {
     @Autowired
     private ItemService itemService;
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
+    @GetMapping(value = "/")
     public String showAll(Model model) {
         return "shop";
     }
 
-    @RequestMapping(value = "/{category}", method = RequestMethod.GET)
+    @GetMapping(value = "/{category}")
     public String showCategory(@PathVariable String category, Model model) {
         model.addAttribute("itemsCat", itemService.findByGroup(category));
         return "shop";
     }
 
-    @RequestMapping(value = "/{category}/{id}", method = RequestMethod.GET)
+    @GetMapping(value = "/{category}/{id}")
     public String getItem(@PathVariable String category,
                           @PathVariable Long id, Model model) {
         model.addAttribute("cart", itemService.getItemInCategoryById(id, category));

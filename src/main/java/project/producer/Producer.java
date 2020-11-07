@@ -28,7 +28,6 @@ public class Producer {
 
     public void sendMessage(CartListWrapper wrapper) throws AppQueueException, AppJsonParseException {
         try {
-            factory.setBrokerURL("failover://tcp://host.docker.internal:61616");
             Connection connection = factory.createQueueConnection();
             connection.start();
             Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);

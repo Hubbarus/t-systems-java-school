@@ -28,7 +28,7 @@ public class SpringConfig {
     public ActiveMQConnectionFactory getMQConnectionFactory() {
         return new ActiveMQConnectionFactory(ActiveMQConnection.DEFAULT_USER,
                 ActiveMQConnection.DEFAULT_PASSWORD,
-                ActiveMQConnection.DEFAULT_BROKER_URL);
+                "failover://tcp://host.docker.internal:61616");
     }
 
     @Bean
