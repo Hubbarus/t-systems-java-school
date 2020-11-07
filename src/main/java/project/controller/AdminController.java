@@ -86,7 +86,7 @@ public class AdminController {
     @PostMapping(value = "/statistics")
     public String getDatesStats(@ModelAttribute StatByDateHolder holder, Model model) {
         holder = orderService.getSalesBetweenDates(holder);
-        if (holder.getOrders().size() == 0) {
+        if (holder.getOrders().isEmpty()) {
             model.addAttribute("err", "No sales in this period");
         }
         model.addAttribute("statDateForm", holder);

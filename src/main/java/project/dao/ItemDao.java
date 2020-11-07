@@ -118,10 +118,9 @@ public class ItemDao extends AbstractDao {
         cq.multiselect(join.get("id"), cb.sum(rootEntry.get("quantity")))
                 .orderBy(cb.desc(cb.sum(rootEntry.get("quantity"))));
 
-        List<Object[]> list = getSession()
+        return getSession()
                 .createQuery(cq)
                 .setMaxResults(10)
                 .list();
-        return list;
     }
 }

@@ -41,7 +41,7 @@ public class ClientService {
 
     public ClientDTO findByEmail(String email) {
         List<Client> list = clientDao.findByEmail(email);
-        return list.size() == 0 ? new ClientDTO() : mapper.map(list.get(0), ClientDTO.class);
+        return list.isEmpty() ? new ClientDTO() : mapper.map(list.get(0), ClientDTO.class);
     }
 
     private void createUserAndSave(ClientDTO user) {

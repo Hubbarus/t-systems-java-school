@@ -80,11 +80,10 @@ public class ClientDao extends AbstractDao {
 
         cq.groupBy(join.get("id"));
         cq.multiselect(join.get("id"), cb.count(rootEntry)).orderBy(cb.desc(cb.count(rootEntry)));
-
-        List<Object[]> list = getSession()
+        
+        return getSession()
                 .createQuery(cq)
                 .setMaxResults(10)
                 .list();
-        return list;
     }
 }
