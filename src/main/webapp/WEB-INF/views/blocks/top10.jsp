@@ -15,7 +15,14 @@
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="btn-group">
                             <a href="/shop/${cart.item.itemGroup}/${cart.item.id}" type="button" class="btn btn-sm btn-outline-secondary">View</a>
-                            <a href="/cart/add?itemId=${cart.item.id}" type="button" class="btn btn-sm btn-outline-secondary">Buy in one click</a>
+                            <c:choose >
+                                <c:when test="${cart.item.stock == 0}">
+                                    <button class="btn btn-sm btn-outline-secondary" disabled>Buy in one click</button>
+                                </c:when>
+                                <c:otherwise>
+                                    <a href="/cart/add?itemId=${cart.item.id}" type="button" class="btn btn-sm btn-outline-secondary">Buy in one click</a>
+                                </c:otherwise>
+                            </c:choose>
                         </div>
                         <small class="text-muted">stock: ${cart.item.stock}pcs, ${cart.item.price}$</small>
                     </div>
