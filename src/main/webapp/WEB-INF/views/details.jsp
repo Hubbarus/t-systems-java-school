@@ -16,7 +16,7 @@
 </header>
 <div class="container w-50 mt-5 mb-3">
     <div class="header mt-3 mb-2">
-        <c:out value="Order details"/>
+        <p class="text-dark text-md-center h2 mt-3 mb-2">Order details</p>
     </div>
     <table class="table mb-2">
         <form:form action="" modelAttribute="order" method="post" id="detailsForm" onsubmit="return onSubmit();">
