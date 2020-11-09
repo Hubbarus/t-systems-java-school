@@ -11,6 +11,7 @@ import project.dto.OrderDTO;
 import project.entity.Client;
 import project.entity.Order;
 import project.entity.enums.StatusEnum;
+import project.exception.OutOfStockException;
 import project.utils.OrderNumberGenerator;
 import project.utils.StatByDateHolder;
 
@@ -54,7 +55,7 @@ public class OrderService {
                 .collect(Collectors.toList());
     }
 
-    public void createOrderAndSave(OrderDTO order) {
+    public void createOrderAndSave(OrderDTO order) throws OutOfStockException {
         order.setStatus(StatusEnum.NEW);
 
         Date currentDate = new Date();
@@ -65,8 +66,13 @@ public class OrderService {
         for (CartDTO cartDTO : order.getItems()) {
             ItemDTO item = itemService.findById(cartDTO.getItem().getId());
             int quantity = cartDTO.getQuantity();
+            int stock = item.getStock();
 
-            item.setStock(item.getStock() - quantity);
+            if (quantity > stock) {
+                throw new OutOfStockException(String.format("Somebody bought %s just now", item.getItemName()));
+            }
+
+            item.setStock(stock - quantity);
             itemService.update(item);
         }
 

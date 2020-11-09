@@ -17,6 +17,7 @@ import project.dto.ItemDTO;
 import project.dto.OrderDTO;
 import project.entity.Order;
 import project.entity.enums.StatusEnum;
+import project.exception.OutOfStockException;
 import project.service.utils.TestHelper;
 import project.utils.OrderNumberGenerator;
 import project.utils.StatByDateHolder;
@@ -72,7 +73,7 @@ public class OrderServiceTest {
     }
 
     @Test
-    public void createOrderAndSave() {
+    public void createOrderAndSave() throws OutOfStockException {
         assertEquals(StatusEnum.DELIVERED, defaultOrder.getStatus());
 
         orderService.createOrderAndSave(defaultOrder);

@@ -14,6 +14,7 @@ import project.entity.enums.RoleEnum;
 import project.exception.AppJsonParseException;
 import project.exception.AppQueueException;
 import project.exception.NoSuchClientException;
+import project.exception.OutOfStockException;
 import project.producer.Producer;
 import project.utils.CartListWrapper;
 
@@ -115,7 +116,7 @@ public class ClientService {
 
     }
 
-    public void doPayment(Principal principal, OrderDTO order) throws AppJsonParseException, AppQueueException {
+    public void doPayment(Principal principal, OrderDTO order) throws AppJsonParseException, AppQueueException, OutOfStockException {
         order.setClient(findByEmail(principal.getName()));
         orderService.createOrderAndSave(order);
         producer.sendMessage(new CartListWrapper(itemService.getTopTenItems()));

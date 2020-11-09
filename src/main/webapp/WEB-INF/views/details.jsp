@@ -191,7 +191,7 @@
 
     function onChangeAddressAction(event) {
         if (event.target.value === "add new") {
-            location.href = "/client/userInfo/manageAddress?action=add";
+            location.href = "/client/userInfo/addAddress";
         }
     }
 
