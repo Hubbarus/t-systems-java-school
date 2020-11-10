@@ -30,6 +30,11 @@
             <c:out value="Order has been placed successfully"/>
         </div>
     </c:if>
+    <c:if test="${msg != null}">
+        <div class="alert alert-danger" role="alert">
+            <c:out value="${msg}"/>
+        </div>
+    </c:if>
 </div>
 <%--Main Container--%>
 <div class="container mt-5">

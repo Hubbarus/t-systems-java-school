@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import project.dto.CartDTO;
 import project.dto.ClientDTO;
-import project.producer.Producer;
 import project.service.ClientService;
 import project.service.ItemService;
 import project.utils.CartListWrapper;
@@ -30,7 +29,6 @@ public class MainPageController {
 
     @Autowired private ClientService clientService;
     @Autowired private ItemService itemService;
-    @Autowired private Producer producer;
 
     @GetMapping("/")
     public String getHome(Principal principal, HttpServletRequest request) {

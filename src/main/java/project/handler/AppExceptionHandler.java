@@ -28,7 +28,7 @@ public class AppExceptionHandler {
     public String catchOutOfStockException(Model model, OutOfStockException e) {
         model.addAttribute("exception", e);
         model.addAttribute("msg", e.getMessage());
-        return "error";
+        return "home";
     }
 
     @ExceptionHandler(value = NoSuchAddressException.class)
