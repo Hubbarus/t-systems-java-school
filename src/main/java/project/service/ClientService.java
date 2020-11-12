@@ -39,11 +39,20 @@ public class ClientService {
     @Autowired private ItemService itemService;
     @Autowired private Producer producer;
 
+    /**
+     * Finds {@link Client} entity in database and converts it to DTO
+     * @param email of client
+     * @return {@link ClientDTO} object
+     */
     public ClientDTO findByEmail(String email) {
         List<Client> list = clientDao.findByEmail(email);
         return list.isEmpty() ? new ClientDTO() : mapper.map(list.get(0), ClientDTO.class);
     }
 
+    /**
+     * Generates user info and saves it to database
+     * @param user to save
+     */
     private void createUserAndSave(ClientDTO user) {
         user.setRole(RoleEnum.USER);
         user.setActive(true);
@@ -53,6 +62,10 @@ public class ClientService {
         clientDao.save(userToSave);
     }
 
+    /**
+     * Updates client information in database
+     * @param client to update
+     */
     public void updateUserInformation(ClientDTO client) {
         Set<AddressDTO> addressList = findByEmail(client.getEmail()).getAddressList();
         client.setAddressList(addressList);
@@ -60,6 +73,11 @@ public class ClientService {
         clientDao.update(mapper.map(client, Client.class));
     }
 
+    /**
+     * Updates client information in database
+     * @param principal client in session
+     * @param addressDTO to update
+     */
     public void updateAddressInformation(Principal principal, AddressDTO addressDTO) {
         ClientDTO user = findByEmail(principal.getName());
         Set<AddressDTO> addresses = user.getAddressList();
@@ -83,10 +101,21 @@ public class ClientService {
         clientDao.update(userToUpdate);
     }
 
+    /**
+     * Get all user orders from database
+     * @param user which orders to find
+     * @return collection of user orders
+     */
     public List<OrderDTO> getAllClientOrders(ClientDTO user) {
         return orderService.getAllClientOrders(mapper.map(user, Client.class));
     }
 
+    /**
+     * Collects order for user
+     * @param items to collect
+     * @param principal user that collects order
+     * @return {@link OrderDTO} object with filled fields
+     */
     public OrderDTO collectOrder(CartListWrapper items, Principal principal) {
         OrderDTO order = new OrderDTO();
         order.setItems(items.getList());
@@ -96,6 +125,11 @@ public class ClientService {
         return order;
     }
 
+    /**
+     * Checks if username already exists in database and creates new user if not
+     * @param client object with e-mail filled
+     * @return true if already exists
+     */
     public boolean checkIfUserExistsAndCreate(ClientDTO client) {
         if (checkIfUsernameExist(client.getEmail())) {
             return true;
@@ -105,6 +139,11 @@ public class ClientService {
         }
     }
 
+    /**
+     * Checks if e-mail exists in database
+     * @param email to check
+     * @return true if exists
+     */
     private boolean checkIfUsernameExist(String email) {
         ClientDTO client = findByEmail(email);
         if (client.getEmail() == null) {
@@ -115,12 +154,24 @@ public class ClientService {
 
     }
 
+    /**
+     * Proceeds order confirmation and sends information to stand app
+     * @param principal user that placed order
+     * @param order that placed
+     * @throws AppJsonParseException in case of {@link Producer} errors
+     * @throws AppQueueException in case of {@link org.apache.activemq.ActiveMQConnectionFactory} errors
+     */
     public void doPayment(Principal principal, OrderDTO order) throws AppJsonParseException, AppQueueException {
         order.setClient(findByEmail(principal.getName()));
         orderService.createOrderAndSave(order);
         producer.sendMessage(new CartListWrapper(itemService.getTopTenItems()));
     }
 
+    /**
+     * Finds a list of top 10 clients for all time in database
+     * @return List if entries with clients and their orders quantity
+     * @throws NoSuchClientException in case no client id in database
+     */
     public List<Map.Entry<ClientDTO, Integer>> getTopTenClients() throws NoSuchClientException {
         List<Object[]> topTenClients = clientDao.getTopTenClients();
 
@@ -135,6 +186,11 @@ public class ClientService {
         return new ArrayList<>(resultMap.entrySet());
     }
 
+    /**
+     * Finds {@link Client} entity in database and converts it to DTO
+     * @param id of entity in database
+     * @return {@link ClientDTO} object
+     */
     private ClientDTO findById(Long id) throws NoSuchClientException {
         Client client = clientDao.findById(id);
         if (client == null) {

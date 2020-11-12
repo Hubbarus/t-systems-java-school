@@ -35,16 +35,29 @@ public class ItemService {
     @Autowired private final ItemDao itemDao;
     @Autowired private final ModelMapper mapper;
 
+    /**
+     * Updates item information in database
+     * @param itemDTO to be updated
+     */
     public void update(ItemDTO itemDTO) {
         Item item = mapper.map(itemDTO, Item.class);
         itemDao.update(item);
     }
 
+    /**
+     * Finds {@link Item} entity in database and converts it to DTO
+     * @param id of entity in database
+     * @return {@link ItemDTO} object
+     */
     public ItemDTO findById(Long id) {
         Item item = itemDao.findById(id);
         return mapper.map(item, ItemDTO.class);
     }
 
+    /**
+     * Finds all entities in database
+     * @return list of {@link ItemDTO} objects
+     */
     public List<ItemDTO> findAll() {
         List<Item> items = itemDao.findAll();
         return items
@@ -53,6 +66,11 @@ public class ItemService {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Finds all entities in category from database
+     * @param group name to find
+     * @return list of {@link ItemDTO} objects
+     */
     public List<ItemDTO> findByGroup(String group) {
         List<Item> byCategory = itemDao.getByCategory(group);
         return byCategory
@@ -61,6 +79,12 @@ public class ItemService {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Finds items for paging util
+     * @param from number of page
+     * @param quantity in one page
+     * @return list of {@link ItemDTO} objects
+     */
     public List<ItemDTO> getItems(int from, int quantity) {
         List<Item> items = itemDao.getItems(from, quantity);
         return items
@@ -69,6 +93,10 @@ public class ItemService {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Finds all category names of items
+     * @return set of names
+     */
     public Set<String> getGroupNames() {
         Set<String> result = new HashSet<>();
         List<ItemDTO> list = findAll();
@@ -78,6 +106,12 @@ public class ItemService {
         return result;
     }
 
+    /**
+     * Gets item in category by id
+     * @param id of item
+     * @param category name of item
+     * @return {@link CartDTO} object with filled item field
+     */
     public CartDTO getItemInCategoryById(Long id, String category) {
         List<ItemDTO> itemByGroup = findByGroup(category);
         CartDTO cart = new CartDTO();
@@ -90,6 +124,13 @@ public class ItemService {
         return cart;
     }
 
+    /**
+     * Saves new item or updates old one
+     * @param item to be saved or updated
+     * @param file image to be uploaded
+     * @param filePath of image
+     * @throws IMGUploadException in case of errors during file uploading
+     */
     public void saveOrUpdate(ItemDTO item, MultipartFile file, String filePath) throws IMGUploadException {
         if (item.getPathToIMG().equals("")
                 || !file.getOriginalFilename().equals("")) {
@@ -105,6 +146,13 @@ public class ItemService {
         }
     }
 
+    /**
+     * Uploads image to servers
+     * @param item connected to image
+     * @param file image
+     * @param filePath of image to be saved
+     * @throws IMGUploadException in case of errors during file uploading
+     */
     private void setPathToIMGAndUploadToServer(ItemDTO item,
                                                MultipartFile file,
                                                String filePath) throws IMGUploadException {
@@ -124,6 +172,12 @@ public class ItemService {
         item.setPathToIMG("/img/" + file.getOriginalFilename());
     }
 
+    /**
+     * Renames item category name
+     * @param oldName of category
+     * @param newName of category
+     * @return set of categories
+     */
     public Set<String> renameGroup(String oldName, String newName) {
         List<ItemDTO> all = findAll();
         for (ItemDTO item : all) {
@@ -136,6 +190,10 @@ public class ItemService {
         return getGroupNames();
     }
 
+    /**
+     * Deletes category
+     * @param cat name to be deleted
+     */
     public void deleteGroup(String cat) {
         List<ItemDTO> all = findAll();
         for (ItemDTO item : all) {
@@ -147,6 +205,11 @@ public class ItemService {
         log.log(Level.INFO, String.format("Category with name %s deleted. All items moved to DEFAULT.", cat));
     }
 
+    /**
+     * Adds item to cart
+     * @param wrapper object with items
+     * @param cart cart
+     */
     public void addToCart(CartListWrapper wrapper, CartDTO cart) {
         List<CartDTO> cartDTOList = wrapper.getList();
         cartDTOList.add(cart);
@@ -154,6 +217,11 @@ public class ItemService {
         log.log(Level.INFO, String.format("Item %s added to cart", cart.getItem().getItemName()));
     }
 
+    /**
+     * Adds exactly 1 item to cart
+     * @param wrapper object with items
+     * @param itemId to be added to cart
+     */
     public void buyInOneClick(CartListWrapper wrapper, Long itemId) {
         List<CartDTO> cartDTOList = wrapper.getList();
         ItemDTO item = findById(itemId);
@@ -165,6 +233,11 @@ public class ItemService {
         log.log(Level.INFO, String.format("Item %s added to cart", cart.getItem().getItemName()));
     }
 
+    /**
+     * Removes items from cart
+     * @param wrapper object with items
+     * @param itemId to be removed from cart
+     */
     public void removeItemFromCart(CartListWrapper wrapper, long itemId) {
         List<CartDTO> items = wrapper.getList();
         for (CartDTO cartDTO : items) {
@@ -184,6 +257,10 @@ public class ItemService {
         return new ItemDTO();
     }
 
+    /**
+     * Finds top ten items in database for all time
+     * @return list of {@link CartDTO} objects with filled item field
+     */
     public List<CartDTO> getTopTenItems() {
         List<Object[]> topTenItems = itemDao.getTopTenItems();
 

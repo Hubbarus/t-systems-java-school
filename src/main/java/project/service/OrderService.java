@@ -33,11 +33,20 @@ public class OrderService {
     @Autowired private final ItemService itemService;
     @Autowired private final OrderNumberGenerator generator;
 
+    /**
+     * Finds {@link Order} entity in database and converts it to DTO
+     * @param id of entity in database
+     * @return {@link OrderDTO} object
+     */
     public OrderDTO findById(Long id) {
         Order order = orderDao.findById(id);
         return orderConverter.convertToDTO(order);
     }
 
+    /**
+     * Finds all orders in database
+     * @return list of {@link OrderDTO} objects
+     */
     public List<OrderDTO> findAll() {
         List<Order> order = orderDao.findAll();
         return order
@@ -46,6 +55,12 @@ public class OrderService {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Finds orders for paging util
+     * @param from number of page
+     * @param quantity in one page
+     * @return list of {@link OrderDTO} objects
+     */
     public List<OrderDTO> getOrders(int from, int quantity) {
         List<Order> orders = orderDao.getOrders(from, quantity);
         return orders
@@ -54,6 +69,10 @@ public class OrderService {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Creates order and saves in database. Updates item quantity
+     * @param order to save
+     */
     public void createOrderAndSave(OrderDTO order) {
         order.setStatus(StatusEnum.NEW);
 
@@ -75,6 +94,11 @@ public class OrderService {
         orderDao.save(orderToSave);
     }
 
+    /**
+     * Gets all sales of store between two dates
+     * @param holder with date field
+     * @return modified {@link StatByDateHolder} object
+     */
     public StatByDateHolder getSalesBetweenDates(StatByDateHolder holder) {
         LocalDate from = holder.getFrom();
         LocalDate to = holder.getTo();
@@ -100,6 +124,10 @@ public class OrderService {
         return holder;
     }
 
+    /**
+     * Updates order information in database
+     * @param order to be updated
+     */
     public void updateOrderInformation(OrderDTO order) {
         OrderDTO updtOrder = findById(order.getId());
         updtOrder.setStatus(order.getStatus());
@@ -109,6 +137,11 @@ public class OrderService {
         orderDao.update(orderToUpdate);
     }
 
+    /**
+     * Finds all client orders in database
+     * @param user which orders to be found
+     * @return list of {@link OrderDTO} objects
+     */
     public List<OrderDTO> getAllClientOrders(Client user) {
         List<Order> orders = orderDao.getAllClientOrders(user);
         return orders.stream()

@@ -23,6 +23,12 @@ public class AddressService {
     @Autowired private final AddressDao addressDao;
     @Autowired private final ModelMapper mapper;
 
+
+    /**
+     * Finds {@link Address} entity in database and converts it to DTO
+     * @param id of entity in database
+     * @return {@link AddressDTO} object
+     */
     public AddressDTO findById(Long id) {
         Address address = addressDao.findById(id);
         if (address == null) {

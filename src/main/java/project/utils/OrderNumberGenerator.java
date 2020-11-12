@@ -10,6 +10,16 @@ import project.dto.OrderDTO;
 @Component
 public class OrderNumberGenerator {
 
+    /**
+     * Generates order number. Uses fields:
+     * paymentMethod
+     * shipmentMethod
+     * date
+     *
+     * @param order to generate number
+     * @param size quantity of all orders
+     * @return generated number
+     */
     public String generate(OrderDTO order, int size) {
         StringBuilder num = new StringBuilder();
 
