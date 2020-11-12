@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import project.dto.OrderDTO;
 import project.exception.AppJsonParseException;
 import project.exception.AppQueueException;
-import project.exception.OutOfStockException;
 import project.service.ClientService;
 import project.utils.CartListWrapper;
 
@@ -36,7 +35,7 @@ public class PaymentController {
 
     @PostMapping(value = "/")
     public String doPayment(@ModelAttribute("order") OrderDTO order,
-                            Principal principal) throws AppJsonParseException, AppQueueException, OutOfStockException {
+                            Principal principal) throws AppJsonParseException, AppQueueException {
         clientService.doPayment(principal, order);
         return "redirect:/cart/clearCart";
     }

@@ -9,7 +9,6 @@ import project.exception.IMGUploadException;
 import project.exception.NoSuchAddressException;
 import project.exception.NoSuchClientException;
 import project.exception.NoSuchItemException;
-import project.exception.OutOfStockException;
 
 /**
  * Handler for all exceptions in app.
@@ -22,13 +21,6 @@ public class AppExceptionHandler {
         model.addAttribute("exception", e);
         model.addAttribute("msg", e.getMessage());
         return "error";
-    }
-
-    @ExceptionHandler(value = OutOfStockException.class)
-    public String catchOutOfStockException(Model model, OutOfStockException e) {
-        model.addAttribute("exception", e);
-        model.addAttribute("msg", e.getMessage());
-        return "home";
     }
 
     @ExceptionHandler(value = NoSuchAddressException.class)
